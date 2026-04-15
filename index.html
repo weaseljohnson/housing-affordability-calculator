@@ -1,12 +1,2062 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Housing Affordability Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Can I Afford This House? | Housing Affordability Calculator</title>
+  <meta name="description" content="Free housing affordability calculator. Compare the real costs of renting vs buying a home, estimate your monthly budget, and find out if you can afford a home." />
+
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --cream:       #fdf8f2;
+      --warm-white:  #fffcf8;
+      --navy:        #1e2d40;
+      --navy-light:  #2e4260;
+      --amber:       #c47b2b;
+      --amber-light: #f5a940;
+      --amber-bg:    #fef3e2;
+      --sage:        #4a7c6f;
+      --sage-light:  #e8f4f1;
+      --sky:         #2a7ab8;
+      --sky-light:   #e6f2fa;
+      --text-main:   #1e2d40;
+      --text-muted:  #5a6a7a;
+      --text-light:  #8a9aaa;
+      --border:      #e8e0d5;
+      --radius-sm:   6px;
+      --radius-md:   12px;
+      --radius-lg:   20px;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--cream);
+      color: var(--text-main);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    a { color: var(--sky); text-decoration: underline; }
+    a:hover { color: var(--amber); }
+
+    /* ── Progress Bar ── */
+    #progress-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    #progress-bar ul {
+      display: inline-flex;
+      list-style: none;
+      gap: 0;
+      min-width: 100%;
+    }
+    #progress-bar li a {
+      display: block;
+      padding: 0.75rem 0.85rem;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    #progress-bar li a:hover { color: var(--sky); }
+    #progress-bar li a.active {
+      color: var(--sky);
+      border-bottom-color: var(--sky);
+    }
+    #progress-bar li a.active-amber {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    /* ── Page Sections ── */
+    .section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem;
+    }
+    .section + .section {
+      border-top: 2px solid #c8bfb0;
+    }
+
+    /* ── Section accent borders ── */
+    .accent-blue, .accent-amber {
+      position: relative;
+      padding-left: 1.75rem;
+    }
+    .accent-blue::before, .accent-amber::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 2.5rem;
+      bottom: 2.5rem;
+      width: 2px;
+      border-radius: 99px;
+    }
+    .accent-blue::before { background: var(--sky); }
+    .accent-amber::before { background: var(--amber); }
+
+    /* ── Hero ── */
+    #intro {
+      text-align: center;
+      padding-top: 4rem;
+      padding-bottom: 3rem;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--sky-light);
+      color: var(--sky);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 99px;
+      margin-bottom: 1.25rem;
+    }
+    #intro h1 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    #intro .tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2rem;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--amber);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 2rem;
+      border-radius: 99px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--amber-light); color: #fff; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ── Intro Body Content ── */
+    .intro-body {
+      text-align: left;
+      margin-top: 3rem;
+    }
+    .intro-body p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.97rem;
+    }
+    .intro-body p:last-child { margin-bottom: 0; }
+
+    /* ── Accordion ── */
+    .accordion {
+      margin-top: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .accordion-item { border-bottom: 1px solid var(--border); }
+    .accordion-item:last-child { border-bottom: none; }
+    .accordion-trigger {
+      width: 100%;
+      background: var(--warm-white);
+      border: none;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .accordion-trigger:hover { background: var(--sky-light); }
+    .accordion-trigger .chevron {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      transition: transform 0.25s;
+      flex-shrink: 0;
+      margin-left: 0.5rem;
+    }
+    .accordion-trigger[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+    .accordion-body {
+      display: none;
+      padding: 1.25rem;
+      background: var(--cream);
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+    .accordion-body.open { display: block; }
+    .accordion-body p { margin-bottom: 0.75rem; }
+    .accordion-body p:last-child { margin-bottom: 0; }
+
+    /* ── Accordion bullet items ── */
+    .acc-item {
+      margin-bottom: 1.1rem;
+      padding-bottom: 1.1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .acc-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .acc-item strong { display: block; color: var(--navy); font-size: 0.95rem; margin-bottom: 0.3rem; }
+
+    /* ── Hint box ── */
+    .hint {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      background: var(--sky-light);
+      border-left: 3px solid var(--sky);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.9rem;
+      margin: 0.75rem 0 0.25rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+    .hint-label { font-weight: 700; color: var(--sky); white-space: nowrap; }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--sky-light);
+      border-left: 3px solid var(--sky);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0 0;
+      font-size: 0.91rem;
+      color: var(--text-main);
+    }
+    .callout strong { color: var(--sky); }
+
+    /* ── Resources ── */
+    .resource-group { margin-bottom: 1.1rem; }
+    .resource-group:last-child { margin-bottom: 0; }
+    .resource-group p { font-weight: 600; color: var(--navy); margin-bottom: 0.35rem !important; font-size: 0.9rem; }
+    .resource-links { list-style: none; padding: 0; margin: 0; }
+    .resource-links li { margin-bottom: 0.35rem; }
+    .resource-links a { font-size: 0.91rem; }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 0.4rem;
+    }
+    .accent-amber .section-label { color: var(--amber); }
+    .section h2 { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 0.5rem; }
+    .section-intro { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+    /* ── Note italic ── */
+    .note-italic { font-style: italic; color: var(--text-light); font-size: 0.88rem; margin-top: 0.5rem; }
+
+    /* ── Placeholder ── */
+    .placeholder {
+      background: var(--warm-white);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* ════════════════════════════
+       CALCULATOR STYLES
+    ════════════════════════════ */
+
+    /* ── Input group ── */
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+    .input-group:last-of-type { margin-bottom: 0; }
+
+    .input-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+    .input-note {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ── Text/number inputs ── */
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .input-wrap:focus-within { border-color: var(--sky); }
+    .input-prefix, .input-suffix {
+      padding: 0 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      background: var(--cream);
+      border-right: 1px solid var(--border);
+      height: 44px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .input-suffix { border-right: none; border-left: 1px solid var(--border); }
+    .input-wrap input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 0 0.75rem;
+      height: 44px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      outline: none;
+      width: 100%;
+    }
+    .input-wrap input::placeholder { color: var(--text-light); }
+
+    /* ── Toggle (loan term) ── */
+    .toggle-group {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .toggle-group input[type="radio"] { display: none; }
+    .toggle-group label {
+      padding: 0.55rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--warm-white);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-right: 1px solid var(--border);
+      user-select: none;
+    }
+    .toggle-group label:last-of-type { border-right: none; }
+    .toggle-group input[type="radio"]:checked + label {
+      background: var(--sky);
+      color: #fff;
+    }
+
+    /* ── Discrete selector (closing costs) ── */
+    .discrete-group {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .discrete-group input[type="radio"] { display: none; }
+    .discrete-group label {
+      padding: 0.55rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--warm-white);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-right: 1px solid var(--border);
+      user-select: none;
+    }
+    .discrete-group label:last-of-type { border-right: none; }
+    .discrete-group input[type="radio"]:checked + label {
+      background: var(--sky);
+      color: #fff;
+    }
+
+    /* ── Help links row ── */
+    .help-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin-top: 0.6rem;
+    }
+    .help-links a {
+      font-size: 0.82rem;
+      color: var(--sky);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .help-links a:hover { text-decoration: underline; }
+    .help-links a::before { content: "→"; font-size: 0.75rem; }
+
+    /* ── Section divider ── */
+    .calc-group-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 2rem 0 1.25rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #c8bfb0;
+    }
+
+    /* ── Output cards (live) ── */
+    .output-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 1.25rem;
+    }
+    .output-card {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+    }
+    .output-card-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+    .output-card-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .output-card.highlight {
+      background: var(--sky-light);
+      border-color: var(--sky);
+    }
+    .output-card.highlight .output-card-value { color: var(--sky); }
+
+    /* ── Upfront output cards (2-col) ── */
+    .output-cards-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 1.25rem;
+    }
+    .output-card.total {
+      grid-column: 1 / -1;
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .output-card.total .output-card-label { color: rgba(255,255,255,0.6); }
+    .output-card.total .output-card-value { color: #fff; font-size: 1.25rem; }
+
+    /* ── Tooltip ── */
+    .tooltip-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .tooltip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--sky-light);
+      color: var(--sky);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--sky);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .tooltip-box {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--navy);
+      color: #fff;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      padding: 0.6rem 0.85rem;
+      border-radius: var(--radius-sm);
+      width: 240px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .tooltip-wrap:hover .tooltip-box,
+    .tooltip-wrap:focus-within .tooltip-box { display: block; }
+
+    /* ── Advanced Settings Toggle ── */
+    .advanced-toggle-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .advanced-toggle {
+      width: 100%;
+      background: var(--warm-white);
+      border: none;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .advanced-toggle:hover { background: var(--sky-light); }
+    .advanced-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+    .advanced-body {
+      display: none;
+      padding: 1.25rem;
+      background: var(--cream);
+    }
+    .advanced-body.open { display: block; }
+
+    /* ── Toggle Switch ── */
+    .default-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+    .default-toggle-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--border);
+      border-radius: 22px;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .switch input:checked + .slider { background: var(--sky); }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+
+    /* ── Default value display ── */
+    .default-display {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      background: var(--sky-light);
+      border: 1px solid var(--sky);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+    .default-value-label {
+      font-size: 0.82rem;
+      color: var(--sky);
+      font-weight: 600;
+    }
+    .default-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .default-value-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    /* ── Warning card ── */
+    .warning-card {
+      background: #fef3e2;
+      border-left: 3px solid var(--amber);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    /* ── Manual input wrap ── */
+    .manual-input-wrap { margin-top: 0.5rem; }
+    .manual-input-wrap .input-note { margin-top: 0.35rem; display: block; }
+
+    /* ── Tax rate row ── */
+    .tax-rate-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* ── Results table ── */
+    .results-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .results-table thead tr {
+      background: var(--navy);
+      color: #fff;
+    }
+    .results-table th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .results-table th:not(:first-child) { text-align: right; }
+    .results-table tbody tr:nth-child(even) { background: var(--warm-white); }
+    .results-table tbody tr:nth-child(odd) { background: var(--cream); }
+    .results-table tbody tr:hover { background: var(--sky-light); }
+    .result-label {
+      padding: 0.75rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+    .result-val {
+      padding: 0.75rem 1rem;
+      text-align: right;
+      font-weight: 600;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    .result-val.green {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .result-footnote {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 400;
+      margin-top: 0.15rem;
+    }
+
+    /* ── PTR ── */
+    .ptr-display {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .ptr-value-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+    .ptr-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .ptr-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .ptr-scale { display: flex; flex-direction: column; gap: 4px; }
+    .ptr-band {
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .ptr-blue   { background: #e6f2fa; color: #2a7ab8; }
+    .ptr-green  { background: #e8f5e9; color: #2e7d32; }
+    .ptr-yellow { background: #fffde7; color: #f57f17; }
+    .ptr-orange { background: #fff3e0; color: #e65100; }
+    .ptr-red    { background: #ffebee; color: #c62828; }
+    .ptr-band.active { outline: 2px solid currentColor; }
+
+    /* ── Result footnote link ── */
+    .result-footnote-link {
+      text-decoration: none;
+      display: block;
+    }
+    .result-footnote-link:hover .result-footnote {
+      color: var(--sky);
+      text-decoration: underline;
+    }
+
+  </style>
 </head>
 <body>
-  <h1>Housing Affordability Calculator</h1>
-  <p>Coming soon.</p>
+
+  <!-- ── Progress Bar ── -->
+  <nav id="progress-bar" aria-label="Calculator sections">
+    <ul>
+      <li><a href="#intro" class="active">Intro</a></li>
+      <li><a href="#property-info">Property</a></li>
+      <li><a href="#ongoing-costs">Costs</a></li>
+      <li><a href="#renting-saving">Renting</a></li>
+      <li><a href="#your-finances">Finances</a></li>
+      <li><a href="#results">Results</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Intro Section ── -->
+  <section class="section" id="intro">
+    <div>
+      <span class="hero-eyebrow">Free Housing Calculator</span>
+      <h1>Can you afford to buy&nbsp;— or is renting smarter?</h1>
+      <p class="tagline">This free calculator does the math for you so you can make the biggest financial decision of your life with your eyes wide open.</p>
+      <a href="#property-info" class="btn-primary">Get Started →</a>
+    </div>
+
+    <div class="intro-body">
+      <p>Hey there! If you're reading this, give yourself a pat on the back — you deserve it! You care enough about your future that you're willing to do a little research into what is likely the biggest financial decision of your life.</p>
+      <p>Don't worry — I did my best to make this as user-friendly as possible, especially for those who consider themselves allergic to math. All the calculations are done for you.</p>
+      <p>Before you dive in, I'd <strong>highly</strong> recommend the dropdowns below — there's some important context that'll help you get the most out of this tool.</p>
+      <p>When you're ready, hit "Get Started" and let's crunch some numbers!</p>
+
+      <div class="accordion">
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-mindset">
+            Things to Keep in Mind — The Big Picture
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-mindset">
+            <p class="note-italic">Quick disclaimer: I'm no professional finance coach — just a regular person who wanted to make informed financial decisions and is also kind of a nerd. 🤓 Take this for what it is: a tool to help you think, not professional financial advice.</p>
+            <br>
+            <div class="acc-item">
+              <strong>Buying vs. renting is your call to make.</strong>
+              Everyone's situation is totally unique. Do not make a six-figure decision based on anyone's advice without running the numbers for yourself.
+              <div class="hint"><span class="hint-label">💡 Hint:</span> This calculator loves a good run, especially where numbers are involved.</div>
+            </div>
+            <div class="acc-item">
+              <strong>Renting doesn't mean you're throwing money away.</strong>
+              Don't believe what they tell you! Homeowners also "throw away" money — tens or even hundreds of thousands of dollars to things like interest, property taxes, insurance, and maintenance. The real question isn't "am I throwing money away?" — it's "what does each option actually cost me, and what do I get for it?" You've got to crunch the numbers for your situation.
+              <div class="hint"><span class="hint-label">💡 Hint:</span> Numbers are this calculator's favorite crunchy snack.</div>
+            </div>
+            <div class="acc-item">
+              <strong>A primary home is not a great investment — but that's okay.</strong>
+              Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values tend to grow at roughly the rate of inflation, so a home is better described as a means of building savings than a true investment. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. But that doesn't mean you shouldn't buy — it just means you should go in with your financial eyes wide open. Again, you've gotta live somewhere.
+              <p class="note-italic">Note: This doesn't apply to real estate investing, which is a totally different ballgame. This calculator only covers your primary residence — the home you're going to live in.</p>
+            </div>
+            <div class="acc-item">
+              <strong>If renting costs less, consider saving the difference.</strong>
+              Often, your monthly rent will be less than what it costs to own and operate a home. If that's the case, putting the money you save by renting into other long-term savings options — like High Yield Savings Accounts, Money Market Accounts, or Index Funds — means you're still building your financial future. Depending on your situation, you might even come out ahead compared to a homeowner selling their house. But this isn't black and white: if renting is so expensive you have nothing left over to save, buying might actually be the better option. And if you know you'd struggle to maintain a savings habit while renting, buying a home gives you forced savings in the form of home equity — which isn't nothing.
+            </div>
+            <div class="acc-item">
+              <strong>This analysis is purely financial.</strong>
+              There are real non-monetary reasons to prefer renting or buying — stability, flexibility, community, the ability to make a space your own. This calculator won't capture those. Keep them in mind when making your decision.
+            </div>
+            <div class="acc-item">
+              <strong>A note on how the renting vs. buying comparison works.</strong>
+              This calculator assumes you'll save the difference between what you'd spend renting vs. owning each month. For example, if renting costs $1,500/month and owning would cost $2,000/month, the comparison assumes you'd put that $500/month into savings. If you'd rather see what happens if you don't save the difference — or save less than the full amount — you can adjust or zero out those inputs in the Renting & Saving section of this calculator.
+              <div class="hint"><span class="hint-label">💡 Hint:</span> This calculator is very determined to help you determine how much it might cost you to own that home. 😄</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-resources">
+            Additional Resources
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-resources">
+            <div class="resource-group">
+              <p>Buying vs. Renting</p>
+              <ul class="resource-links">
+                <li><a href="https://www.cnbc.com/2019/04/18/wealth-manager-buying-a-home-is-usually-a-terrible-investment.html" target="_blank" rel="noopener">Article 1</a></li>
+                <li><a href="https://seekingalpha.com/article/4485863-why-buying-home-rarely-smart-investment" target="_blank" rel="noopener">Article 2</a></li>
+                <li><a href="https://jlcollinsnh.com/2023/03/02/why-your-house-is-a-terrible-investment/" target="_blank" rel="noopener">Article 3</a></li>
+                <li><a href="https://affordanything.com/is-renting-better-than-buying-should-i-rent-or-buy/" target="_blank" rel="noopener">Article 4 — Detailed deep dive</a></li>
+                <li><a href="https://www.businessinsider.com/personal-finance/why-buying-a-home-is-better-than-renting#youve-got-the-chance-to-get-a-great-deal-8" target="_blank" rel="noopener">Article 5</a></li>
+              </ul>
+            </div>
+            <div class="resource-group">
+              <p>Long-term renting</p>
+              <ul class="resource-links">
+                <li><a href="https://www.gocurrycracker.com/renters-for-life/#" target="_blank" rel="noopener">A perspective on the long-term renting lifestyle</a></li>
+              </ul>
+            </div>
+            <div class="resource-group">
+              <p>Total cost of home ownership</p>
+              <ul class="resource-links">
+                <li><a href="https://www.bankrate.com/real-estate/costs-of-buying-a-home/" target="_blank" rel="noopener">Article 1</a></li>
+                <li><a href="https://clippingchains.com/2020/08/31/the-real-cost-of-home-ownership/" target="_blank" rel="noopener">Article 2</a></li>
+                <li><a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener">Article 3</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-feedback">
+            Feedback & Suggestions
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-feedback">
+            <p>This calculator is a free, open resource. If you have feedback, a bug to report, an idea for improvement, or want to share how this page has helped you, the best way to share it is via <strong>GitHub Discussions</strong> — that way others can see, vote on, and build on your ideas too.</p>
+            <p><a href="https://github.com/weaseljohnson/housing-affordability-calculator/discussions" target="_blank" rel="noopener">Share feedback on GitHub →</a></p>
+            <p class="note-italic">Not a GitHub user? You can also submit feedback via <a href="https://forms.gle/V9WyUTyqKpsAfzJr6" target="_blank" rel="noopener">this Google Form</a>.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Step 1: Property Info ── -->
+  <section class="section accent-blue" id="property-info">
+    <p class="section-label">Step 1</p>
+    <h2>Property Info</h2>
+    <p class="section-intro">Tell us about the home you're considering buying.</p>
+
+    <!-- Group 1: The Home -->
+    <p class="calc-group-label">The Home</p>
+
+    <div class="input-group">
+      <label class="input-label" for="purchase-price">Home Purchase Price</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="purchase-price" placeholder="e.g. 300,000" min="0" step="1000" />
+      </div>
+      <div class="help-links">
+        <a href="https://www.google.com/search?q=home+prices+near+me+zillow" target="_blank" rel="noopener">Home prices in your area</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="down-payment-pct">Down Payment</label>
+      <div class="input-wrap">
+        <input type="number" id="down-payment-pct" placeholder="e.g. 20" min="0" max="100" step="0.5" />
+        <span class="input-suffix">%</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.bankrate.com/mortgages/average-down-payment/" target="_blank" rel="noopener">How much should a down payment be?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="interest-rate">Interest Rate</label>
+      <div class="input-wrap">
+        <input type="number" id="interest-rate" placeholder="e.g. 6.5" min="0" max="20" step="0.05" />
+        <span class="input-suffix">%</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.google.com/search?q=current+home+interest+rates" target="_blank" rel="noopener">What are current interest rates?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Loan Term</label>
+      <div class="toggle-group">
+        <input type="radio" name="loan-term" id="term-30" value="30" checked />
+        <label for="term-30">30 years</label>
+        <input type="radio" name="loan-term" id="term-15" value="15" />
+        <label for="term-15">15 years</label>
+      </div>
+    </div>
+
+    <!-- Live output cards -->
+    <div class="output-cards">
+      <div class="output-card">
+        <div class="output-card-label">Down Payment</div>
+        <div class="output-card-value" id="out-downpayment">—</div>
+      </div>
+      <div class="output-card">
+        <div class="output-card-label">Loan Amount</div>
+        <div class="output-card-value" id="out-loan-amount">—</div>
+      </div>
+      <div class="output-card highlight">
+        <div class="output-card-label">Monthly Payment</div>
+        <div class="output-card-value" id="out-monthly-payment">—</div>
+      </div>
+    </div>
+
+    <!-- Group 2: Upfront Costs -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Upfront Costs</p>
+
+    <div class="input-group">
+      <label class="input-label" for="moving-costs">Moving & Furnishing</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="moving-costs" placeholder="e.g. 5,000" min="0" step="100" />
+      </div>
+      <span class="input-note">Don't forget — you may need to furnish the new place too.</span>
+      <div class="help-links">
+        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener">What do moving costs typically look like?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Purchase Closing Costs</label>
+      <div class="discrete-group">
+        <input type="radio" name="closing-pct" id="close-2" value="0.02" checked />
+        <label for="close-2">2%</label>
+        <input type="radio" name="closing-pct" id="close-3" value="0.03" />
+        <label for="close-3">3%</label>
+        <input type="radio" name="closing-pct" id="close-4" value="0.04" />
+        <label for="close-4">4%</label>
+        <input type="radio" name="closing-pct" id="close-5" value="0.05" />
+        <label for="close-5">5%</label>
+      </div>
+      <span class="input-note">Closing costs typically run 2–5% of the loan amount. 2% is a reasonable starting estimate — your lender can give you a more precise figure.</span>
+    </div>
+
+    <!-- Upfront output cards -->
+    <div class="output-cards-2">
+      <div class="output-card">
+        <div class="output-card-label">
+          <span class="tooltip-wrap">
+            Reserves
+            <span class="tooltip-icon" tabindex="0">?</span>
+            <span class="tooltip-box">Lenders typically prefer that you have 2 months of mortgage payments held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
+          </span>
+        </div>
+        <div class="output-card-value" id="out-reserves">—</div>
+      </div>
+      <div class="output-card total">
+        <div class="output-card-label">Total Upfront Cash Needed</div>
+        <div class="output-card-value" id="out-total-upfront">—</div>
+      </div>
+    </div>
+    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
+
+  </section>
+
+  <!-- ── Step 2: Ongoing Costs ── -->
+  <section class="section accent-amber" id="ongoing-costs">
+    <p class="section-label">Step 2</p>
+    <h2>Ongoing Costs</h2>
+    <p class="section-intro">The recurring costs of owning this home.</p>
+    <p class="note-italic" style="margin-bottom: 1.5rem;">These really are all the costs of owning a home. I know, it's a lot. 🫣</p>
+
+    <!-- Group 1: Housing Costs -->
+    <p class="calc-group-label">Housing Costs</p>
+
+    <div class="input-group">
+      <label class="input-label" for="property-tax-rate">Gross Property Tax Rate</label>
+      <div class="input-wrap">
+        <input type="number" id="property-tax-rate" placeholder="e.g. 2.5" min="0" max="10" step="0.1" />
+        <span class="input-suffix">%</span>
+      </div>
+      <span class="input-note">The gross tax rate is something you should look up for the zip code you're interested in. It's often much higher than just the base property tax, accounting for things like school districts, townships, and counties. This number is often shown with listings on sites like Zillow.</span>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="hoa-fees">HOA Fees</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="hoa-fees" placeholder="e.g. 200 — enter 0 if no HOA" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.investopedia.com/terms/h/homeowners-association-fee-hoa.asp" target="_blank" rel="noopener">What are HOA fees?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="ho-insurance">Homeowner's Insurance</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="ho-insurance" placeholder="e.g. 1,200" min="0" step="100" />
+        <span class="input-suffix">/yr</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.bankrate.com/insurance/homeowners-insurance/homeowners-insurance-cost/" target="_blank" rel="noopener">How much does homeowner's insurance cost?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="maintenance-costs">Maintenance & Other Costs</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="maintenance-costs" placeholder="e.g. 6,000" min="0" step="100" />
+        <span class="input-suffix">/yr</span>
+      </div>
+      <span class="input-note">The average homeowner spends 1–2% of their home's value on maintenance each year. It's easy to underestimate this one — even a "perfect" home needs upkeep. We've pre-filled this with 2% of your purchase price as a starting estimate, but feel free to adjust.</span>
+      <div class="help-links">
+        <a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener">What does home maintenance actually cost?</a>
+      </div>
+    </div>
+
+    <!-- Group 2: Utilities -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Utilities</p>
+    <span class="input-note" style="display: block; margin-bottom: 1.25rem;">Not sure what to expect? These will vary by location, home size, and season. Your current utility bills are a reasonable starting point.</span>
+
+    <div class="input-group">
+      <label class="input-label" for="electric-buy">Electric</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="electric-buy" placeholder="e.g. 120" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="water-buy">Water</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="water-buy" placeholder="e.g. 50" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="other-util-buy">Other Utilities (gas, etc.)</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="other-util-buy" placeholder="e.g. 80" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+    </div>
+
+    <!-- Advanced Settings -->
+    <div class="advanced-toggle-wrap" style="margin-top: 2.5rem;">
+      <button class="advanced-toggle" aria-expanded="false" aria-controls="advanced-settings">
+        Advanced Settings
+        <span class="chevron">▼</span>
+      </button>
+      <div class="advanced-body" id="advanced-settings">
+        <p class="input-note" style="margin-bottom: 1.25rem;">These defaults are based on long-run US averages. You're welcome to adjust them, but most users won't need to.</p>
+
+        <div class="input-group">
+          <label class="input-label" for="inflation-rate">Inflation Rate</label>
+          <div class="input-wrap">
+            <input type="number" id="inflation-rate" value="3" min="0" max="15" step="0.1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <span class="input-note">Used to estimate how costs like insurance, maintenance, and utilities will grow over time. 3% is the long-run US average.</span>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="home-appreciation">Annual Home Value Appreciation</label>
+          <div class="input-wrap">
+            <input type="number" id="home-appreciation" value="3" min="0" max="15" step="0.1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <span class="input-note">How much your home's value is expected to grow per year. Historically, home values track inflation over the long run.</span>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="sale-closing-costs">Sale Closing Costs</label>
+          <div class="input-wrap">
+            <input type="number" id="sale-closing-costs" value="8" min="0" max="15" step="0.1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <span class="input-note">The estimated cost to sell your home — agent commissions, title fees, and other closing costs. 8% is a realistic estimate for most US markets.</span>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Timeline ── -->
+  <section class="section" id="timeline" style="padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="input-group" style="margin-bottom: 0;">
+      <label class="input-label" for="years-timeline" style="font-size: 1.1rem; font-weight: 800; color: var(--navy);">How long do you plan to stay?</label>
+      <div class="input-wrap" style="max-width: 200px; margin-top: 0.5rem;">
+        <input type="number" id="years-timeline" placeholder="e.g. 10" min="1" max="50" step="1" />
+        <span class="input-suffix">yrs</span>
+      </div>
+      <span class="input-note" style="margin-top: 0.5rem; display: block;">This sets the timeline for the entire analysis. We'll compare what buying vs. renting would cost you over this period. Not sure? 7–10 years is a common planning horizon for first-time buyers.</span>
+    </div>
+  </section>
+
+  <!-- ── Step 3: Renting & Saving ── -->
+  <section class="section accent-blue" id="renting-saving">
+    <p class="section-label">Step 3</p>
+    <h2>Renting & Saving</h2>
+    <p class="section-intro">Tell us about your rental situation and what you'd do with the money you save by renting.</p>
+
+    <!-- Group 1: Renting Costs -->
+    <p class="calc-group-label">Renting Costs</p>
+
+    <div class="input-group">
+      <label class="input-label" for="monthly-rent">Monthly Rent</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="monthly-rent" placeholder="e.g. 1,500" min="0" step="50" />
+        <span class="input-suffix">/mo</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.zillow.com" target="_blank" rel="noopener">Rental prices near you (Zillow)</a>
+        <a href="https://www.apartments.com" target="_blank" rel="noopener">Rental prices near you (Apartments.com)</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="security-deposit">Security Deposit</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="security-deposit" placeholder="e.g. 1,500" min="0" step="50" />
+      </div>
+      <span class="input-note">Typically one month's rent. Enter $0 if you're already renting and won't be paying a new deposit.</span>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="renters-insurance">Renters Insurance</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="renters-insurance" placeholder="e.g. 180" min="0" step="10" />
+        <span class="input-suffix">/yr</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.nerdwallet.com/article/insurance/how-much-is-renters-insurance" target="_blank" rel="noopener">How much does renters insurance cost?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="moving-costs-rent">Moving Costs</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="moving-costs-rent" placeholder="e.g. 1,500" min="0" step="100" />
+      </div>
+      <span class="input-note">Enter $0 if you're comparing buying to staying in your current rental.</span>
+      <div class="help-links">
+        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener">What do moving costs typically look like?</a>
+      </div>
+    </div>
+
+    <!-- Utilities -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Utilities</p>
+    <span class="input-note" style="display: block; margin-bottom: 1.25rem;">Not sure what to expect? Your current utility bills are a reasonable starting point.</span>
+
+    <div class="input-group">
+      <label class="input-label" for="electric-rent">Electric</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="electric-rent" placeholder="e.g. 120" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="water-rent">Water</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="water-rent" placeholder="e.g. 50" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="other-util-rent">Other Utilities (gas, etc.)</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="other-util-rent" placeholder="e.g. 80" min="0" step="10" />
+        <span class="input-suffix">/mo</span>
+      </div>
+    </div>
+
+    <!-- Group 2: Savings Parameters -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Savings Parameters</p>
+
+    <div class="input-group">
+      <label class="input-label" for="prior-savings">Prior Savings Value</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="prior-savings" placeholder="e.g. 10,000" min="0" step="500" />
+      </div>
+      <span class="input-note">If you already have money in a savings or investment account, enter the current value here. This gets added to your initial deposit and grows alongside your contributions over the comparison timeline. If you don't have any prior savings, leave this as $0.</span>
+    </div>
+
+    <!-- Initial Deposit -->
+    <div class="input-group">
+      <label class="input-label">Initial Deposit</label>
+      <span class="input-note" style="margin-bottom: 0.6rem; display: block;">The amount you'd put into savings instead of a down payment.</span>
+      <div class="default-toggle-row">
+        <span class="default-toggle-label">Use calculated default</span>
+        <label class="switch">
+          <input type="checkbox" id="initial-deposit-toggle" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="default-display" id="initial-deposit-default-display">
+        <span class="default-value-label">Calculated default:</span>
+        <span class="default-value" id="initial-deposit-default-value">—</span>
+        <span class="default-value-note">equal to your down payment</span>
+      </div>
+      <div class="manual-input-wrap" id="initial-deposit-manual" style="display: none;">
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="initial-deposit-manual-input" placeholder="e.g. 45,000" min="0" step="500" />
+        </div>
+        <span class="input-note">Set to $0 to simulate starting with no initial deposit.</span>
+      </div>
+    </div>
+
+    <!-- Monthly Contribution -->
+    <div class="input-group">
+      <label class="input-label">Monthly Savings Contribution</label>
+      <span class="input-note" style="margin-bottom: 0.6rem; display: block;">How much you'd contribute to savings each month while renting.</span>
+      <div class="default-toggle-row">
+        <span class="default-toggle-label">Use calculated default</span>
+        <label class="switch">
+          <input type="checkbox" id="monthly-contrib-toggle" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="default-display" id="monthly-contrib-default-display">
+        <span class="default-value-label">Calculated default:</span>
+        <span class="default-value" id="monthly-contrib-default-value">—</span>
+        <span class="default-value-note">difference between estimated ownership costs and your rent</span>
+      </div>
+      <!-- Negative contribution warning -->
+      <div class="warning-card" id="negative-contrib-warning" style="display: none;">
+        ⚠️ Your estimated rent is higher than the projected cost of owning this home. That means there's no money left over to save by renting — which is one point in favor of buying. You can still run the comparison, but keep this in mind when reading your results.
+      </div>
+      <div class="manual-input-wrap" id="monthly-contrib-manual" style="display: none;">
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="monthly-contrib-manual-input" placeholder="e.g. 400" min="0" step="50" />
+        </div>
+        <span class="input-note">Set to $0 to simulate renting without saving the difference.</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="rate-of-return">Average Rate of Return (ROR)</label>
+      <div class="input-wrap">
+        <input type="number" id="rate-of-return" placeholder="e.g. 7" min="0" max="30" step="0.1" />
+        <span class="input-suffix">%</span>
+      </div>
+      <span class="input-note">This is your expected annual return on your savings or investments. For High Yield Savings Accounts or Money Market accounts, a typical value is 3–4% (though this fluctuates with the federal rate). For investment accounts like index funds, the historical average annual return is around 7%. Use whichever best reflects where you plan to put your money.</span>
+    </div>
+
+    <!-- Other Parameters -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Other Parameters</p>
+
+    <div class="input-group">
+      <label class="input-label" for="rent-increase-yoy">Rent Increase Year Over Year</label>
+      <div class="input-wrap">
+        <input type="number" id="rent-increase-yoy" value="4" min="0" max="20" step="0.1" />
+        <span class="input-suffix">%</span>
+      </div>
+      <span class="input-note">Average rent increase has been around 4% per year from 2015–2025. Adjust if you expect something different for your area.</span>
+      <div class="help-links">
+        <a href="https://ipropertymanagement.com/research/average-rent-by-year" target="_blank" rel="noopener">Year-by-year US rent increase data</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Step 4: Your Financial Picture ── -->
+  <section class="section accent-amber" id="your-finances">
+    <p class="section-label">Step 4</p>
+    <h2>Your Financial Picture</h2>
+    <p class="section-intro">These inputs help personalize the recommended income estimates in your results. They're optional — but filling them in gives you a much more useful picture.</p>
+
+    <!-- Effective Income Tax Rate -->
+    <p class="calc-group-label">Effective Income Tax Rate</p>
+    <span class="input-note" style="display: block; margin-bottom: 1.25rem;">This is your effective income tax rate — the actual percentage of your income paid in taxes, not your tax bracket. If the property you're evaluating would require an income that would push you into a higher tax bracket, consider using that projected rate instead of your current one.</span>
+
+    <div class="tax-rate-row">
+      <div class="input-group" style="margin-bottom: 0;">
+        <label class="input-label" for="tax-rate-buying">If Buying</label>
+        <div class="input-wrap">
+          <input type="number" id="tax-rate-buying" placeholder="e.g. 22" min="0" max="60" step="0.1" />
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div class="input-group" style="margin-bottom: 0;">
+        <label class="input-label" for="tax-rate-renting">If Renting</label>
+        <div class="input-wrap">
+          <input type="number" id="tax-rate-renting" placeholder="e.g. 22" min="0" max="60" step="0.1" />
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+    </div>
+    <div class="help-links" style="margin-top: 0.6rem;">
+      <a href="https://www.google.com/search?q=smartasset+effective+income+tax+calculator+for+my+state" target="_blank" rel="noopener">Estimate your effective income tax rate</a>
+    </div>
+    <span class="input-note" style="margin-top: 0.5rem; display: block;">Not sure where to start? A tax calculator can estimate your effective rate based on your income and state.</span>
+
+    <!-- Lifestyle Spending -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Current Yearly Lifestyle Spending</p>
+    <span class="input-note" style="display: block; margin-bottom: 1rem;">Everything you spend money on after housing costs — food, transportation, entertainment, subscriptions, and everything else.</span>
+
+    <div class="input-group">
+      <label class="input-label" for="lifestyle-spending">Current Yearly Lifestyle Spending</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="lifestyle-spending" placeholder="e.g. 40,000" min="0" step="500" />
+        <span class="input-suffix">/yr</span>
+      </div>
+      <span class="input-note" style="margin-top: 0.5rem; display: block;">See the Results section for a full explanation of how this is used in your recommended income estimates.</span>
+    </div>
+
+    <!-- How to calculate lifestyle spending -->
+    <div class="advanced-toggle-wrap" style="margin-top: 1rem;">
+      <button class="advanced-toggle" aria-expanded="false" aria-controls="lifestyle-calc-help">
+        How do I calculate my current lifestyle spending?
+        <span class="chevron">▼</span>
+      </button>
+      <div class="advanced-body" id="lifestyle-calc-help">
+        <p>The easiest way to calculate this: take your most recent pay stub and multiply your gross pay by the number of pay periods in a year (26 for bi-weekly, 24 for bi-monthly) to get your annual gross income. Multiply your total deducted taxes by the number of pay periods to get your annual tax deduction. Multiply your current monthly housing expenses by 12 to get your yearly housing costs. Then subtract your annual taxes and yearly housing costs from your annual gross pay. The result is your current annual lifestyle spending.</p>
+        <p style="margin-top: 0.75rem;">Note: If you're in the Renting & Saving scenario, you don't need to subtract your savings contributions from your lifestyle spending amount — the calculator accounts for those automatically.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Results ── -->
+  <section class="section accent-blue" id="results">
+    <p class="section-label">Results</p>
+    <h2>Your Results</h2>
+    <p class="section-intro">Here's what the numbers say. Fill in the sections above and hit Calculate to see your results.</p>
+
+    <!-- Calculate button -->
+    <button class="btn-primary" id="calculate-btn" style="margin-bottom: 2rem;">Calculate →</button>
+
+    <!-- Validation message -->
+    <div class="warning-card" id="validation-msg" style="display: none; margin-bottom: 1.5rem;"></div>
+
+    <!-- Results placeholder -->
+    <div class="placeholder" id="results-placeholder">Your results will appear here once you hit Calculate above.</div>
+
+    <!-- Results content (hidden until calculated) -->
+    <div id="results-content" style="display: none;">
+
+      <!-- Summary Table -->
+      <div class="results-table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Buying</th>
+              <th>Renting & Saving</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="result-label">Total Upfront Cost</td>
+              <td id="r-upfront-buy" class="result-val">—</td>
+              <td id="r-upfront-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label">Average Monthly Cost — Year 1</td>
+              <td id="r-monthly-buy" class="result-val">—</td>
+              <td id="r-monthly-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label">Total Yearly Cost — Year 1</td>
+              <td id="r-yearly-buy" class="result-val">—</td>
+              <td id="r-yearly-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label" id="r-spent-label">Cumulative Money Spent</td>
+              <td id="r-spent-buy" class="result-val">—</td>
+              <td id="r-spent-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label" id="r-return-label">Savings Return</td>
+              <td id="r-return-buy" class="result-val">—</td>
+              <td id="r-return-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label" id="r-net-label">Return Minus Cumulative Spent</td>
+              <td id="r-net-buy" class="result-val">—</td>
+              <td id="r-net-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label">
+                Recommended Annual Gross Income
+                <a href="#acc-30rule" class="result-footnote-link">
+                  <span class="result-footnote">→ 30% Rule</span>
+                </a>
+              </td>
+              <td id="r-income30-buy" class="result-val">—</td>
+              <td id="r-income30-rent" class="result-val">—</td>
+            </tr>
+            <tr>
+              <td class="result-label">
+                Recommended Annual Gross Income
+                <a href="#acc-lifestyle" class="result-footnote-link">
+                  <span class="result-footnote">→ Current Lifestyle</span>
+                </a>
+              </td>
+              <td id="r-incomelife-buy" class="result-val">—</td>
+              <td id="r-incomelife-rent" class="result-val">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PTR -->
+      <div style="margin-top: 2.5rem;">
+        <p class="calc-group-label">Price-to-Rent Ratio (PTR)</p>
+        <div class="ptr-display">
+          <div class="ptr-value-wrap">
+            <span class="ptr-label">Your PTR is</span>
+            <span class="ptr-value" id="ptr-value">—</span>
+          </div>
+          <div class="ptr-scale">
+            <div class="ptr-band ptr-blue">Below 10 — Yes, if you can afford it</div>
+            <div class="ptr-band ptr-green">10–15 — Worth considering, if affordable</div>
+            <div class="ptr-band ptr-yellow">15–20 — Probably not</div>
+            <div class="ptr-band ptr-orange">20–25 — No</div>
+            <div class="ptr-band ptr-red">Above 25 — Run the other direction</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results accordions -->
+      <div class="accordion" style="margin-top: 2.5rem;">
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-30rule">
+            The 30% Rule — How We Calculate Recommended Income
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-30rule">
+            <p>The first recommended income row is based on the 30% rule — the common guidance from financial advisors that housing costs should represent no more than 30% of your income.</p>
+            <p>One important difference from the standard approach: while the typical 30% rule uses gross income, this calculator uses your net (take-home) income — the money you actually have available to spend after taxes. Using gross income for budgeting purposes is, frankly, lying to yourself about how much money you really have. Your purchasing decisions should be based on what you actually take home, not what you make on paper. Your effective income tax rate is then used to back-calculate the gross income equivalent.</p>
+            <p>It's also worth noting that this estimate assumes your lifestyle spending will scale with your new housing situation — that is, if you move into a more expensive home, your other spending will grow proportionally. This is sometimes called lifestyle inflation, and it's extremely common. If you don't expect your lifestyle spending to change much, the Current Lifestyle row gives you a more personalized estimate.</p>
+            <p>For the Renting column, this row assumes 30% for housing and 10% for savings — a total of 40% of net income — based on the savings parameters you provided.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-lifestyle">
+            The Current Lifestyle Approach — A More Personalized Estimate
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-lifestyle">
+            <p>This row takes a different approach. Instead of assuming your lifestyle will inflate to match your new income level, it assumes your current lifestyle spending stays roughly the same even after you move. That makes this a more personalized — and often more realistic — estimate for people who are disciplined about their spending.</p>
+            <p>To use this row effectively, enter your current yearly lifestyle spending in the Your Financial Picture section above.</p>
+            <p>One important caveat: it is extremely common for lifestyle spending to increase when someone moves into a new home or sees an increase in income. It takes real discipline to avoid lifestyle inflation. For that reason, treat this number as the minimum annual gross income required to afford the new home or rental — not a comfortable target.</p>
+            <p>For the Renting column, this row automatically accounts for your savings contributions when calculating the recommended gross income. You don't need to subtract savings from your lifestyle spending amount.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end results-content -->
+
+  </section>
+
+  <script>
+    // ── Accordion ──
+    document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        trigger.setAttribute('aria-expanded', String(!expanded));
+        const body = document.getElementById(trigger.getAttribute('aria-controls'));
+        body.classList.toggle('open', !expanded);
+      });
+    });
+
+    // ── Open accordion if targeted by anchor link ──
+    function openAccordionById(id) {
+      const body = document.getElementById(id);
+      if (!body) return;
+      const trigger = document.querySelector(`[aria-controls="${id}"]`);
+      if (!trigger) return;
+      body.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+
+    document.querySelectorAll('a[href^="#acc-"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = link.getAttribute('href').slice(1);
+        openAccordionById(id);
+        setTimeout(() => {
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      });
+    });
+
+    // ── Also open if page loads with hash targeting an accordion ──
+    if (window.location.hash && window.location.hash.startsWith('#acc-')) {
+      const id = window.location.hash.slice(1);
+      openAccordionById(id);
+    }
+
+    // ── Active nav on scroll ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('#progress-bar a');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => observer.observe(s));
+
+    // ── Formatting helpers ──
+    const fmt = n => isNaN(n) || n === 0 ? '—' : '$' + Math.round(n).toLocaleString();
+
+    // ── PMT calculation (monthly mortgage payment) ──
+    function calcPMT(principal, annualRate, years) {
+      if (!principal || !annualRate || !years) return 0;
+      const r = annualRate / 100 / 12;
+      const n = years * 12;
+      if (r === 0) return principal / n;
+      return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    }
+
+    // ── Live update: mortgage outputs ──
+    function updateMortgageOutputs() {
+      const price    = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const dpPct    = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const rate     = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const term     = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
+
+      const dp       = price * (dpPct / 100);
+      const loan     = price - dp;
+      const monthly  = calcPMT(loan, rate, term);
+
+      document.getElementById('out-downpayment').textContent    = fmt(dp);
+      document.getElementById('out-loan-amount').textContent    = fmt(loan);
+      document.getElementById('out-monthly-payment').textContent = fmt(monthly);
+
+      // also update upfront outputs since they depend on monthly
+      updateUpfrontOutputs(loan, monthly);
+    }
+
+    // ── Update upfront cost outputs ──
+    function updateUpfrontOutputs(loan, monthly) {
+      const price      = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const dpPct      = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dp         = price * (dpPct / 100);
+      const moving     = parseFloat(document.getElementById('moving-costs').value) || 0;
+      const closingPct = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
+
+      const closing    = loan * closingPct;
+      const reserves   = monthly * 2;
+      const total      = dp + closing + moving + reserves;
+
+      document.getElementById('out-reserves').textContent      = fmt(reserves);
+      document.getElementById('out-total-upfront').textContent = fmt(total);
+    }
+
+    // ── Event listeners ──
+    ['purchase-price', 'down-payment-pct', 'interest-rate', 'moving-costs'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateMortgageOutputs);
+    });
+    document.querySelectorAll('input[name="loan-term"]').forEach(el => {
+      el.addEventListener('change', updateMortgageOutputs);
+    });
+    document.querySelectorAll('input[name="closing-pct"]').forEach(el => {
+      el.addEventListener('change', updateMortgageOutputs);
+    });
+
+    // ── Advanced Settings Toggle ──
+    document.querySelectorAll('.advanced-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        const body = document.getElementById(toggle.getAttribute('aria-controls'));
+        body.classList.toggle('open', !expanded);
+      });
+    });
+
+    // ── Pre-fill maintenance costs at 2% of purchase price ──
+    document.getElementById('purchase-price').addEventListener('input', () => {
+      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const maintenance = document.getElementById('maintenance-costs');
+      maintenance.value = price > 0 ? Math.round(price * 0.02) : '';
+    });
+
+    // ── Calculate default monthly contribution ──
+    function calcDefaultContribution() {
+      const mortgagePayment = parseFloat(document.getElementById('out-monthly-payment').textContent.replace(/[$,]/g, '')) || 0;
+      const price           = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const taxRate         = parseFloat(document.getElementById('property-tax-rate').value) || 0;
+      const hoa             = parseFloat(document.getElementById('hoa-fees').value) || 0;
+      const insurance       = parseFloat(document.getElementById('ho-insurance').value) || 0;
+      const maintenance     = parseFloat(document.getElementById('maintenance-costs').value) || 0;
+      const pmi             = calcPMI();
+      const rent            = parseFloat(document.getElementById('monthly-rent').value) || 0;
+
+      const monthlyOwning = mortgagePayment
+        + (price * taxRate / 100 / 12)
+        + hoa
+        + (insurance / 12)
+        + (maintenance / 12)
+        + pmi;
+
+      const contribution = monthlyOwning - rent;
+      return contribution;
+    }
+
+    // ── Calculate PMI ──
+    function calcPMI() {
+      const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      if (dpPct <= 5)             return 200;
+      if (dpPct > 5 && dpPct < 10) return 146;
+      if (dpPct >= 10 && dpPct < 20) return 60;
+      return 0;
+    }
+
+    // ── Update savings defaults ──
+    function updateSavingsDefaults() {
+      // Initial deposit default = down payment amount
+      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dp    = price * (dpPct / 100);
+      document.getElementById('initial-deposit-default-value').textContent = fmt(dp);
+
+      // Monthly contribution default
+      const contrib = calcDefaultContribution();
+      const contribDisplay = document.getElementById('monthly-contrib-default-value');
+      const warning        = document.getElementById('negative-contrib-warning');
+
+      if (contrib < 0) {
+        contribDisplay.textContent = fmt(0);
+        warning.style.display = 'block';
+      } else {
+        contribDisplay.textContent = fmt(contrib) + '/mo';
+        warning.style.display = 'none';
+      }
+    }
+
+    // ── Toggle switch logic ──
+    function setupToggle(toggleId, defaultDisplayId, manualWrapperId) {
+      const toggle       = document.getElementById(toggleId);
+      const defaultDisplay = document.getElementById(defaultDisplayId);
+      const manualWrap   = document.getElementById(manualWrapperId);
+      toggle.addEventListener('change', () => {
+        if (toggle.checked) {
+          defaultDisplay.style.display = 'flex';
+          manualWrap.style.display     = 'none';
+        } else {
+          defaultDisplay.style.display = 'none';
+          manualWrap.style.display     = 'block';
+        }
+      });
+    }
+
+    setupToggle('initial-deposit-toggle',  'initial-deposit-default-display',  'initial-deposit-manual');
+    setupToggle('monthly-contrib-toggle',  'monthly-contrib-default-display',  'monthly-contrib-manual');
+
+    // ── Wire up savings default updates ──
+    ['purchase-price','down-payment-pct','interest-rate','property-tax-rate',
+     'hoa-fees','ho-insurance','maintenance-costs','monthly-rent'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateSavingsDefaults);
+    });
+    document.querySelectorAll('input[name="loan-term"], input[name="closing-pct"]').forEach(el => {
+      el.addEventListener('change', updateSavingsDefaults);
+    });
+// ── Nav amber/blue alternating on scroll ──
+    const sectionAccents = {
+      'intro': 'blue',
+      'property-info': 'blue',
+      'ongoing-costs': 'amber',
+      'timeline': null,
+      'renting-saving': 'blue',
+      'your-finances': 'amber',
+      'results': 'blue'
+    };
+
+    const scrollObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            const linkId = link.getAttribute('href').replace('#', '');
+            const isActive = linkId === id;
+            link.classList.remove('active', 'active-amber');
+            if (isActive) {
+              const accent = sectionAccents[id];
+              if (accent === 'amber') link.classList.add('active-amber');
+              else link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => scrollObserver.observe(s));
+
+    // ── Required field validation ──
+    function validateInputs() {
+      const required = [
+        { id: 'purchase-price',    label: 'Home Purchase Price' },
+        { id: 'down-payment-pct',  label: 'Down Payment' },
+        { id: 'interest-rate',     label: 'Interest Rate' },
+        { id: 'years-timeline',    label: 'How long do you plan to stay' },
+        { id: 'monthly-rent',      label: 'Monthly Rent' },
+        { id: 'rate-of-return',    label: 'Rate of Return' },
+      ];
+      const missing = required.filter(f => !document.getElementById(f.id).value);
+      return missing.map(f => f.label);
+    }
+
+    // ── Calculate button ──
+    document.getElementById('calculate-btn').addEventListener('click', () => {
+      const missing = validateInputs();
+      const validationMsg = document.getElementById('validation-msg');
+
+      if (missing.length > 0) {
+        validationMsg.style.display = 'block';
+        validationMsg.innerHTML = '⚠️ Please fill in the following required fields before calculating: <strong>' + missing.join(', ') + '</strong>';
+        document.getElementById('results-placeholder').style.display = 'block';
+        document.getElementById('results-content').style.display = 'none';
+        return;
+      }
+
+      validationMsg.style.display = 'none';
+      runCalculations();
+    });
+
+    // ── Main calculation engine ──
+    function runCalculations() {
+
+      // ════════════════════════════
+      // INPUTS
+      // ════════════════════════════
+      const price        = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const dpPct        = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const rate         = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const term         = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
+      const years        = parseInt(document.getElementById('years-timeline').value) || 0;
+      const taxRate      = parseFloat(document.getElementById('property-tax-rate').value) / 100 || 0;
+      const hoa          = parseFloat(document.getElementById('hoa-fees').value) || 0;
+      const insurance    = parseFloat(document.getElementById('ho-insurance').value) || 0;
+      const maintenance  = parseFloat(document.getElementById('maintenance-costs').value) || 0;
+      const electricBuy  = parseFloat(document.getElementById('electric-buy').value) || 0;
+      const waterBuy     = parseFloat(document.getElementById('water-buy').value) || 0;
+      const otherBuy     = parseFloat(document.getElementById('other-util-buy').value) || 0;
+      const inflation    = parseFloat(document.getElementById('inflation-rate').value) / 100 || 0.03;
+      const appreciation = parseFloat(document.getElementById('home-appreciation').value) / 100 || 0.03;
+      const saleClose    = parseFloat(document.getElementById('sale-closing-costs').value) / 100 || 0.08;
+      const movingBuy    = parseFloat(document.getElementById('moving-costs').value) || 0;
+      const closingPct   = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
+
+      const rent         = parseFloat(document.getElementById('monthly-rent').value) || 0;
+      const secDeposit   = parseFloat(document.getElementById('security-deposit').value) || 0;
+      const rentersIns   = parseFloat(document.getElementById('renters-insurance').value) || 0;
+      const movingRent   = parseFloat(document.getElementById('moving-costs-rent').value) || 0;
+      const electricRent = parseFloat(document.getElementById('electric-rent').value) || 0;
+      const waterRent    = parseFloat(document.getElementById('water-rent').value) || 0;
+      const otherRent    = parseFloat(document.getElementById('other-util-rent').value) || 0;
+      const priorSavings = parseFloat(document.getElementById('prior-savings').value) || 0;
+      const ror          = parseFloat(document.getElementById('rate-of-return').value) / 100 || 0;
+      const rentIncrease = parseFloat(document.getElementById('rent-increase-yoy').value) / 100 || 0.04;
+
+      const taxRateBuy   = parseFloat(document.getElementById('tax-rate-buying').value) / 100 || 0;
+      const taxRateRent  = parseFloat(document.getElementById('tax-rate-renting').value) / 100 || 0;
+      const lifestyle    = parseFloat(document.getElementById('lifestyle-spending').value) || 0;
+
+      // ════════════════════════════
+      // MORTGAGE SETUP
+      // ════════════════════════════
+      const dp           = price * (dpPct / 100);
+      const loan         = price - dp;
+      const closing      = loan * closingPct;
+      const monthlyRate  = rate / 100 / 12;
+      const numPayments  = term * 12;
+      const monthlyPMT   = monthlyRate === 0 ? loan / numPayments
+                           : loan * (monthlyRate * Math.pow(1 + monthlyRate, numPayments))
+                             / (Math.pow(1 + monthlyRate, numPayments) - 1);
+      const reserves     = monthlyPMT * 2;
+      const pmi          = calcPMI();
+
+      // ── Annual interest & principal using monthly compounding summed per year ──
+      function annualInterest(yearNum) {
+        let total = 0;
+        const startMonth = (yearNum - 1) * 12 + 1;
+        const endMonth   = yearNum * 12;
+        for (let m = startMonth; m <= endMonth; m++) {
+          const balance = loan * Math.pow(1 + monthlyRate, m - 1)
+                        - monthlyPMT * (Math.pow(1 + monthlyRate, m - 1) - 1) / monthlyRate;
+          total += balance * monthlyRate;
+        }
+        return total;
+      }
+
+      function annualPrincipal(yearNum) {
+        return monthlyPMT * 12 - annualInterest(yearNum);
+      }
+
+      function mortgageBalance(afterYear) {
+        if (afterYear === 0) return loan;
+        let bal = 0;
+        for (let m = 1; m <= afterYear * 12; m++) {
+          bal = loan * Math.pow(1 + monthlyRate, m)
+              - monthlyPMT * (Math.pow(1 + monthlyRate, m) - 1) / monthlyRate;
+        }
+        return Math.max(0, bal);
+      }
+
+      // ════════════════════════════
+      // INITIAL DEPOSIT & CONTRIBUTION
+      // ════════════════════════════
+      const useDefaultDeposit  = document.getElementById('initial-deposit-toggle').checked;
+      const manualDepositInput = parseFloat(document.getElementById('initial-deposit-manual-input').value);
+      const initialDeposit     = useDefaultDeposit ? dp
+                                 : (isNaN(manualDepositInput) ? 0 : manualDepositInput);
+
+      const useDefaultContrib  = document.getElementById('monthly-contrib-toggle').checked;
+      const defaultContrib     = Math.max(0, calcDefaultContribution());
+      const manualContribInput = parseFloat(document.getElementById('monthly-contrib-manual-input').value);
+      const monthlyContrib     = useDefaultContrib ? defaultContrib
+                                 : (isNaN(manualContribInput) ? 0 : manualContribInput);
+
+      // ════════════════════════════
+      // BUY — YEAR BY YEAR
+      // ════════════════════════════
+      let buyCumCashflow = -(dp + closing + movingBuy + reserves);
+      let homeValue      = price;
+      let buyYear1Cost   = 0;
+
+      for (let y = 1; y <= years; y++) {
+        homeValue = price * Math.pow(1 + appreciation, y);
+
+        const interest   = annualInterest(y);
+        const principal  = annualPrincipal(y);
+        const prevHomeVal = y === 1 ? price : price * Math.pow(1 + appreciation, y - 1);
+        const propTax    = prevHomeVal * taxRate;
+        const hoaYear    = hoa * 12;
+        const insYear    = insurance * Math.pow(1 + inflation, y - 1);
+        const maintYear  = maintenance * Math.pow(1 + inflation, y - 1);
+        const prevBal    = mortgageBalance(y - 1);
+        const prevVal    = y === 1 ? price : price * Math.pow(1 + appreciation, y - 1);
+        const pmiYear    = (prevBal / prevVal >= 0.8) ? pmi * 12 : 0;
+        const utilYear   = (electricBuy + waterBuy + otherBuy) * 12
+                           * Math.pow(1 + inflation, y - 1);
+        const movingYear = (y === years) ? movingBuy : 0;
+
+        if (y === 1) {
+          buyYear1Cost = interest + principal + propTax + hoaYear
+                       + insYear + maintYear + pmiYear + utilYear;
+        }
+
+        const yearSpend = interest + principal + propTax + hoaYear
+                        + insYear + maintYear + pmiYear + utilYear + movingYear;
+
+        if (y === years) {
+          const finalBal      = mortgageBalance(years);
+          const gainOnSale    = homeValue - finalBal;
+          const saleCloseCost = homeValue * saleClose;
+          buyCumCashflow     -= yearSpend;
+          buyCumCashflow     += gainOnSale - saleCloseCost;
+        } else {
+          buyCumCashflow -= yearSpend;
+        }
+      }
+
+      const finalHomeValue   = price * Math.pow(1 + appreciation, years);
+      const finalMortgageBal = mortgageBalance(years);
+      const gainOnSale       = finalHomeValue - finalMortgageBal;
+      const saleCloseCost    = finalHomeValue * saleClose;
+      const buyNetReturn     = gainOnSale - saleCloseCost;
+
+      // Cumulative money spent = total outflows excluding the gain
+      const buyCumSpent = Math.abs(buyCumCashflow - buyNetReturn);
+
+      // ════════════════════════════
+      // RENT — YEAR BY YEAR
+      // ════════════════════════════
+      const rentReserves  = rent;
+      let rentCumCashflow = -(secDeposit + movingRent + rentReserves + initialDeposit);
+      let savingsValue    = initialDeposit + priorSavings;
+      let currentRent     = rent;
+      let rentYear1Cost   = 0;
+
+      for (let y = 1; y <= years; y++) {
+        const rentYear    = currentRent * 12;
+        const insYear     = rentersIns * Math.pow(1 + inflation, y - 1);
+        const utilYear    = (electricRent + waterRent + otherRent) * 12
+                            * Math.pow(1 + inflation, y - 1);
+        const contribYear = monthlyContrib * 12;
+        const movingYear  = (y === years) ? movingRent : 0;
+
+        if (y === 1) {
+          rentYear1Cost = rentYear + insYear + utilYear + contribYear;
+        }
+
+        rentCumCashflow -= (rentYear + insYear + utilYear + contribYear + movingYear);
+        savingsValue     = (savingsValue + contribYear) * (1 + ror);
+        currentRent     *= (1 + rentIncrease);
+      }
+
+      const rentCumSpent = Math.abs(rentCumCashflow);
+
+      // ════════════════════════════
+      // SUMMARY TABLE VALUES
+      // ════════════════════════════
+      const buyUpfront  = dp + closing + movingBuy + reserves;
+      const rentUpfront = secDeposit + movingRent + rentReserves + initialDeposit;
+
+      const buyMonthly  = buyYear1Cost / 12;
+      const rentMonthly = rentYear1Cost / 12;
+
+      const buyIncome30    = taxRateBuy  > 0 ? (buyYear1Cost  / 0.3) / (1 - taxRateBuy)  : null;
+      const rentIncome30   = taxRateRent > 0 ? (rentYear1Cost / 0.4) / (1 - taxRateRent) : null;
+      const buyIncomeLife  = taxRateBuy  > 0
+                             ? (buyYear1Cost + lifestyle) / (1 - taxRateBuy) : null;
+      const rentIncomeLife = taxRateRent > 0
+                             ? (rentYear1Cost - monthlyContrib * 12 + lifestyle)
+                               / (1 - taxRateRent) : null;
+
+      // ── PTR ──
+      const ptr = rent > 0
+                  ? (price + closing + reserves + movingBuy) / (12 * rent)
+                  : null;
+
+      // ════════════════════════════
+      // POPULATE TABLE
+      // ════════════════════════════
+      const setVal = (id, val) => {
+        document.getElementById(id).textContent = val !== null ? fmt(val) : '—';
+      };
+      const setStr = (id, str) => {
+        document.getElementById(id).textContent = str;
+      };
+
+      setVal('r-upfront-buy',   buyUpfront);
+      setVal('r-upfront-rent',  rentUpfront);
+      setVal('r-monthly-buy',   buyMonthly);
+      setVal('r-monthly-rent',  rentMonthly);
+      setVal('r-yearly-buy',    buyYear1Cost);
+      setVal('r-yearly-rent',   rentYear1Cost);
+      setVal('r-spent-buy',     buyCumSpent);
+      setVal('r-spent-rent',    rentCumSpent);
+      setVal('r-return-buy',    buyNetReturn);
+      setVal('r-return-rent',   savingsValue);
+      setVal('r-net-buy',       buyNetReturn - buyCumSpent);
+      setVal('r-net-rent',      savingsValue - rentCumSpent);
+
+      setStr('r-spent-label',  `Cumulative Money Spent — ${years} Years`);
+      setStr('r-return-label', `Savings Return — ${years} Years`);
+      setStr('r-net-label',    `Return Minus Cumulative Spent — ${years} Years`);
+
+      // ── Income rows ──
+      const incomeFields = [
+        ['r-income30-buy',   buyIncome30],
+        ['r-income30-rent',  rentIncome30],
+        ['r-incomelife-buy', buyIncomeLife],
+        ['r-incomelife-rent',rentIncomeLife],
+      ];
+      incomeFields.forEach(([id, val]) => {
+        document.getElementById(id).textContent = val !== null ? fmt(val) : 'Enter tax rate';
+      });
+
+      // ── Green highlighting ──
+      const costRows   = [
+        ['r-upfront-buy','r-upfront-rent'],
+        ['r-monthly-buy','r-monthly-rent'],
+        ['r-yearly-buy','r-yearly-rent'],
+        ['r-spent-buy','r-spent-rent'],
+        ['r-income30-buy','r-income30-rent'],
+        ['r-incomelife-buy','r-incomelife-rent'],
+      ];
+      const returnRows = [
+        ['r-return-buy','r-return-rent'],
+        ['r-net-buy','r-net-rent'],
+      ];
+
+      const applyGreen = (pairs, higherIsBetter) => {
+        pairs.forEach(([buyId, rentId]) => {
+          const buyEl  = document.getElementById(buyId);
+          const rentEl = document.getElementById(rentId);
+          buyEl.classList.remove('green');
+          rentEl.classList.remove('green');
+          const buyNum  = parseFloat(buyEl.textContent.replace(/[$,]/g, ''));
+          const rentNum = parseFloat(rentEl.textContent.replace(/[$,]/g, ''));
+          if (isNaN(buyNum) || isNaN(rentNum)) return;
+          if (higherIsBetter) {
+            if (buyNum > rentNum) buyEl.classList.add('green');
+            else rentEl.classList.add('green');
+          } else {
+            if (buyNum < rentNum) buyEl.classList.add('green');
+            else rentEl.classList.add('green');
+          }
+        });
+      };
+
+      applyGreen(costRows,   false);
+      applyGreen(returnRows, true);
+
+      // ── PTR ──
+      const ptrEl = document.getElementById('ptr-value');
+      ptrEl.textContent = ptr !== null ? ptr.toFixed(1) : '—';
+      document.querySelectorAll('.ptr-band').forEach(b => b.classList.remove('active'));
+      if (ptr !== null) {
+        if (ptr < 10)      document.querySelector('.ptr-blue').classList.add('active');
+        else if (ptr < 15) document.querySelector('.ptr-green').classList.add('active');
+        else if (ptr < 20) document.querySelector('.ptr-yellow').classList.add('active');
+        else if (ptr < 25) document.querySelector('.ptr-orange').classList.add('active');
+        else               document.querySelector('.ptr-red').classList.add('active');
+      }
+
+      // ── Show results ──
+      document.getElementById('results-placeholder').style.display = 'none';
+      document.getElementById('results-content').style.display     = 'block';
+    }
+
+    // ── IPMT / PPMT helpers ──
+    function calcIPMT(principal, annualRate, years, period) {
+      const r = annualRate / 100 / 12;
+      const n = years * 12;
+      if (r === 0) return 0;
+      const pmt = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      const balance = principal * Math.pow(1 + r, (period - 1) * 12) - pmt * (Math.pow(1 + r, (period - 1) * 12) - 1) / r;
+      return balance * r * 12;
+    }
+
+    function calcPPMT(principal, annualRate, years, period) {
+      const r = annualRate / 100 / 12;
+      const n = years * 12;
+      if (r === 0) return principal / n * 12;
+      const pmt = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      return pmt * 12 - calcIPMT(principal, annualRate, years, period);
+    }
+
+  </script>
+
 </body>
 </html>
