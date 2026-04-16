@@ -766,6 +766,54 @@
       text-decoration: underline;
     }
 
+    /* ════════════════════════════
+       MOBILE OVERRIDES
+    ════════════════════════════ */
+
+    /* ── Side-by-Side Results Table (Mobile) ── */
+    @media (max-width: 600px) {
+      .results-table-wrap {
+        border-radius: var(--radius-sm);
+        /* Prevent the wrapper from scrolling since we are forcing it to fit */
+        overflow-x: hidden; 
+      }
+      
+      .results-table {
+        table-layout: fixed; /* Forces the browser to obey our width percentages */
+        width: 100%;
+        font-size: 0.8rem; /* Smaller base font for the table */
+      }
+
+      /* Shrink padding globally for the table */
+      .results-table th, 
+      .results-table td,
+      .result-label,
+      .result-val {
+        padding: 0.5rem 0.3rem; 
+        white-space: normal; /* Allows long labels to wrap to a second line */
+        word-wrap: break-word;
+      }
+
+      /* Set strict column widths */
+      .results-table th:first-child,
+      .results-table td:first-child {
+        width: 40%; /* 40% for the row labels */
+      }
+      
+      .results-table th:nth-child(2),
+      .results-table td:nth-child(2),
+      .results-table th:nth-child(3),
+      .results-table td:nth-child(3) {
+        width: 30%; /* 30% each for Buy and Rent columns */
+        font-size: 0.85rem; /* Keep the numbers just a tiny bit larger for readability */
+      }
+      
+      /* Result footnotes might need to be a bit smaller to fit */
+      .result-footnote {
+        font-size: 0.7rem;
+      }
+    }
+
   </style>
 </head>
 <body>
