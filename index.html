@@ -766,51 +766,111 @@
       text-decoration: underline;
     }
 
-    /* ════════════════════════════
-       MOBILE OVERRIDES
+  /* ════════════════════════════
+       MOBILE OVERRIDES (Phones & Tablets)
     ════════════════════════════ */
+    #mobile-menu-toggle { display: none; } /* Hidden on Desktop */
 
-    /* ── Side-by-Side Results Table (Mobile) ── */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      
+      /* ── 1. Nav Bar to Hamburger Menu ── */
+      #progress-bar {
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        justify-content: flex-end; 
+        align-items: center;
+        overflow: visible; 
+      }
+
+      #mobile-menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--sky);
+        border: none;
+        cursor: pointer;
+        z-index: 1001;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      }
+      
+      .hamburger-line {
+        width: 20px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+      }
+
+      #progress-bar ul {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 65px;
+        right: 1.25rem;
+        background: var(--warm-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 0.5rem 0;
+        min-width: 180px;
+      }
+
+      #progress-bar ul.open {
+        display: flex; 
+      }
+
+      #progress-bar li a {
+        padding: 1rem 1.25rem;
+        border-bottom: none;
+        border-left: 3px solid transparent; 
+        font-size: 14px;
+      }
+
+      #progress-bar li a.active {
+        border-bottom-color: transparent;
+        border-left-color: var(--sky);
+        background: var(--sky-light);
+      }
+
+      #progress-bar li a.active-amber {
+        border-bottom-color: transparent;
+        border-left-color: var(--amber);
+        background: var(--amber-bg); 
+      }
+
+      /* ── 2. Side-by-Side Results Table ── */
       .results-table-wrap {
         border-radius: var(--radius-sm);
-        /* Prevent the wrapper from scrolling since we are forcing it to fit */
         overflow-x: hidden; 
       }
       
       .results-table {
-        table-layout: fixed; /* Forces the browser to obey our width percentages */
+        table-layout: fixed; 
         width: 100%;
-        font-size: 0.8rem; /* Smaller base font for the table */
+        font-size: 0.8rem; 
       }
 
-      /* Shrink padding globally for the table */
       .results-table th, 
-      .results-table td,
-      .result-label,
-      .result-val {
+      .results-table td {
         padding: 0.5rem 0.3rem; 
-        white-space: normal; /* Allows long labels to wrap to a second line */
+        white-space: normal;
         word-wrap: break-word;
       }
 
-      /* Set strict column widths */
       .results-table th:first-child,
       .results-table td:first-child {
-        width: 40%; /* 40% for the row labels */
+        width: 40%; 
       }
       
       .results-table th:nth-child(2),
       .results-table td:nth-child(2),
       .results-table th:nth-child(3),
       .results-table td:nth-child(3) {
-        width: 30%; /* 30% each for Buy and Rent columns */
-        font-size: 0.85rem; /* Keep the numbers just a tiny bit larger for readability */
-      }
-      
-      /* Result footnotes might need to be a bit smaller to fit */
-      .result-footnote {
-        font-size: 0.7rem;
+        width: 30%; 
       }
     }
 
@@ -820,7 +880,13 @@
 
   <!-- ── Progress Bar ── -->
   <nav id="progress-bar" aria-label="Calculator sections">
-    <ul>
+    <button id="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    
+    <ul id="nav-list">
       <li><a href="#intro" class="active">Intro</a></li>
       <li><a href="#property-info">Property</a></li>
       <li><a href="#ongoing-costs">Costs</a></li>
@@ -1604,20 +1670,6 @@
       openAccordionById(id);
     }
 
-    // ── Active nav on scroll ──
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('#progress-bar a');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-    sections.forEach(s => observer.observe(s));
-
     // ── Formatting helpers ──
     const fmt = n => isNaN(n) || n === 0 ? '—' : '$' + Math.round(n).toLocaleString();
 
@@ -1774,7 +1826,30 @@
     document.querySelectorAll('input[name="loan-term"], input[name="closing-pct"]').forEach(el => {
       el.addEventListener('change', updateSavingsDefaults);
     });
-// ── Nav amber/blue alternating on scroll ──
+
+    // ── Mobile Menu Toggle Logic ──
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const navList = document.getElementById('nav-list');
+    
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExpanded);
+        navList.classList.toggle('open');
+      });
+    }
+
+    // Close menu automatically when a link is clicked
+    document.querySelectorAll('#progress-bar a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navList.classList.contains('open')) {
+          navList.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+    // ── Foolproof Scroll Tracking (Mobile & Desktop) ──
     const sectionAccents = {
       'intro': 'blue',
       'property-info': 'blue',
@@ -1785,6 +1860,11 @@
       'results': 'blue'
     };
 
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('#progress-bar a');
+
+    // rootMargin: '-15% 0px -60% 0px' tells the browser to trigger the highlight 
+    // when a section crosses into the top half of the screen. This works perfectly for tall mobile sections.
     const scrollObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1792,7 +1872,9 @@
           navLinks.forEach(link => {
             const linkId = link.getAttribute('href').replace('#', '');
             const isActive = linkId === id;
+            
             link.classList.remove('active', 'active-amber');
+            
             if (isActive) {
               const accent = sectionAccents[id];
               if (accent === 'amber') link.classList.add('active-amber');
@@ -1801,7 +1883,8 @@
           });
         }
       });
-    }, { threshold: 0.3 });
+    }, { rootMargin: '-15% 0px -60% 0px' }); 
+    
     sections.forEach(s => scrollObserver.observe(s));
 
     // ── Required field validation ──
