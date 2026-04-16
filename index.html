@@ -774,47 +774,56 @@
     @media (max-width: 768px) {
       
       /* ── 1. Nav Bar to Hamburger Menu ── */
+      /* ── 1. Nav Bar to Floating Bubble ── */
       #progress-bar {
-        padding: 0.75rem 1.25rem;
+        /* Make the bar itself invisible and non-blocking */
+        background: transparent;
+        border-bottom: none;
+        padding: 1rem;
         display: flex;
         justify-content: flex-end; 
         align-items: center;
-        overflow: visible; 
+        overflow: visible;
+        pointer-events: none; /* Allows clicks to pass through the empty space */
       }
 
       #mobile-menu-toggle {
         display: flex;
+        pointer-events: auto; /* Re-enables clicks specifically for the button */
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 4px;
-        width: 44px;
-        height: 44px;
+        width: 50px; /* Slightly larger for a better floating look */
+        height: 50px;
         border-radius: 50%;
-        background: var(--sky);
+        background: var(--navy); /* Navy looks great as a floating bubble */
         border: none;
         cursor: pointer;
         z-index: 1001;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Stronger shadow so it "floats" */
       }
       
+      /* Ensure the lines are white to pop against the navy bubble */
       .hamburger-line {
-        width: 20px;
+        width: 22px;
         height: 2px;
         background: white;
         border-radius: 2px;
       }
 
+      /* The Dropdown Menu (Keep background solid so you can read the links) */
       #progress-bar ul {
+        pointer-events: auto; /* Re-enables clicks for the menu */
         display: none; 
         flex-direction: column;
         position: absolute;
-        top: 65px;
-        right: 1.25rem;
+        top: 70px;
+        right: 1rem;
         background: var(--warm-white);
         border: 1px solid var(--border);
         border-radius: var(--radius-md);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         padding: 0.5rem 0;
         min-width: 180px;
       }
@@ -873,6 +882,13 @@
         width: 30%; 
       }
     }
+
+    /* Ensure the Results section is detectable even when empty */
+    #results {
+      min-height: 80vh; /* Takes up 60% of the screen height even when empty */
+      display: flex;
+      flex-direction: column;
+    }  
 
   </style>
 </head>
@@ -1860,32 +1876,38 @@
       'results': 'blue'
     };
 
-    const sections = document.querySelectorAll('section[id]');
+    // ── Intersection Observer for Nav Highlighting (Stable Version) ──
     const navLinks = document.querySelectorAll('#progress-bar a');
+    const sections = document.querySelectorAll('section[id]');
 
-    // rootMargin: '-15% 0px -60% 0px' tells the browser to trigger the highlight 
-    // when a section crosses into the top half of the screen. This works perfectly for tall mobile sections.
-    const scrollObserver = new IntersectionObserver(entries => {
+    const observerOptions = {
+      // rootMargin: We use a tight "trigger" window in the top-middle of the screen
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
+        // Only update if the section is entering the trigger window
         if (entry.isIntersecting) {
-          const id = entry.target.id;
+          const id = entry.target.getAttribute('id');
+          
           navLinks.forEach(link => {
-            const linkId = link.getAttribute('href').replace('#', '');
-            const isActive = linkId === id;
-            
             link.classList.remove('active', 'active-amber');
-            
-            if (isActive) {
-              const accent = sectionAccents[id];
-              if (accent === 'amber') link.classList.add('active-amber');
-              else link.classList.add('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              // Highlight ongoing-costs and your-finances in Amber
+              if (id === 'ongoing-costs' || id === 'your-finances') {
+                link.classList.add('active-amber');
+              } else {
+                link.classList.add('active');
+              }
             }
           });
         }
       });
-    }, { rootMargin: '-15% 0px -60% 0px' }); 
-    
-    sections.forEach(s => scrollObserver.observe(s));
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
 
     // ── Required field validation ──
     function validateInputs() {
