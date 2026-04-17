@@ -1,8 +1,11 @@
+
+© 2026 Joshua Johnson. Licensed under the MIT License.
+
 # 🏡 Can I Afford This House?
 
 A free, open-source calculator that compares the *real* cost of buying a home vs. renting and saving the difference.
 
-👉 **Live site:** https://caniaffordthis.app
+👉 **Live site:** https://caniaffordthishouse.app
 👉 **GitHub repo:** https://github.com/weaseljohnson/housing-affordability-calculator
 
 ---
@@ -61,6 +64,6 @@ For details:
 
 ---
 
-## Disclaimer
+## Quick Disclaimer
 
-This is not financial advice—just a tool to help you think through the numbers.
+I'm no professional finance coach — just a regular person who wanted to make informed financial decisions and is also kind of a nerd. 🤓 Take this for what it is: a tool to help you think, not professional financial advice.

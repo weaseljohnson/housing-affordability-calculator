@@ -5,10 +5,10 @@
 
 ## What This Project Is
 
-A free, single-page housing affordability calculator hosted at **caniaffordthis.app** via GitHub Pages. It helps users compare the true financial cost of buying a home vs. renting and saving/investing the difference. The tool originated as an Apple Numbers workbook and was rebuilt as a website to reach a broader audience.
+A free, single-page housing affordability calculator hosted at **caniaffordthishouse.app** via GitHub Pages. It helps users compare the true financial cost of buying a home vs. renting and saving/investing the difference. The tool originated as an Apple Numbers workbook and was rebuilt as a website to reach a broader audience.
 
 **GitHub repo:** https://github.com/weaseljohnson/housing-affordability-calculator
-**Live URL:** https://caniaffordthis.app
+**Live URL:** https://caniaffordthishouse.app
 
 ---
 
@@ -59,7 +59,7 @@ Two use cases:
 
 ## SEO Strategy
 
-- Domain chosen for searchability: `caniaffordthis.app`
+- Domain chosen for searchability: `caniaffordthishouse.app`
 - Page title: "Can I Afford This House? | Housing Affordability Calculator"
 - Meta description targets "housing affordability calculator", "rent vs buy", "can I afford a home"
 - Substantive written content on the page (not hidden behind modals) helps organic ranking

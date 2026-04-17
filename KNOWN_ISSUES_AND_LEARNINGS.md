@@ -98,6 +98,25 @@ Results match the workbook within acceptable rounding tolerance on all owning va
 
 ---
 
+### Bug 10 — clearErrors() Deleting Static DOM Elements
+Issue: clearErrors() used document.querySelectorAll(".warning-card") which matched
+all elements with that class — including the static #validation-msg div and
+#negative-contrib-warning. On the second Calculate press, clearErrors() removed
+#validation-msg from the DOM entirely. The click handler then crashed on
+validationMsg.style.display = 'none' (null reference), preventing handleCalculate()
+from ever being called.
+Fix: Changed showError() to use className "warning-card dynamic-error" and
+clearErrors() to querySelectorAll(".dynamic-error") — scoping cleanup to only
+dynamically injected errors.
+Lesson: Never use a shared visual class as a DOM selector for programmatic
+removal. Dynamic elements need their own distinct class for lifecycle management.
+
+### Known Issue — clampOnBlur conflicts with maintenance-costs auto-fill
+If maintenance-costs is included in the dollar clamp list, the blur handler's
+synthetic input event dispatch triggers updateMortgageOutputs(), which overwrites
+the user's manually entered value with 2% of purchase price.
+Fix: maintenance-costs must not be in the clampOnBlur dollar inputs list.
+
 ## Known Remaining Differences from Workbook
 
 - Renters insurance is now inflation-adjusted in the web version. The original workbook used a flat value. This is intentional — it's more realistic.
@@ -160,6 +179,10 @@ These areas are interdependent and easy to break:
 6. The renting 30% rule divisor — must be 0.4, not 0.3
 7. The maintenance prefill logic — now lives inside `updateMortgageOutputs()`. Do not re-separate it into its own listener on `purchase-price`.
 8. The `purchase-price` field has two input listeners (mortgage outputs and savings defaults). This is intentional. Do not consolidate them into one — they serve different update chains.
+9. Do not add maintenance-costs to the clampOnBlur dollar inputs list — it will
+   conflict with the auto-fill behavior in updateMortgageOutputs().
+10. Do not change clearErrors() to select by ".warning-card" — it must select
+   only ".dynamic-error" to avoid deleting static DOM elements.
 
 ---
 

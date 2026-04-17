@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none';">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <title>Can I Afford This House? | Housing Affordability Calculator</title>
@@ -979,25 +981,25 @@
             <div class="resource-group">
               <p>Buying vs. Renting</p>
               <ul class="resource-links">
-                <li><a href="https://www.cnbc.com/2019/04/18/wealth-manager-buying-a-home-is-usually-a-terrible-investment.html" target="_blank" rel="noopener">Article 1</a></li>
-                <li><a href="https://seekingalpha.com/article/4485863-why-buying-home-rarely-smart-investment" target="_blank" rel="noopener">Article 2</a></li>
-                <li><a href="https://jlcollinsnh.com/2023/03/02/why-your-house-is-a-terrible-investment/" target="_blank" rel="noopener">Article 3</a></li>
-                <li><a href="https://affordanything.com/is-renting-better-than-buying-should-i-rent-or-buy/" target="_blank" rel="noopener">Article 4 — Detailed deep dive</a></li>
-                <li><a href="https://www.businessinsider.com/personal-finance/why-buying-a-home-is-better-than-renting#youve-got-the-chance-to-get-a-great-deal-8" target="_blank" rel="noopener">Article 5</a></li>
+                <li><a href="https://www.cnbc.com/2019/04/18/wealth-manager-buying-a-home-is-usually-a-terrible-investment.html" target="_blank" rel="noopener noreferrer">Article 1</a></li>
+                <li><a href="https://seekingalpha.com/article/4485863-why-buying-home-rarely-smart-investment" target="_blank" rel="noopener noreferrer">Article 2</a></li>
+                <li><a href="https://jlcollinsnh.com/2023/03/02/why-your-house-is-a-terrible-investment/" target="_blank" rel="noopener noreferrer">Article 3</a></li>
+                <li><a href="https://affordanything.com/is-renting-better-than-buying-should-i-rent-or-buy/" target="_blank" rel="noopener noreferrer">Article 4 — Detailed deep dive</a></li>
+                <li><a href="https://www.businessinsider.com/personal-finance/why-buying-a-home-is-better-than-renting#youve-got-the-chance-to-get-a-great-deal-8" target="_blank" rel="noopener noreferrer">Article 5</a></li>
               </ul>
             </div>
             <div class="resource-group">
               <p>Long-term renting</p>
               <ul class="resource-links">
-                <li><a href="https://www.gocurrycracker.com/renters-for-life/#" target="_blank" rel="noopener">A perspective on the long-term renting lifestyle</a></li>
+                <li><a href="https://www.gocurrycracker.com/renters-for-life/#" target="_blank" rel="noopener noreferrer">A perspective on the long-term renting lifestyle</a></li>
               </ul>
             </div>
             <div class="resource-group">
               <p>Total cost of home ownership</p>
               <ul class="resource-links">
-                <li><a href="https://www.bankrate.com/real-estate/costs-of-buying-a-home/" target="_blank" rel="noopener">Article 1</a></li>
-                <li><a href="https://clippingchains.com/2020/08/31/the-real-cost-of-home-ownership/" target="_blank" rel="noopener">Article 2</a></li>
-                <li><a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener">Article 3</a></li>
+                <li><a href="https://www.bankrate.com/real-estate/costs-of-buying-a-home/" target="_blank" rel="noopener noreferrer">Article 1</a></li>
+                <li><a href="https://clippingchains.com/2020/08/31/the-real-cost-of-home-ownership/" target="_blank" rel="noopener noreferrer">Article 2</a></li>
+                <li><a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener noreferrer">Article 3</a></li>
               </ul>
             </div>
           </div>
@@ -1010,8 +1012,8 @@
           </button>
           <div class="accordion-body" id="acc-feedback">
             <p>This calculator is a free, open resource. If you have feedback, a bug to report, an idea for improvement, or want to share how this page has helped you, the best way to share it is via <strong>GitHub Discussions</strong> — that way others can see, vote on, and build on your ideas too.</p>
-            <p><a href="https://github.com/weaseljohnson/housing-affordability-calculator/discussions" target="_blank" rel="noopener">Share feedback on GitHub →</a></p>
-            <p class="note-italic">Not a GitHub user? You can also submit feedback via <a href="https://forms.gle/V9WyUTyqKpsAfzJr6" target="_blank" rel="noopener">this Google Form</a>.</p>
+            <p><a href="https://github.com/weaseljohnson/housing-affordability-calculator/discussions" target="_blank" rel="noopener noreferrer">Share feedback on GitHub →</a></p>
+            <p class="note-italic">Not a GitHub user? You can also submit feedback via <a href="https://forms.gle/V9WyUTyqKpsAfzJr6" target="_blank" rel="noopener noreferrer">this Google Form</a>.</p>
           </div>
         </div>
 
@@ -1035,7 +1037,7 @@
         <input type="number" id="purchase-price" placeholder="e.g. 300,000" min="0" step="1000" />
       </div>
       <div class="help-links">
-        <a href="https://www.google.com/search?q=home+prices+near+me+zillow" target="_blank" rel="noopener">Home prices in your area</a>
+        <a href="https://www.google.com/search?q=home+prices+near+me+zillow" target="_blank" rel="noopener noreferrer">Home prices in your area</a>
       </div>
     </div>
 
@@ -1046,7 +1048,7 @@
         <span class="input-suffix">%</span>
       </div>
       <div class="help-links">
-        <a href="https://www.bankrate.com/mortgages/average-down-payment/" target="_blank" rel="noopener">How much should a down payment be?</a>
+        <a href="https://www.bankrate.com/mortgages/average-down-payment/" target="_blank" rel="noopener noreferrer">How much should a down payment be?</a>
       </div>
     </div>
 
@@ -1057,7 +1059,7 @@
         <span class="input-suffix">%</span>
       </div>
       <div class="help-links">
-        <a href="https://www.google.com/search?q=current+home+interest+rates" target="_blank" rel="noopener">What are current interest rates?</a>
+        <a href="https://www.google.com/search?q=current+home+interest+rates" target="_blank" rel="noopener noreferrer">What are current interest rates?</a>
       </div>
     </div>
 
@@ -1098,7 +1100,7 @@
       </div>
       <span class="input-note">Don't forget — you may need to furnish the new place too.</span>
       <div class="help-links">
-        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener">What do moving costs typically look like?</a>
+        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener noreferrer">What do moving costs typically look like?</a>
       </div>
     </div>
 
@@ -1165,7 +1167,7 @@
         <span class="input-suffix">/mo</span>
       </div>
       <div class="help-links">
-        <a href="https://www.investopedia.com/terms/h/homeowners-association-fee-hoa.asp" target="_blank" rel="noopener">What are HOA fees?</a>
+        <a href="https://www.investopedia.com/terms/h/homeowners-association-fee-hoa.asp" target="_blank" rel="noopener noreferrer">What are HOA fees?</a>
       </div>
     </div>
 
@@ -1177,7 +1179,7 @@
         <span class="input-suffix">/yr</span>
       </div>
       <div class="help-links">
-        <a href="https://www.bankrate.com/insurance/homeowners-insurance/homeowners-insurance-cost/" target="_blank" rel="noopener">How much does homeowner's insurance cost?</a>
+        <a href="https://www.bankrate.com/insurance/homeowners-insurance/homeowners-insurance-cost/" target="_blank" rel="noopener noreferrer">How much does homeowner's insurance cost?</a>
       </div>
     </div>
 
@@ -1190,7 +1192,7 @@
       </div>
       <span class="input-note">The average homeowner spends 1–2% of their home's value on maintenance each year. It's easy to underestimate this one — even a "perfect" home needs upkeep. We've pre-filled this with 2% of your purchase price as a starting estimate, but feel free to adjust.</span>
       <div class="help-links">
-        <a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener">What does home maintenance actually cost?</a>
+        <a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener noreferrer">What does home maintenance actually cost?</a>
       </div>
     </div>
 
@@ -1295,8 +1297,8 @@
         <span class="input-suffix">/mo</span>
       </div>
       <div class="help-links">
-        <a href="https://www.zillow.com" target="_blank" rel="noopener">Rental prices near you (Zillow)</a>
-        <a href="https://www.apartments.com" target="_blank" rel="noopener">Rental prices near you (Apartments.com)</a>
+        <a href="https://www.zillow.com" target="_blank" rel="noopener noreferrer">Rental prices near you (Zillow)</a>
+        <a href="https://www.apartments.com" target="_blank" rel="noopener noreferrer">Rental prices near you (Apartments.com)</a>
       </div>
     </div>
 
@@ -1317,7 +1319,7 @@
         <span class="input-suffix">/yr</span>
       </div>
       <div class="help-links">
-        <a href="https://www.nerdwallet.com/article/insurance/how-much-is-renters-insurance" target="_blank" rel="noopener">How much does renters insurance cost?</a>
+        <a href="https://www.nerdwallet.com/article/insurance/how-much-is-renters-insurance" target="_blank" rel="noopener noreferrer">How much does renters insurance cost?</a>
       </div>
     </div>
 
@@ -1329,7 +1331,7 @@
       </div>
       <span class="input-note">Enter $0 if you're comparing buying to staying in your current rental.</span>
       <div class="help-links">
-        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener">What do moving costs typically look like?</a>
+        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener noreferrer">What do moving costs typically look like?</a>
       </div>
     </div>
 
@@ -1450,7 +1452,7 @@
       </div>
       <span class="input-note">Average rent increase has been around 4% per year from 2015–2025. Adjust if you expect something different for your area.</span>
       <div class="help-links">
-        <a href="https://ipropertymanagement.com/research/average-rent-by-year" target="_blank" rel="noopener">Year-by-year US rent increase data</a>
+        <a href="https://ipropertymanagement.com/research/average-rent-by-year" target="_blank" rel="noopener noreferrer">Year-by-year US rent increase data</a>
       </div>
     </div>
 
@@ -1483,7 +1485,7 @@
       </div>
     </div>
     <div class="help-links" style="margin-top: 0.6rem;">
-      <a href="https://www.google.com/search?q=smartasset+effective+income+tax+calculator+for+my+state" target="_blank" rel="noopener">Estimate your effective income tax rate</a>
+      <a href="https://www.google.com/search?q=smartasset+effective+income+tax+calculator+for+my+state" target="_blank" rel="noopener noreferrer">Estimate your effective income tax rate</a>
     </div>
     <span class="input-note" style="margin-top: 0.5rem; display: block;">Not sure where to start? A tax calculator can estimate your effective rate based on your income and state.</span>
 
@@ -1794,6 +1796,91 @@
       ];
       const missing = required.filter(f => !document.getElementById(f.id).value);
       return missing.map(f => f.label);
+    }
+
+    // ── Clamping & UI Feedback Helpers ──
+    function clampOnBlur(id, min, max, unit = '%') {
+      const inputEl = document.getElementById(id);
+      if (!inputEl) return;
+
+      // 1. CLEAR NOTE ON FOCUS: Makes the warning disappear as soon as they try to fix it
+      inputEl.addEventListener('focus', () => {
+        clearClampNote(inputEl);
+      });
+
+      // 2. CLAMP ON BLUR: Fixes the value when they finish
+      inputEl.addEventListener('blur', () => {
+        if (inputEl.value === '') return;
+
+        let val = parseFloat(inputEl.value);
+        let clamped = val;
+        let message = '';
+
+        if (min !== null && val < min) {
+          clamped = min;
+          message = `Adjusted to a realistic minimum (${min}${unit}).`;
+        } else if (max !== null && val > max) {
+          clamped = max;
+          const formattedMax = max >= 1000000 ? (max/1000000) + 'M' : max;
+          message = `Adjusted to a realistic maximum (${formattedMax}${unit}).`;
+        }
+
+        if (val !== clamped) {
+          inputEl.value = clamped;
+          showClampNote(inputEl, message);
+          // Manually trigger 'input' so the charts/mortgage outputs update instantly
+          inputEl.dispatchEvent(new Event('input'));
+        }
+      });
+    }
+
+    function showClampNote(inputEl, message) {
+      const wrap = inputEl.closest('.input-wrap') || inputEl.parentElement;
+      // Search for note as next sibling ONLY, not anywhere in parent
+      let note = wrap.nextElementSibling;
+      if (!note || !note.classList.contains('dynamic-clamp')) {
+        note = document.createElement('div');
+        note.className = 'input-note dynamic-clamp';
+        note.style.color = 'var(--amber)'; 
+        note.style.fontWeight = '600';
+        note.style.fontSize = '0.75rem';
+        note.style.marginTop = '4px';
+        wrap.after(note);
+      }
+      note.textContent = '💡 ' + message;
+    }
+
+    function clearClampNote(inputEl) {
+      const wrap = inputEl.closest('.input-wrap') || inputEl.parentElement;
+      const note = wrap.nextElementSibling;
+      if (note && note.classList.contains('dynamic-clamp')) {
+        note.remove();
+      }
+    }
+
+    // -- Helper function to handle any potential errors in runCalculations() --
+    function handleCalculate() {
+      clearErrors();
+      try {
+        runCalculations();
+      } catch (e) {
+        console.error(e);
+        showError("Something went wrong — try adjusting your inputs.");
+      }
+    }
+    // -- Error display function --
+    function showError(message) {
+      const container = document.getElementById("results");
+      
+      const errorDiv = document.createElement("div");
+      errorDiv.className = "warning-card dynamic-error";
+      errorDiv.textContent = message;
+
+      container.prepend(errorDiv);
+    }
+
+    function clearErrors() {
+      document.querySelectorAll(".dynamic-error").forEach(el => el.remove());
     }
 
     // ── Main calculation engine ──
@@ -2148,7 +2235,7 @@
           return;
         }
         validationMsg.style.display = 'none';
-        runCalculations();
+        handleCalculate();
       });
 
       // Tooltip tap toggle (mobile)
@@ -2259,11 +2346,43 @@
       });
     }
 
+    function initInputClamping(){
+      // ── Percentage Clamps ──
+      clampOnBlur('down-payment-pct', 0, 100);
+      clampOnBlur('interest-rate', 0, 20);
+      clampOnBlur('property-tax-rate', 0, 10);
+      clampOnBlur('inflation-rate', 0, 15);
+      clampOnBlur('home-appreciation', 0, 15);
+      clampOnBlur('sale-closing-costs', 0, 15);
+      clampOnBlur('rate-of-return', 0, 30);
+      clampOnBlur('rent-increase-yoy', 0, 20);
+      clampOnBlur('tax-rate-buying', 0, 60);
+      clampOnBlur('tax-rate-renting', 0, 60);
+
+      // ── Timeline Clamp ──
+      clampOnBlur('years-timeline', 1, 50, ' years');
+
+      // ── Dollar Clamps (Sanity Checks) ──
+      // Huge limit on purchase price to prevent browser lag ($100M)
+      clampOnBlur('purchase-price', 0, 100000000, ''); 
+      
+      // Bulk 0-minimum for everything else
+      const dollarInputs = [
+        'moving-costs', 'hoa-fees', 'ho-insurance', 
+        'electric-buy', 'water-buy', 'other-util-buy', 'monthly-rent', 
+        'security-deposit', 'renters-insurance', 'moving-costs-rent', 
+        'electric-rent', 'water-rent', 'other-util-rent', 'prior-savings', 
+        'initial-deposit-manual-input', 'monthly-contrib-manual-input', 'lifestyle-spending'
+      ];
+      dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
+    }
+
     // ── Initialize ──
     wireUpListeners();
     initAccordions();    
     initObserver();
     initAdvSettingToggle();
+    initInputClamping();
 
   </script>
 
