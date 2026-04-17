@@ -158,6 +158,8 @@ These areas are interdependent and easy to break:
 4. The `rentReserves = rent` assignment — do not use mortgage reserves here
 5. The renting lifestyle formula — do not add `monthlyContrib×12` back
 6. The renting 30% rule divisor — must be 0.4, not 0.3
+7. The maintenance prefill logic — now lives inside `updateMortgageOutputs()`. Do not re-separate it into its own listener on `purchase-price`.
+8. The `purchase-price` field has two input listeners (mortgage outputs and savings defaults). This is intentional. Do not consolidate them into one — they serve different update chains.
 
 ---
 

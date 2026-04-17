@@ -643,6 +643,36 @@
       gap: 1rem;
     }
 
+    /* ── Lifestyle Calculation Wrap ── */
+    .lifestyle-calc-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .lifestyle-calc {
+      width: 100%;
+      background: var(--warm-white);
+      border: none;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .lifestyle-calc:hover { background: var(--sky-light); }
+    .lifestyle-calc[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+    .lifestyle-calc-body {
+      display: none;
+      padding: 1.25rem;
+      background: var(--cream);
+    }
+    .lifestyle-calc-body.open { display: block; }
+
     /* ── Results table ── */
     .results-table-wrap {
       overflow-x: auto;
@@ -691,35 +721,6 @@
       color: var(--text-light);
       font-weight: 400;
       margin-top: 0.15rem;
-    }
-
-    /* Responsive Table Fix */
-    @media (max-width: 600px) {
-      .results-table {
-        table-layout: fixed; /* Forces the table to stay within the screen width */
-        width: 100%;
-      }
-
-      .results-table th, 
-      .results-table td {
-        padding: 0.75rem 0.4rem; /* Tighter padding for mobile */
-        font-size: 0.85rem;      /* Slightly smaller text for better fit */
-        word-wrap: break-word;   /* Prevents long numbers from breaking the layout */
-      }
-
-      /* Set specific widths for side-by-side comparison */
-      .results-table th:first-child,
-      .results-table td:first-child {
-        width: 40%; /* Description column */
-      }
-      
-      .results-table th:nth-child(2),
-      .results-table td:nth-child(2),
-      .results-table th:nth-child(3),
-      .results-table td:nth-child(3) {
-        width: 30%; /* Buying and Renting columns */
-        text-align: center;
-      }
     }
 
     /* ── PTR ── */
@@ -1500,12 +1501,12 @@
     </div>
 
     <!-- How to calculate lifestyle spending -->
-    <div class="advanced-toggle-wrap" style="margin-top: 1rem;">
-      <button class="advanced-toggle" aria-expanded="false" aria-controls="lifestyle-calc-help">
+    <div class="lifestyle-calc-wrap" style="margin-top: 1rem;">
+      <button class="lifestyle-calc" aria-expanded="false" aria-controls="lifestyle-calc-help">
         How do I calculate my current lifestyle spending?
         <span class="chevron">▼</span>
       </button>
-      <div class="advanced-body" id="lifestyle-calc-help">
+      <div class="lifestyle-calc-body" id="lifestyle-calc-help">
         <p>The easiest way to calculate this: take your most recent pay stub and multiply your gross pay by the number of pay periods in a year (26 for bi-weekly, 24 for bi-monthly) to get your annual gross income. Multiply your total deducted taxes by the number of pay periods to get your annual tax deduction. Multiply your current monthly housing expenses by 12 to get your yearly housing costs. Then subtract your annual taxes and yearly housing costs from your annual gross pay. The result is your current annual lifestyle spending.</p>
         <p style="margin-top: 0.75rem;">Note: If you're in the Renting & Saving scenario, you don't need to subtract your savings contributions from your lifestyle spending amount — the calculator accounts for those automatically.</p>
       </div>
@@ -1648,15 +1649,6 @@
   </section>
 
   <script>
-    // ── Accordion ──
-    document.querySelectorAll('.accordion-trigger').forEach(trigger => {
-      trigger.addEventListener('click', () => {
-        const expanded = trigger.getAttribute('aria-expanded') === 'true';
-        trigger.setAttribute('aria-expanded', String(!expanded));
-        const body = document.getElementById(trigger.getAttribute('aria-controls'));
-        body.classList.toggle('open', !expanded);
-      });
-    });
 
     // ── Open accordion if targeted by anchor link ──
     function openAccordionById(id) {
@@ -1668,26 +1660,8 @@
       trigger.setAttribute('aria-expanded', 'true');
     }
 
-    document.querySelectorAll('a[href^="#acc-"]').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const id = link.getAttribute('href').slice(1);
-        openAccordionById(id);
-        setTimeout(() => {
-          const target = document.getElementById(id);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 50);
-      });
-    });
-
-    // ── Also open if page loads with hash targeting an accordion ──
-    if (window.location.hash && window.location.hash.startsWith('#acc-')) {
-      const id = window.location.hash.slice(1);
-      openAccordionById(id);
-    }
-
     // ── Formatting helpers ──
-    const fmt = n => isNaN(n) || n === 0 ? '—' : '$' + Math.round(n).toLocaleString();
+    const fmt = n => isNaN(n) || n === null || n === '' ? '—' : '$' + Math.round(n).toLocaleString();
 
     // ── PMT calculation (monthly mortgage payment) ──
     function calcPMT(principal, annualRate, years) {
@@ -1715,6 +1689,11 @@
 
       // also update upfront outputs since they depend on monthly
       updateUpfrontOutputs(loan, monthly);
+
+      // Prefill maintenance at 2% of purchase price
+      const maintenance = document.getElementById('maintenance-costs');
+      if (maintenance && price > 0) maintenance.value = Math.round(price * 0.02);
+      else if (maintenance && price === 0) maintenance.value = '';
     }
 
     // ── Update upfront cost outputs ──
@@ -1732,34 +1711,6 @@
       document.getElementById('out-reserves').textContent      = fmt(reserves);
       document.getElementById('out-total-upfront').textContent = fmt(total);
     }
-
-    // ── Event listeners ──
-    ['purchase-price', 'down-payment-pct', 'interest-rate', 'moving-costs'].forEach(id => {
-      document.getElementById(id).addEventListener('input', updateMortgageOutputs);
-    });
-    document.querySelectorAll('input[name="loan-term"]').forEach(el => {
-      el.addEventListener('change', updateMortgageOutputs);
-    });
-    document.querySelectorAll('input[name="closing-pct"]').forEach(el => {
-      el.addEventListener('change', updateMortgageOutputs);
-    });
-
-    // ── Advanced Settings Toggle ──
-    document.querySelectorAll('.advanced-toggle').forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!expanded));
-        const body = document.getElementById(toggle.getAttribute('aria-controls'));
-        body.classList.toggle('open', !expanded);
-      });
-    });
-
-    // ── Pre-fill maintenance costs at 2% of purchase price ──
-    document.getElementById('purchase-price').addEventListener('input', () => {
-      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const maintenance = document.getElementById('maintenance-costs');
-      maintenance.value = price > 0 ? Math.round(price * 0.02) : '';
-    });
 
     // ── Calculate default monthly contribution ──
     function calcDefaultContribution() {
@@ -1830,85 +1781,6 @@
       });
     }
 
-    setupToggle('initial-deposit-toggle',  'initial-deposit-default-display',  'initial-deposit-manual');
-    setupToggle('monthly-contrib-toggle',  'monthly-contrib-default-display',  'monthly-contrib-manual');
-
-    // ── Wire up savings default updates ──
-    ['purchase-price','down-payment-pct','interest-rate','property-tax-rate',
-     'hoa-fees','ho-insurance','maintenance-costs','monthly-rent'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('input', updateSavingsDefaults);
-    });
-    document.querySelectorAll('input[name="loan-term"], input[name="closing-pct"]').forEach(el => {
-      el.addEventListener('change', updateSavingsDefaults);
-    });
-
-    // ── Mobile Menu Toggle Logic ──
-    const menuToggle = document.getElementById('mobile-menu-toggle');
-    const navList = document.getElementById('nav-list');
-    
-    if (menuToggle) {
-      menuToggle.addEventListener('click', () => {
-        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-        menuToggle.setAttribute('aria-expanded', !isExpanded);
-        navList.classList.toggle('open');
-      });
-    }
-
-    // Close menu automatically when a link is clicked
-    document.querySelectorAll('#progress-bar a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (navList.classList.contains('open')) {
-          navList.classList.remove('open');
-          menuToggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    });
-
-    // ── Foolproof Scroll Tracking (Mobile & Desktop) ──
-    const sectionAccents = {
-      'intro': 'blue',
-      'property-info': 'blue',
-      'ongoing-costs': 'amber',
-      'timeline': null,
-      'renting-saving': 'blue',
-      'your-finances': 'amber',
-      'results': 'blue'
-    };
-
-    // ── Intersection Observer for Nav Highlighting (Stable Version) ──
-    const navLinks = document.querySelectorAll('#progress-bar a');
-    const sections = document.querySelectorAll('section[id]');
-
-    const observerOptions = {
-      // rootMargin: We use a tight "trigger" window in the top-middle of the screen
-      rootMargin: '-20% 0px -70% 0px',
-      threshold: 0
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        // Only update if the section is entering the trigger window
-        if (entry.isIntersecting) {
-          const id = entry.target.getAttribute('id');
-          
-          navLinks.forEach(link => {
-            link.classList.remove('active', 'active-amber');
-            if (link.getAttribute('href') === `#${id}`) {
-              // Highlight ongoing-costs and your-finances in Amber
-              if (id === 'ongoing-costs' || id === 'your-finances') {
-                link.classList.add('active-amber');
-              } else {
-                link.classList.add('active');
-              }
-            }
-          });
-        }
-      });
-    }, observerOptions);
-
-    sections.forEach(section => observer.observe(section));
-
     // ── Required field validation ──
     function validateInputs() {
       const required = [
@@ -1922,23 +1794,6 @@
       const missing = required.filter(f => !document.getElementById(f.id).value);
       return missing.map(f => f.label);
     }
-
-    // ── Calculate button ──
-    document.getElementById('calculate-btn').addEventListener('click', () => {
-      const missing = validateInputs();
-      const validationMsg = document.getElementById('validation-msg');
-
-      if (missing.length > 0) {
-        validationMsg.style.display = 'block';
-        validationMsg.innerHTML = '⚠️ Please fill in the following required fields before calculating: <strong>' + missing.join(', ') + '</strong>';
-        document.getElementById('results-placeholder').style.display = 'block';
-        document.getElementById('results-content').style.display = 'none';
-        return;
-      }
-
-      validationMsg.style.display = 'none';
-      runCalculations();
-    });
 
     // ── Main calculation engine ──
     function runCalculations() {
@@ -2041,6 +1896,12 @@
       let homeValue      = price;
       let buyYear1Cost   = 0;
 
+      // Pre-compute mortgage balances to save performance
+      const balances = [loan];
+      for (let i = 1; i <= years; i++) {
+        balances.push(mortgageBalance(i));
+      }
+
       for (let y = 1; y <= years; y++) {
         homeValue = price * Math.pow(1 + appreciation, y);
 
@@ -2051,7 +1912,7 @@
         const hoaYear    = hoa * 12;
         const insYear    = insurance * Math.pow(1 + inflation, y - 1);
         const maintYear  = maintenance * Math.pow(1 + inflation, y - 1);
-        const prevBal    = mortgageBalance(y - 1);
+        const prevBal    = balances[y - 1];
         const prevVal    = y === 1 ? price : price * Math.pow(1 + appreciation, y - 1);
         const pmiYear    = (prevBal / prevVal >= 0.8) ? pmi * 12 : 0;
         const utilYear   = (electricBuy + waterBuy + otherBuy) * 12
@@ -2067,7 +1928,7 @@
                         + insYear + maintYear + pmiYear + utilYear + movingYear;
 
         if (y === years) {
-          const finalBal      = mortgageBalance(years);
+          const finalBal      = balances[years];
           const gainOnSale    = homeValue - finalBal;
           const saleCloseCost = homeValue * saleClose;
           buyCumCashflow     -= yearSpend;
@@ -2078,7 +1939,7 @@
       }
 
       const finalHomeValue   = price * Math.pow(1 + appreciation, years);
-      const finalMortgageBal = mortgageBalance(years);
+      const finalMortgageBal = balances[years];
       const gainOnSale       = finalHomeValue - finalMortgageBal;
       const saleCloseCost    = finalHomeValue * saleClose;
       const buyNetReturn     = gainOnSale - saleCloseCost;
@@ -2227,23 +2088,162 @@
       document.getElementById('results-content').style.display     = 'block';
     }
 
-    // ── IPMT / PPMT helpers ──
-    function calcIPMT(principal, annualRate, years, period) {
-      const r = annualRate / 100 / 12;
-      const n = years * 12;
-      if (r === 0) return 0;
-      const pmt = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-      const balance = principal * Math.pow(1 + r, (period - 1) * 12) - pmt * (Math.pow(1 + r, (period - 1) * 12) - 1) / r;
-      return balance * r * 12;
+    // ── Wire up all event listeners ──
+    function wireUpListeners() {
+
+      // Mortgage output live updates
+      ['purchase-price', 'down-payment-pct', 'interest-rate', 'moving-costs'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateMortgageOutputs);
+      });
+      document.querySelectorAll('input[name="loan-term"]').forEach(el => {
+        el.addEventListener('change', updateMortgageOutputs);
+      });
+      document.querySelectorAll('input[name="closing-pct"]').forEach(el => {
+        el.addEventListener('change', updateMortgageOutputs);
+      });
+
+      // Savings defaults live updates
+      ['purchase-price','down-payment-pct','interest-rate','property-tax-rate',
+      'hoa-fees','ho-insurance','maintenance-costs','monthly-rent'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateSavingsDefaults);
+      });
+      document.querySelectorAll('input[name="loan-term"], input[name="closing-pct"]').forEach(el => {
+        el.addEventListener('change', updateSavingsDefaults);
+      });
+
+      // Toggle switches
+      setupToggle('initial-deposit-toggle', 'initial-deposit-default-display', 'initial-deposit-manual');
+      setupToggle('monthly-contrib-toggle', 'monthly-contrib-default-display', 'monthly-contrib-manual');
+
+      // Mobile nav menu
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const navList = document.getElementById('nav-list');
+      if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+          const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', String(!isExpanded));
+          navList.classList.toggle('open');
+        });
+      }
+      document.querySelectorAll('#progress-bar a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (navList.classList.contains('open')) {
+            navList.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      // Calculate button
+      document.getElementById('calculate-btn').addEventListener('click', () => {
+        const missing = validateInputs();
+        const validationMsg = document.getElementById('validation-msg');
+        if (missing.length > 0) {
+          validationMsg.style.display = 'block';
+          validationMsg.innerHTML = '⚠️ Please fill in the following required fields before calculating: <strong>' + missing.join(', ') + '</strong>';
+          document.getElementById('results-placeholder').style.display = 'block';
+          document.getElementById('results-content').style.display = 'none';
+          return;
+        }
+        validationMsg.style.display = 'none';
+        runCalculations();
+      });
+
     }
 
-    function calcPPMT(principal, annualRate, years, period) {
-      const r = annualRate / 100 / 12;
-      const n = years * 12;
-      if (r === 0) return principal / n * 12;
-      const pmt = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-      return pmt * 12 - calcIPMT(principal, annualRate, years, period);
+    function initAccordions() {
+      // ── Accordion ──
+      document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const expanded = trigger.getAttribute('aria-expanded') === 'true';
+          trigger.setAttribute('aria-expanded', String(!expanded));
+          const body = document.getElementById(trigger.getAttribute('aria-controls'));
+          body.classList.toggle('open', !expanded);
+        });
+      });
+
+      document.querySelectorAll('a[href^="#acc-"]').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const id = link.getAttribute('href').slice(1);
+          openAccordionById(id);
+          setTimeout(() => {
+            const target = document.getElementById(id);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 50);
+        });
+      });
+
+      // ── Lifestyle Calculation Accordion ──
+      document.querySelectorAll('.lifestyle-calc').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+          const body = document.getElementById(toggle.getAttribute('aria-controls'));
+          body.classList.toggle('open', !expanded);
+        });
+      });
+
+      // ── Also open if page loads with hash targeting an accordion ──
+      if (window.location.hash && window.location.hash.startsWith('#acc-')) {
+        const id = window.location.hash.slice(1);
+        openAccordionById(id);
+      }
     }
+
+    function initObserver() {
+      // ── Intersection Observer for Nav Highlighting (Stable Version) ──
+      const navLinks = document.querySelectorAll('#progress-bar a');
+      const sections = document.querySelectorAll('section[id]');
+
+      const observerOptions = {
+        // rootMargin: We use a tight "trigger" window in the top-middle of the screen
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          // Only update if the section is entering the trigger window
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            
+            navLinks.forEach(link => {
+              link.classList.remove('active', 'active-amber');
+              if (link.getAttribute('href') === `#${id}`) {
+                // Highlight ongoing-costs and your-finances in Amber
+                if (id === 'ongoing-costs' || id === 'your-finances') {
+                  link.classList.add('active-amber');
+                } else {
+                  link.classList.add('active');
+                }
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => observer.observe(section));
+    }
+
+    function initAdvSettingToggle() {
+      // ── Advanced Settings Toggle ──
+      document.querySelectorAll('.advanced-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+          const body = document.getElementById(toggle.getAttribute('aria-controls'));
+          body.classList.toggle('open', !expanded);
+        });
+      });
+    }
+
+    // ── Initialize ──
+    wireUpListeners();
+    initAccordions();    
+    initObserver();
+    initAdvSettingToggle();
 
   </script>
 

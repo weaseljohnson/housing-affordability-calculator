@@ -134,7 +134,7 @@ Only these fields update live:
 - Default initial deposit display (derived from down payment)
 - Default monthly contribution display (derived from owning costs vs rent)
 - Negative contribution warning (appears/disappears live)
-- Maintenance pre-fill (2% of purchase price, fills on purchase price change)
+- Maintenance pre-fill (2% of purchase price — runs inside updateMortgageOutputs(), not a separate listener)
 
 ### Mobile-Specific Behavior
 - Input fields use 16px font size explicitly to prevent iOS Safari auto-zoom on tap
