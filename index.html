@@ -519,7 +519,8 @@
       pointer-events: none;
     }
     .tooltip-wrap:hover .tooltip-box,
-    .tooltip-wrap:focus-within .tooltip-box { display: block; }
+    .tooltip-wrap:focus-within .tooltip-box,
+    .tooltip-wrap.active .tooltip-box { display: block; }
 
     /* ── Advanced Settings Toggle ── */
     .advanced-toggle-wrap {
@@ -2150,6 +2151,25 @@
         runCalculations();
       });
 
+      // Tooltip tap toggle (mobile)
+      document.querySelectorAll('.tooltip-icon').forEach(icon => {
+        icon.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const wrap = icon.closest('.tooltip-wrap');
+          const isActive = wrap.classList.contains('active');
+          // Close any other open tooltips first
+          document.querySelectorAll('.tooltip-wrap.active').forEach(w => w.classList.remove('active'));
+          if (!isActive) wrap.classList.add('active');
+        });
+      });
+
+      // Dismiss tooltip on tap outside or scroll
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.tooltip-wrap.active').forEach(w => w.classList.remove('active'));
+      });
+      document.addEventListener('scroll', () => {
+        document.querySelectorAll('.tooltip-wrap.active').forEach(w => w.classList.remove('active'));
+      }, { passive: true });
     }
 
     function initAccordions() {
