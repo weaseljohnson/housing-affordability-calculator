@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- House base -->
+  <path fill="#000000" d="M8 28 L32 10 L56 28 L56 56 L8 56 Z"/>
+  <!-- Roof overhang (optional subtle detail) -->
+  <path fill="#000000" d="M4 30 L32 8 L60 30 L60 34 L32 12 L4 34 Z"/>
+  <!-- Foundation curve (simplified) -->
+  <path fill="#000000" d="M12 56 Q32 62 52 56 Z"/>
+</svg>
