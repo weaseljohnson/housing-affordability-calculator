@@ -28,6 +28,8 @@
 <link rel="canonical" href="https://caniaffordthishouse.app/" />
 <meta name="robots" content="index, follow" />
 <meta name="author" content="caniaffordthishouse.app" />
+<meta name="theme-color" content="#1e2d40" />
+<meta name="application-name" content="Can I Afford This House?" />
 
 <!-- Favicons -->
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
@@ -174,8 +176,8 @@
       margin-bottom: 1rem;
     }
     #intro .tagline {
-      font-size: 1.1rem;
-      color: var(--text-muted);
+      font-size: 0.92rem;
+      color: var(--text-light);
       max-width: 520px;
       margin: 0 auto 2rem;
     }
@@ -206,6 +208,45 @@
       font-size: 0.97rem;
     }
     .intro-body p:last-child { margin-bottom: 0; }
+
+    /* ── How It Works Steps ── */
+    .how-it-works {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      margin: 1rem 0;
+      gap: 0;
+    }
+    .how-it-works-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .how-it-works-item:not(:last-child) {
+      border-bottom: 0.5px solid var(--border);
+    }
+    .how-it-works-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--sky-light);
+      color: var(--sky);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .how-it-works-text {
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
 
     /* ── Accordion ── */
     .accordion {
@@ -925,6 +966,193 @@
     }  
 
   </style>
+
+  <!-- Web Application Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Can I Afford This House? Home Affordability Calculator",
+    "url": "https://caniaffordthishouse.app/",
+    "description": "Free housing affordability calculator. Compare the true cost of renting vs. buying, estimate monthly payments, upfront costs, and find out what income you need.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Mortgage payment calculator",
+      "Rent vs buy comparison",
+      "Home affordability estimate",
+      "Upfront cost calculator",
+      "Recommended income calculator",
+      "Price-to-rent ratio",
+      "PMI calculator",
+      "Property tax estimator"
+    ]
+  }
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is buying always better than renting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Buying a home comes with costs that often get overlooked — mortgage interest, property taxes, insurance, maintenance, HOA fees, and closing costs can add up to tens or hundreds of thousands of dollars over time. Whether buying makes financial sense depends on your local market, how long you plan to stay, what you'd do with the money you'd save by renting, and your personal financial situation. The real question isn't 'am I throwing money away by renting?' — it's 'what does each option actually cost me, and does it align with what I care about most?'"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When is renting better than buying?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Renting is often the smarter financial choice when home prices are high relative to rents (a price-to-rent ratio above 15), when you plan to move within 3–5 years, when buying would stretch your budget uncomfortably thin, or when the money you'd put toward a down payment could earn a better return invested elsewhere. Renting also offers flexibility that homeownership doesn't — no maintenance costs, no repair surprises, and the ability to relocate without selling. If you rent and consistently invest the difference in cost compared to owning, you may come out ahead financially compared to buying."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the hidden costs of homeownership?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Beyond the mortgage payment, homeowners typically pay property taxes (often 1–3% of home value per year), homeowner's insurance, HOA fees, private mortgage insurance (PMI) if the down payment is under 20%, and 1–2% of the home's value annually in maintenance and repairs. Selling a home also costs roughly 6–8% of the sale price in agent commissions and closing costs. These costs are frequently underestimated and can add hundreds of dollars per month to the true cost of owning a home."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's included in the true cost of homeownership?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The true cost of owning a home includes: mortgage principal and interest, property taxes, homeowner's insurance, HOA fees (if applicable), private mortgage insurance or PMI (if your down payment is under 20%), ongoing maintenance and repairs, utilities, and the cost of buying and eventually selling the home including closing costs. When all of these are accounted for, the monthly cost of homeownership is often significantly higher than the mortgage payment alone."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much house can I afford?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An excellent guideline is that your total monthly housing costs — including mortgage, taxes, insurance, and HOA — should not exceed 30% of your monthly take-home pay. However, this is a starting point, not a rule. The right answer depends on your other expenses, savings goals, job stability, and local cost of living. A more personalized approach is to add your projected housing costs to your current lifestyle spending and calculate the income needed to comfortably cover both."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What income do I need to afford a home?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Using the 30% rule as a baseline: divide your total annual housing costs by 0.30 to get the net (take-home) income needed, then gross it up using your effective tax rate. For example, if owning a home costs $2,500/month ($30,000/year), you'd need roughly $100,000 in annual take-home pay, which translates to a higher gross income depending on your tax rate. Keep in mind this estimate assumes your other spending scales with your income — if your lifestyle costs are fixed and modest, you may need less."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much should I have saved before buying a home?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Plan for four buckets of upfront costs: your down payment (typically 3–20% of the purchase price), purchase closing costs (2–5% of the loan amount), moving and furnishing expenses, and two months of mortgage payments held in cash reserve — a common lender requirement. Combined, total upfront cash needed is often 25–30% of the purchase price when buying with a conventional loan at 20% down. Buying with less down is possible but increases your monthly costs through PMI and a larger loan balance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much do I need for a down payment?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The minimum down payment depends on your loan type: conventional loans can go as low as 3%, FHA loans require 3.5%, and VA and USDA loans may require no down payment for eligible buyers. However, putting down less than 20% typically triggers PMI, which adds $60–$200 or more per month to your payment depending on the loan size. A 20% down payment eliminates PMI and results in a lower monthly payment, but it requires significantly more upfront cash."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is PMI and when do I have to pay it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PMI stands for Private Mortgage Insurance. It's a monthly fee lenders require when your down payment is less than 20% of the home's purchase price. PMI protects the lender — not you — in case you default on the loan. Depending on your loan size and down payment, PMI typically costs $60–$200 per month. It's not permanent: once you've built 20% equity in your home (through payments and/or appreciation), you can request cancellation. It's automatically removed by federal law when your equity reaches 22%."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is included in a monthly mortgage payment?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A mortgage payment in its most basic form consists of two components: Principal (the portion that reduces your loan balance) and Interest (the lender's fee for borrowing). Many lenders also collect property taxes and homeowner's insurance monthly through an escrow account — bundling all four into one payment, sometimes called PITI. HOA fees, while not part of the mortgage itself, are an additional fixed monthly cost for homes in managed communities. This calculator displays principal and interest as your mortgage payment, with taxes, insurance, HOA, and other costs broken out separately so you can see the full picture."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I save the difference if renting is cheaper?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — if your monthly rent is lower than what it would cost to own the equivalent home, consistently investing that difference can build significant wealth over time. Putting the savings into a high-yield savings account, money market account, or index fund means you're still building your financial future even without owning property. Depending on market conditions and your investment returns, you may accumulate more in savings than a homeowner builds in equity over the same period. The key word is 'consistently' — this strategy only works if the savings habit is maintained."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are closing costs when buying a home?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Closing costs are fees paid at the time of purchase, separate from your down payment. They typically include loan origination fees, title insurance, appraisal fees, attorney fees, prepaid interest, and government recording fees. For buyers, closing costs generally run 2–5% of the loan amount. On a $300,000 home with 20% down, that's roughly $4,800–$12,000 in addition to your $60,000 down payment. Your lender is required to provide a Loan Estimate within three business days of your application so you can see the specific numbers before committing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate my effective income tax rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your effective income tax rate is the actual percentage of your total income paid in taxes — not your marginal tax bracket. To calculate it: divide your total tax liability (from your tax return) by your gross income. For example, if you earned $80,000 and paid $14,000 in federal and state taxes combined, your effective rate is 17.5%. This is the rate to use when estimating how much gross income you need to afford housing costs, since it reflects what you actually keep, not just your bracket."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a price-to-rent ratio, and what does it mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The price-to-rent ratio (PTR) compares the cost of buying a home to the cost of renting a comparable one. It's calculated by dividing the home's purchase price by the annual rent for a similar property. A PTR below 10 strongly favors buying. Between 10–15, buying may be worth considering. Between 15–20, renting is generally smarter. Above 20, renting is almost always the better financial choice. The PTR is a useful quick filter, but it doesn't replace a full cost comparison that accounts for your specific mortgage terms, tax situation, and investment alternatives."
+        }
+      }
+    ]
+  }
+</script>
+
+<!-- Bread Crumb List Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home Affordability Calculator",
+    "item": "https://caniaffordthishouse.app/"
+  }]
+}
+</script>
+
+<!-- Website Schema-->
+<script type=""application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Can I Afford This House?",
+    "url": "https://caniaffordthishouse.app/"
+  }
+</script>
+
+<!-- Organization Schema-->
+<script type=""application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Can I Afford This House?",
+  "url": "https://caniaffordthishouse.app/",
+  "description": "A free, open-source housing affordability calculator for everyday people.",
+  "sameAs": ["https://github.com/weaseljohnson"]
+  }
+</script>
+
 </head>
 <body>
 
@@ -946,21 +1174,38 @@
     </ul>
   </nav>
 
+  <main>
   <!-- ── Intro Section ── -->
-  <section class="section" id="intro">
+  <section class="section" id="intro" aria-labelledby="h-intro">
     <div>
       <span class="hero-eyebrow">Free Housing Calculator</span>
-      <h1>Can you afford to buy&nbsp;— or is renting smarter?</h1>
-      <p class="tagline">This free calculator does the math for you so you can make the biggest financial decision of your life with your eyes wide open.</p>
+      <h1 id="h-intro">Can you afford to buy&nbsp;— or is renting smarter?</h1>
+      <p class="tagline">This free home affordability calculator helps you compare the true cost of buying vs. renting — including mortgage payments, property taxes, HOA fees, insurance, and maintenance — so you can make the biggest financial decision of your life with your eyes wide open.</p>
       <a href="#property-info" class="btn-primary">Get Started →</a>
     </div>
 
     <div class="intro-body">
       <p>Hey there! If you're reading this, give yourself a pat on the back — you deserve it! You care enough about your future that you're willing to do a little research into what is likely the biggest financial decision of your life.</p>
-      <p>Don't worry — I did my best to make this as user-friendly as possible, especially for those who consider themselves allergic to math. All the calculations are done for you.</p>
+      <p>Don't worry — I did my best to make this as user-friendly as possible, especially for those who consider themselves allergic to math. </p>
+      <p>Here's how it works:</p>
+      <div class="how-it-works">
+        <div class="how-it-works-item">
+          <div class="how-it-works-num">1</div>
+          <span class="how-it-works-text">Enter your property details and ongoing costs</span>
+        </div>
+        <div class="how-it-works-item">
+          <div class="how-it-works-num">2</div>
+          <span class="how-it-works-text">Fill in your renting details</span>
+        </div>
+        <div class="how-it-works-item">
+          <div class="how-it-works-num">3</div>
+          <span class="how-it-works-text">Hit Calculate to see a side-by-side comparison</span>
+        </div>
+      </div>
       <p>Before you dive in, I'd <strong>highly</strong> recommend the dropdowns below — there's some important context that'll help you get the most out of this tool.</p>
       <p>When you're ready, hit "Get Started" and let's crunch some numbers!</p>
 
+      <section aria-label="Frequently Asked Questions">
       <div class="accordion">
 
         <div class="accordion-item">
@@ -1048,13 +1293,14 @@
         </div>
 
       </div>
+      </section>
     </div>
   </section>
 
   <!-- ── Step 1: Property Info ── -->
-  <section class="section accent-blue" id="property-info">
+  <section class="section accent-blue" id="property-info" aria-labelledby="h-property-info">
     <p class="section-label">Step 1</p>
-    <h2>Property Info</h2>
+    <h2 id="h-property-info">Property Info</h2>
     <p class="section-intro">Tell us about the home you're considering buying.</p>
 
     <!-- Group 1: The Home -->
@@ -1149,31 +1395,12 @@
       <span class="input-note">Closing costs typically run 2–5% of the loan amount. 2% is a reasonable starting estimate — your lender can give you a more precise figure.</span>
     </div>
 
-    <!-- Upfront output cards -->
-    <div class="output-cards-2">
-      <div class="output-card">
-        <div class="output-card-label">
-          <span class="tooltip-wrap">
-            Reserves
-            <span class="tooltip-icon" tabindex="0">?</span>
-            <span class="tooltip-box">Lenders typically prefer that you have 2 months of mortgage payments held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
-          </span>
-        </div>
-        <div class="output-card-value" id="out-reserves">—</div>
-      </div>
-      <div class="output-card total">
-        <div class="output-card-label">Total Upfront Cash Needed</div>
-        <div class="output-card-value" id="out-total-upfront">—</div>
-      </div>
-    </div>
-    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
-
   </section>
 
   <!-- ── Step 2: Ongoing Costs ── -->
-  <section class="section accent-amber" id="ongoing-costs">
+  <section class="section accent-amber" id="ongoing-costs" aria-labelledby="h-ongoing-costs">
     <p class="section-label">Step 2</p>
-    <h2>Ongoing Costs</h2>
+    <h2 id="h-ongoing-costs">Ongoing Costs</h2>
     <p class="section-intro">The recurring costs of owning this home.</p>
     <p class="note-italic" style="margin-bottom: 1.5rem;">These really are all the costs of owning a home. I know, it's a lot. 🫣</p>
 
@@ -1296,6 +1523,25 @@
       </div>
     </div>
 
+    <!-- Upfront output cards -->
+    <div class="output-cards-2">
+      <div class="output-card">
+        <div class="output-card-label">
+          <span class="tooltip-wrap">
+            Reserves
+            <span class="tooltip-icon" tabindex="0">?</span>
+            <span class="tooltip-box">Lenders typically prefer that you have 2 months of mortgage payments held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
+          </span>
+        </div>
+        <div class="output-card-value" id="out-reserves">—</div>
+      </div>
+      <div class="output-card total">
+        <div class="output-card-label">Total Upfront Cash Needed</div>
+        <div class="output-card-value" id="out-total-upfront">—</div>
+      </div>
+    </div>
+    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
+
   </section>
 
   <!-- ── Timeline ── -->
@@ -1311,9 +1557,9 @@
   </section>
 
   <!-- ── Step 3: Renting & Saving ── -->
-  <section class="section accent-blue" id="renting-saving">
+  <section class="section accent-blue" id="renting-saving" aria-labelledby="h-renting-saving">
     <p class="section-label">Step 3</p>
-    <h2>Renting & Saving</h2>
+    <h2 id="h-renting-saving">Renting & Saving</h2>
     <p class="section-intro">Tell us about your rental situation and what you'd do with the money you save by renting.</p>
 
     <!-- Group 1: Renting Costs -->
@@ -1489,9 +1735,9 @@
   </section>
 
   <!-- ── Step 4: Your Financial Picture ── -->
-  <section class="section accent-amber" id="your-finances">
+  <section class="section accent-amber" id="your-finances" aria-labelledby="h-your-finances">
     <p class="section-label">Step 4</p>
-    <h2>Your Financial Picture</h2>
+    <h2 id="h-your-finances">Your Financial Picture</h2>
     <p class="section-intro">These inputs help personalize the recommended income estimates in your results. They're optional — but filling them in gives you a much more useful picture.</p>
 
     <!-- Effective Income Tax Rate -->
@@ -1548,9 +1794,9 @@
   </section>
 
   <!-- ── Results ── -->
-  <section class="section accent-blue" id="results">
+  <section class="section accent-blue" id="results" aria-labelledby="h-results">
     <p class="section-label">Results</p>
-    <h2>Your Results</h2>
+    <h2 id="h-results">Your Results</h2>
     <p class="section-intro">Here's what the numbers say. Fill in the sections above and hit Calculate to see your results.</p>
 
     <!-- Calculate button -->
@@ -1736,9 +1982,12 @@
       const dp         = price * (dpPct / 100);
       const moving     = parseFloat(document.getElementById('moving-costs').value) || 0;
       const closingPct = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
+      const insurance  = parseFloat(document.getElementById('ho-insurance').value) || 0;
+      const taxRate    = parseFloat(document.getElementById('property-tax-rate').value) || 0;
 
       const closing    = loan * closingPct;
-      const reserves   = monthly * 2;
+      const monthTax   = (price * taxRate / 100 / 12);
+      const reserves   = 2* ( monthly + insurance / 12 + monthTax);
       const total      = dp + closing + moving + reserves;
 
       document.getElementById('out-reserves').textContent      = fmt(reserves);
@@ -2220,6 +2469,19 @@
         el.addEventListener('change', updateMortgageOutputs);
       });
 
+      // Upfront cost cards also depend on tax rate and insurance
+      ['property-tax-rate', 'ho-insurance'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+          const price   = parseFloat(document.getElementById('purchase-price').value) || 0;
+          const dpPct   = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+          const rate    = parseFloat(document.getElementById('interest-rate').value) || 0;
+          const term    = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
+          const loan    = price - price * (dpPct / 100);
+          const monthly = calcPMT(loan, rate, term);
+          updateUpfrontOutputs(loan, monthly);
+        });
+      });
+
       // Savings defaults live updates
       ['purchase-price','down-payment-pct','interest-rate','property-tax-rate',
       'hoa-fees','ho-insurance','maintenance-costs','monthly-rent'].forEach(id => {
@@ -2416,5 +2678,6 @@
 
   </script>
 
+  </main>
 </body>
 </html>
