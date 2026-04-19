@@ -566,6 +566,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
+      text-transform: none;
     }
     .tooltip-icon {
       display: inline-flex;
@@ -589,8 +590,9 @@
       top: 50%;
       left: calc(100% + 8px);
       transform: translateY(-50%);
-      background: var(--navy);
-      color: #fff;
+      background: var(--sky-light);
+      color: var(--text-muted);
+      border: 1px solid var(--sky);
       font-size: 0.8rem;
       line-height: 1.5;
       padding: 0.6rem 0.85rem;
@@ -1107,10 +1109,10 @@
       },
       {
         "@type": "Question",
-        "name": "How do I calculate my effective income tax rate?",
+        "name": "Is a primary home a good investment?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Your effective income tax rate is the actual percentage of your total income paid in taxes — not your marginal tax bracket. To calculate it: divide your total tax liability (from your tax return) by your gross income. For example, if you earned $80,000 and paid $14,000 in federal and state taxes combined, your effective rate is 17.5%. This is the rate to use when estimating how much gross income you need to afford housing costs, since it reflects what you actually keep, not just your bracket."
+          "text": "Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: a primary home is a savings vehicle with some lifestyle benefits, not an investment. Go in with that expectation and you won't be disappointed."
         }
       },
       {
@@ -1218,7 +1220,7 @@
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-mindset">
-            Things to Keep in Mind — The Big Picture
+            Things to Keep in Mind
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-mindset">
@@ -1235,25 +1237,132 @@
               <div class="hint"><span class="hint-label">💡 Hint:</span> Numbers are this calculator's favorite crunchy snack.</div>
             </div>
             <div class="acc-item">
-              <strong>A primary home is not a great investment — but that's okay.</strong>
-              Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values tend to grow at roughly the rate of inflation, so a home is better described as a means of building savings than a true investment. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. But that doesn't mean you shouldn't buy — it just means you should go in with your financial eyes wide open. Again, you've gotta live somewhere.
-              <p class="note-italic">Note: This doesn't apply to real estate investing, which is a totally different ballgame. This calculator only covers your primary residence — the home you're going to live in.</p>
-            </div>
-            <div class="acc-item">
-              <strong>If renting costs less, consider saving the difference.</strong>
-              Often, your monthly rent will be less than what it costs to own and operate a home. If that's the case, putting the money you save by renting into other long-term savings options — like High Yield Savings Accounts, Money Market Accounts, or Index Funds — means you're still building your financial future. Depending on your situation, you might even come out ahead compared to a homeowner selling their house. But this isn't black and white: if renting is so expensive you have nothing left over to save, buying might actually be the better option. And if you know you'd struggle to maintain a savings habit while renting, buying a home gives you forced savings in the form of home equity — which isn't nothing.
-            </div>
-            <div class="acc-item">
               <strong>This analysis is purely financial.</strong>
               There are real non-monetary reasons to prefer renting or buying — stability, flexibility, community, the ability to make a space your own. This calculator won't capture those. Keep them in mind when making your decision.
             </div>
-            <div class="acc-item">
-              <strong>A note on how the renting vs. buying comparison works.</strong>
-              This calculator assumes you'll save the difference between what you'd spend renting vs. owning each month. For example, if renting costs $1,500/month and owning would cost $2,000/month, the comparison assumes you'd put that $500/month into savings. If you'd rather see what happens if you don't save the difference — or save less than the full amount — you can adjust or zero out those inputs in the Renting & Saving section of this calculator.
-              <div class="hint"><span class="hint-label">💡 Hint:</span> This calculator is very determined to help you determine how much it might cost you to own that home. 😄</div>
-            </div>
           </div>
         </div>
+
+        </div><!-- end accordion group 1 -->
+
+      <p class="section-label" style="margin-top: 2rem;">Common Questions</p>
+      <div class="accordion">
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-1">
+            How does this calculator compare buying vs. renting?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-1">
+            <p>This calculator assumes that if you rent instead of buy, you put the money you save each month into savings or investments. For example, if buying would cost $2,000/month and renting costs $1,500/month, it assumes you'd invest that $500 difference. At the end of your chosen timeframe, it compares what you'd have spent and built in each scenario — home equity on the buying side, savings growth on the renting side — so you can see which option actually leaves you in a better financial position. If you wouldn't save the full difference, or already have savings you'd invest instead of a down payment, you can adjust those inputs in the Renting & Saving section.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-2">
+            How much house can I afford?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-2">
+            <p>An excellent guideline is that your total monthly housing costs — including mortgage, taxes, insurance, and HOA — should not exceed 30% of your monthly take-home pay. However, this is a starting point, not a rule. The right answer depends on your other expenses, savings goals, job stability, and local cost of living. A more personalized approach is to add your projected housing costs to your current lifestyle spending and calculate the income needed to comfortably cover both.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-3">
+            How much do I need for a down payment?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-3">
+            <p>The minimum down payment depends on your loan type: conventional loans can go as low as 3%, FHA loans require 3.5%, and VA and USDA loans may require no down payment for eligible buyers. However, putting down less than 20% typically triggers PMI, which adds $60–$200 or more per month depending on the loan size. A 20% down payment eliminates PMI and results in a lower monthly payment, but it requires significantly more upfront cash.</p>
+            <p style="margin-top: 0.75rem;">And the down payment is just one piece of what you'll need at closing — you'll also need to budget for purchase closing costs (typically 2–5% of the loan amount), moving and furnishing expenses, and two months of mortgage payments held in reserve. This calculator accounts for all four buckets in the Total Upfront Cost row of your results.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-4">
+            What are the hidden costs of homeownership?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-4">
+            <p>Beyond the mortgage payment, homeowners typically pay property taxes (often 1–3% of home value per year), homeowner's insurance, HOA fees, private mortgage insurance (PMI) if the down payment is under 20%, and 1–2% of the home's value annually in maintenance and repairs. Selling a home also costs roughly 6–8% of the sale price in agent commissions and closing costs. These costs are frequently underestimated and can add hundreds of dollars per month to the true cost of owning a home.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-5">
+            What is PMI and when do I have to pay it?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-5">
+            <p>PMI stands for Private Mortgage Insurance. It's a monthly fee lenders require when your down payment is less than 20% of the home's purchase price. PMI protects the lender — not you — in case you default on the loan. Depending on your loan size and down payment, PMI typically costs $60–$200 per month. It's not permanent: once you've built 20% equity in your home (through payments and/or appreciation), you can request cancellation. It's automatically removed by federal law when your equity reaches 22%.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-6">
+            What is included in a monthly mortgage payment?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-6">
+            <p>A mortgage payment in its most basic form consists of two components: Principal (the portion that reduces your loan balance) and Interest (the lender's fee for borrowing). Many lenders also collect property taxes and homeowner's insurance monthly through an escrow account — bundling all four into one payment, sometimes called PITI. HOA fees, while not part of the mortgage itself, are an additional fixed monthly cost for homes in managed communities. This calculator displays principal and interest as your mortgage payment, with taxes, insurance, HOA, and other costs broken out separately so you can see the full picture.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-7">
+            What are closing costs when buying a home?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-7">
+            <p>Closing costs are fees paid at the time of purchase, separate from your down payment. They typically include loan origination fees, title insurance, appraisal fees, attorney fees, prepaid interest, and government recording fees. For buyers, closing costs generally run 2–5% of the loan amount. On a $300,000 home with 20% down, that's roughly $4,800–$12,000 in addition to your $60,000 down payment. Your lender is required to provide a Loan Estimate within three business days of your application so you can see the specific numbers before committing.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-8">
+            When is renting better than buying?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-8">
+            <p>Renting is often the smarter financial choice when home prices are high relative to rents (a price-to-rent ratio above 15), when you plan to move within 3–5 years, when buying would stretch your budget uncomfortably thin, or when the money you'd put toward a down payment could earn a better return invested elsewhere. Renting also offers flexibility that homeownership doesn't — no maintenance costs, no repair surprises, and the ability to relocate without selling. If you rent and consistently invest the difference in cost compared to owning, you may come out ahead financially compared to buying.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-9">
+            Should I save the difference if renting is cheaper?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-9">
+            <p>Yes — if your monthly rent is lower than what it would cost to own the equivalent home, consistently investing that difference can build significant wealth over time. Putting the savings into a high-yield savings account, money market account, or index fund means you're still building your financial future even without owning property. Depending on market conditions and your investment returns, you may accumulate more in savings than a homeowner builds in equity over the same period. The key word is "consistently" — this strategy only works if the savings habit is maintained.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-10">
+            Is a primary home a good investment?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-10">
+            <p>Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: a primary home is a savings vehicle with some lifestyle benefits, not an investment. Go in with that expectation and you won't be disappointed.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-11">
+            What is a price-to-rent ratio, and what does it mean?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-11">
+            <p>The price-to-rent ratio (PTR) compares the cost of buying a home to the cost of renting a comparable one. It's calculated by dividing the home's purchase price by the annual rent for a similar property. A PTR below 10 strongly favors buying. Between 10–15, buying may be worth considering. Between 15–20, renting is generally smarter. Above 20, renting is almost always the better financial choice. The PTR is a useful quick filter, but it doesn't replace a full cost comparison that accounts for your specific mortgage terms, tax situation, and investment alternatives.</p>
+          </div>
+        </div>
+
+      </div><!-- end Common Questions accordion group -->
+
+        <p class="section-label" style="margin-top: 2rem;">Resources & Feedback</p>
+      <div class="accordion">
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-resources">
@@ -1300,7 +1409,7 @@
           </div>
         </div>
 
-      </div>
+      </div><!-- end Resources & Feedback accordion group -->
       </section>
     </div>
   </section>
@@ -1463,24 +1572,27 @@
       </div>
     </div>
 
-    <!-- Upfront output cards -->
-    <div class="output-cards-2">
+    <!-- Reserves output card -->
+    <div class="output-cards" style="grid-template-columns: 1fr; margin-top: 1.25rem;">
       <div class="output-card">
         <div class="output-card-label">
           <span class="tooltip-wrap">
             Reserves
             <span class="tooltip-icon" tabindex="0">?</span>
-            <span class="tooltip-box">Lenders typically prefer that you have 2 months of mortgage payments held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
+            <span class="tooltip-box">Lenders typically prefer that you have 2 months of PITI (mortgage payment + property tax + insurance) held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
           </span>
         </div>
         <div class="output-card-value" id="out-reserves">—</div>
       </div>
-      <div class="output-card total">
-        <div class="output-card-label">Total Upfront Cash Needed</div>
-        <div class="output-card-value" id="out-total-upfront">—</div>
-      </div>
     </div>
-    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
+
+    <!-- Upfront total -->
+    <p class="calc-group-label" style="margin-top: 2rem;">Total Upfront Cost</p>
+    <div class="output-card total" style="padding: 1rem;">
+      <div class="output-card-label">Total Upfront Cash Needed</div>
+      <div class="output-card-value" id="out-total-upfront">—</div>
+    </div>
+    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of PITI held in reserve.</span>
 
   </section>
 
