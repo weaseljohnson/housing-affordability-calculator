@@ -153,7 +153,7 @@
     /* ── Hero ── */
     #intro {
       text-align: center;
-      padding-top: 4rem;
+      padding-top: 2rem;
       padding-bottom: 3rem;
     }
     .hero-eyebrow {
@@ -361,6 +361,14 @@
       text-align: center;
       color: var(--text-light);
       font-size: 0.9rem;
+    }
+
+    /* -- Link Styles -- */
+    .link-amber {
+      color: var(--amber);
+    }
+    .link-amber:hover {
+      color: var(--amber-light);
     }
 
     /* ════════════════════════════
@@ -854,7 +862,7 @@
         /* Make the bar itself invisible and non-blocking */
         background: transparent;
         border-bottom: none;
-        padding: 1rem;
+        padding: 0.35rem 0.75rem;;
         display: flex;
         justify-content: flex-end; 
         align-items: center;
@@ -1203,7 +1211,7 @@
         </div>
       </div>
       <p>Before you dive in, I'd <strong>highly</strong> recommend the dropdowns below — there's some important context that'll help you get the most out of this tool.</p>
-      <p>When you're ready, hit "Get Started" and let's crunch some numbers!</p>
+      <p>When you're ready, hit "<a href="#property-info" class="link-amber">Get Started</a>" and let's crunch some numbers!</p>
 
       <section aria-label="Frequently Asked Questions">
       <div class="accordion">
@@ -1340,6 +1348,27 @@
     </div>
 
     <div class="input-group">
+      <label class="input-label" for="property-tax-rate">Gross Property Tax Rate</label>
+      <div class="input-wrap">
+        <input type="number" id="property-tax-rate" placeholder="e.g. 2.5" min="0" max="10" step="0.1" />
+        <span class="input-suffix">%</span>
+      </div>
+      <span class="input-note">The gross tax rate is something you should look up for the property you're interested in. It's often higher than just the base property tax for the zip code, accounting for things like school districts, townships, and counties. On sites like Zillow, you can calculate it by looking at the public tax history on the listing. Divide the latest property tax amount by the latest assessed home value, then multiply by 100.</span>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="ho-insurance">Homeowner's Insurance</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="ho-insurance" placeholder="e.g. 1,200" min="0" step="100" />
+        <span class="input-suffix">/yr</span>
+      </div>
+      <div class="help-links">
+        <a href="https://www.bankrate.com/insurance/homeowners-insurance/homeowners-insurance-cost/" target="_blank" rel="noopener noreferrer">How much does homeowner's insurance cost?</a>
+      </div>
+    </div>
+
+    <div class="input-group">
       <label class="input-label">Loan Term</label>
       <div class="toggle-group">
         <input type="radio" name="loan-term" id="term-30" value="30" checked />
@@ -1365,20 +1394,47 @@
       </div>
     </div>
 
-    <!-- Group 2: Upfront Costs -->
-    <p class="calc-group-label" style="margin-top: 2.5rem;">Upfront Costs</p>
+    <!-- Advanced Settings -->
+    <div class="advanced-toggle-wrap" style="margin-top: 2.5rem;">
+      <button class="advanced-toggle" aria-expanded="false" aria-controls="advanced-settings">
+        Advanced Settings
+        <span class="chevron">▼</span>
+      </button>
+      <div class="advanced-body" id="advanced-settings">
+        <p class="input-note" style="margin-bottom: 1.25rem;">These defaults are based on long-run US averages. You're welcome to adjust them, but most users won't need to.</p>
 
-    <div class="input-group">
-      <label class="input-label" for="moving-costs">Moving & Furnishing</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="moving-costs" placeholder="e.g. 5,000" min="0" step="100" />
-      </div>
-      <span class="input-note">Don't forget — you may need to furnish the new place too.</span>
-      <div class="help-links">
-        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener noreferrer">What do moving costs typically look like?</a>
+        <div class="input-group">
+          <label class="input-label" for="inflation-rate">Inflation Rate</label>
+          <div class="input-wrap">
+            <input type="number" id="inflation-rate" value="3" min="0" max="15" step="0.1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <span class="input-note">Used to estimate how costs like insurance, maintenance, and utilities will grow over time. 3% is the long-run US average.</span>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="home-appreciation">Annual Home Value Appreciation</label>
+          <div class="input-wrap">
+            <input type="number" id="home-appreciation" value="3" min="0" max="15" step="0.1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <span class="input-note">How much your home's value is expected to grow per year. Historically, home values track inflation over the long run.</span>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="sale-closing-costs">Sale Closing Costs</label>
+          <div class="input-wrap">
+            <input type="number" id="sale-closing-costs" value="8" min="0" max="15" step="0.1" />
+            <span class="input-suffix">%</span>
+          </div>
+          <span class="input-note">The estimated cost to sell your home — agent commissions, title fees, and other closing costs. 8% is a realistic estimate for most US markets.</span>
+        </div>
+
       </div>
     </div>
+
+    <!-- Group 2: Upfront Costs -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Other Upfront Costs</p>  
 
     <div class="input-group">
       <label class="input-label">Purchase Closing Costs</label>
@@ -1395,26 +1451,47 @@
       <span class="input-note">Closing costs typically run 2–5% of the loan amount. 2% is a reasonable starting estimate — your lender can give you a more precise figure.</span>
     </div>
 
+    <div class="input-group">
+      <label class="input-label" for="moving-costs">Moving & Furnishing</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="moving-costs" placeholder="e.g. 5,000" min="0" step="100" />
+      </div>
+      <span class="input-note">Don't forget — you may need to furnish the new place too.</span>
+      <div class="help-links">
+        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener noreferrer">What do moving costs typically look like?</a>
+      </div>
+    </div>
+
+    <!-- Upfront output cards -->
+    <div class="output-cards-2">
+      <div class="output-card">
+        <div class="output-card-label">
+          <span class="tooltip-wrap">
+            Reserves
+            <span class="tooltip-icon" tabindex="0">?</span>
+            <span class="tooltip-box">Lenders typically prefer that you have 2 months of mortgage payments held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
+          </span>
+        </div>
+        <div class="output-card-value" id="out-reserves">—</div>
+      </div>
+      <div class="output-card total">
+        <div class="output-card-label">Total Upfront Cash Needed</div>
+        <div class="output-card-value" id="out-total-upfront">—</div>
+      </div>
+    </div>
+    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
+
   </section>
 
   <!-- ── Step 2: Ongoing Costs ── -->
   <section class="section accent-amber" id="ongoing-costs" aria-labelledby="h-ongoing-costs">
     <p class="section-label">Step 2</p>
     <h2 id="h-ongoing-costs">Ongoing Costs</h2>
-    <p class="section-intro">The recurring costs of owning this home.</p>
-    <p class="note-italic" style="margin-bottom: 1.5rem;">These really are all the costs of owning a home. I know, it's a lot. 🫣</p>
+    <p class="section-intro">The recurring costs of owning this home, month to month.</p>
 
     <!-- Group 1: Housing Costs -->
     <p class="calc-group-label">Housing Costs</p>
-
-    <div class="input-group">
-      <label class="input-label" for="property-tax-rate">Gross Property Tax Rate</label>
-      <div class="input-wrap">
-        <input type="number" id="property-tax-rate" placeholder="e.g. 2.5" min="0" max="10" step="0.1" />
-        <span class="input-suffix">%</span>
-      </div>
-      <span class="input-note">The gross tax rate is something you should look up for the property you're interested in. It's often higher than just the base property tax for the zip code, accounting for things like school districts, townships, and counties. On sites like Zillow, you can calculate it by looking at the public tax history on the listing. Divide the latest property tax amount by the latest assessed home value, then multiply by 100.</span>
-    </div>
 
     <div class="input-group">
       <label class="input-label" for="hoa-fees">HOA Fees</label>
@@ -1425,18 +1502,6 @@
       </div>
       <div class="help-links">
         <a href="https://www.investopedia.com/terms/h/homeowners-association-fee-hoa.asp" target="_blank" rel="noopener noreferrer">What are HOA fees?</a>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" for="ho-insurance">Homeowner's Insurance</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="ho-insurance" placeholder="e.g. 1,200" min="0" step="100" />
-        <span class="input-suffix">/yr</span>
-      </div>
-      <div class="help-links">
-        <a href="https://www.bankrate.com/insurance/homeowners-insurance/homeowners-insurance-cost/" target="_blank" rel="noopener noreferrer">How much does homeowner's insurance cost?</a>
       </div>
     </div>
 
@@ -1483,64 +1548,6 @@
         <span class="input-suffix">/mo</span>
       </div>
     </div>
-
-    <!-- Advanced Settings -->
-    <div class="advanced-toggle-wrap" style="margin-top: 2.5rem;">
-      <button class="advanced-toggle" aria-expanded="false" aria-controls="advanced-settings">
-        Advanced Settings
-        <span class="chevron">▼</span>
-      </button>
-      <div class="advanced-body" id="advanced-settings">
-        <p class="input-note" style="margin-bottom: 1.25rem;">These defaults are based on long-run US averages. You're welcome to adjust them, but most users won't need to.</p>
-
-        <div class="input-group">
-          <label class="input-label" for="inflation-rate">Inflation Rate</label>
-          <div class="input-wrap">
-            <input type="number" id="inflation-rate" value="3" min="0" max="15" step="0.1" />
-            <span class="input-suffix">%</span>
-          </div>
-          <span class="input-note">Used to estimate how costs like insurance, maintenance, and utilities will grow over time. 3% is the long-run US average.</span>
-        </div>
-
-        <div class="input-group">
-          <label class="input-label" for="home-appreciation">Annual Home Value Appreciation</label>
-          <div class="input-wrap">
-            <input type="number" id="home-appreciation" value="3" min="0" max="15" step="0.1" />
-            <span class="input-suffix">%</span>
-          </div>
-          <span class="input-note">How much your home's value is expected to grow per year. Historically, home values track inflation over the long run.</span>
-        </div>
-
-        <div class="input-group">
-          <label class="input-label" for="sale-closing-costs">Sale Closing Costs</label>
-          <div class="input-wrap">
-            <input type="number" id="sale-closing-costs" value="8" min="0" max="15" step="0.1" />
-            <span class="input-suffix">%</span>
-          </div>
-          <span class="input-note">The estimated cost to sell your home — agent commissions, title fees, and other closing costs. 8% is a realistic estimate for most US markets.</span>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Upfront output cards -->
-    <div class="output-cards-2">
-      <div class="output-card">
-        <div class="output-card-label">
-          <span class="tooltip-wrap">
-            Reserves
-            <span class="tooltip-icon" tabindex="0">?</span>
-            <span class="tooltip-box">Lenders typically prefer that you have 2 months of mortgage payments held in reserve after closing. It's a safety net that shows the lender you won't immediately default if something goes wrong.</span>
-          </span>
-        </div>
-        <div class="output-card-value" id="out-reserves">—</div>
-      </div>
-      <div class="output-card total">
-        <div class="output-card-label">Total Upfront Cash Needed</div>
-        <div class="output-card-value" id="out-total-upfront">—</div>
-      </div>
-    </div>
-    <span class="input-note" style="margin-top: 0.75rem; display: block;">Total upfront cash includes your down payment, closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
 
   </section>
 
