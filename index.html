@@ -24,6 +24,11 @@
 <meta name="twitter:description" content="A clean, simple tool to help you understand whether buying or renting makes more financial sense.">
 <meta name="twitter:image" content="https://caniaffordthishouse.app/assets/HAC-Preview.png">
 
+<!-- Infastructure Tags -->
+<link rel="canonical" href="https://caniaffordthishouse.app/" />
+<meta name="robots" content="index, follow" />
+<meta name="author" content="caniaffordthishouse.app" />
+
 <!-- Favicons -->
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
@@ -1181,7 +1186,7 @@
         <input type="number" id="property-tax-rate" placeholder="e.g. 2.5" min="0" max="10" step="0.1" />
         <span class="input-suffix">%</span>
       </div>
-      <span class="input-note">The gross tax rate is something you should look up for the zip code you're interested in. It's often much higher than just the base property tax, accounting for things like school districts, townships, and counties. This number is often shown with listings on sites like Zillow.</span>
+      <span class="input-note">The gross tax rate is something you should look up for the property you're interested in. It's often higher than just the base property tax for the zip code, accounting for things like school districts, townships, and counties. On sites like Zillow, you can calculate it by looking at the public tax history on the listing. Divide the latest property tax amount by the latest assessed home value, then multiply by 100.</span>
     </div>
 
     <div class="input-group">
@@ -1843,11 +1848,11 @@
 
         if (min !== null && val < min) {
           clamped = min;
-          message = `Adjusted to a realistic minimum (${min}${unit}).`;
+          message = `Woah there! The number you entered was a little on the low side, or even negative. Let's adjust it up to a more reasonable range. I've changed it to (${min}${unit}).`;
         } else if (max !== null && val > max) {
           clamped = max;
           const formattedMax = max >= 1000000 ? (max/1000000) + 'M' : max;
-          message = `Adjusted to a realistic maximum (${formattedMax}${unit}).`;
+          message = `Woah there! The number you entered was pretty high. Let's adjust it down to a more reasonable range. I've changed it to (${formattedMax}${unit}).`;
         }
 
         if (val !== clamped) {
@@ -2374,12 +2379,12 @@
     function initInputClamping(){
       // ── Percentage Clamps ──
       clampOnBlur('down-payment-pct', 0, 100);
-      clampOnBlur('interest-rate', 0, 20);
-      clampOnBlur('property-tax-rate', 0, 10);
-      clampOnBlur('inflation-rate', 0, 15);
-      clampOnBlur('home-appreciation', 0, 15);
-      clampOnBlur('sale-closing-costs', 0, 15);
-      clampOnBlur('rate-of-return', 0, 30);
+      clampOnBlur('interest-rate', 0, 10);
+      clampOnBlur('property-tax-rate', 0, 3);
+      clampOnBlur('inflation-rate', 0, 10);
+      clampOnBlur('home-appreciation', 0, 10);
+      clampOnBlur('sale-closing-costs', 0, 10);
+      clampOnBlur('rate-of-return', 0, 20);
       clampOnBlur('rent-increase-yoy', 0, 20);
       clampOnBlur('tax-rate-buying', 0, 60);
       clampOnBlur('tax-rate-renting', 0, 60);
