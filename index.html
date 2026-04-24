@@ -607,6 +607,14 @@
     .tooltip-wrap:focus-within .tooltip-box,
     .tooltip-wrap.active .tooltip-box { display: block; }
 
+    /* ── Table tooltip (opens downward) ── */
+    .tooltip-box.tooltip-down {
+      top: calc(100% + 6px);
+      left: 0;
+      transform: none;
+      width: 220px;
+    }
+
     /* ── Advanced Settings Toggle ── */
     .advanced-toggle-wrap {
       border: 1px solid var(--border);
@@ -804,9 +812,23 @@
     .result-footnote {
       display: block;
       font-size: 0.78rem;
-      color: var(--text-light);
+      color: var(--sky);
       font-weight: 400;
       margin-top: 0.15rem;
+    }
+
+    /* ── Results nav link ── */
+    .results-nav-link {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--amber);
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+    }
+    .results-nav-link:hover {
+      color: var(--amber-light);
+      text-decoration: underline;
     }
 
     /* ── PTR ── */
@@ -1786,7 +1808,7 @@
       <div class="default-toggle-row">
         <span class="default-toggle-label">Use calculated default</span>
         <label class="switch">
-          <input type="checkbox" id="initial-deposit-toggle" checked />
+          <input type="checkbox" id="initial-deposit-toggle" checked aria-label="Use calculated default for initial deposit" />
           <span class="slider"></span>
         </label>
       </div>
@@ -1811,7 +1833,7 @@
       <div class="default-toggle-row">
         <span class="default-toggle-label">Use calculated default</span>
         <label class="switch">
-          <input type="checkbox" id="monthly-contrib-toggle" checked />
+          <input type="checkbox" id="monthly-contrib-toggle" checked aria-label="Use calculated default for monthly savings contribution" />
           <span class="slider"></span>
         </label>
       </div>
@@ -1937,6 +1959,8 @@
     <div id="results-content" style="display: none;">
 
       <!-- Summary Table -->
+      <!-- Summary Table -->
+      <a href="#acc-results-explainer" class="results-nav-link">→ How to read your results</a>
       <div class="results-table-wrap">
         <table class="results-table">
           <thead>
@@ -1948,32 +1972,65 @@
           </thead>
           <tbody>
             <tr>
-              <td class="result-label">Total Upfront Cost</td>
+              <td class="result-label">
+                <span class="tooltip-wrap">
+                  Total Upfront Cost
+                  <span class="tooltip-icon" tabindex="0">?</span>
+                  <span class="tooltip-box tooltip-down">Down payment, purchase closing costs, moving costs, and two months of mortgage payments held in reserve. For renting: security deposit, moving costs, one month's rent in reserve, and your initial savings deposit.</span>
+                </span>
+              </td>
               <td id="r-upfront-buy" class="result-val">—</td>
               <td id="r-upfront-rent" class="result-val">—</td>
             </tr>
             <tr>
-              <td class="result-label">Average Monthly Cost — Year 1</td>
+              <td class="result-label">
+                <span class="tooltip-wrap">
+                  Average Monthly Cost — Year 1
+                  <span class="tooltip-icon" tabindex="0">?</span>
+                  <span class="tooltip-box tooltip-down">All recurring costs in the first year divided by 12. For buying, this includes mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. For renting, this includes rent, renters insurance, utilities, and your monthly savings contribution.</span>
+                </span>
+              </td>
               <td id="r-monthly-buy" class="result-val">—</td>
               <td id="r-monthly-rent" class="result-val">—</td>
             </tr>
             <tr>
-              <td class="result-label">Total Yearly Cost — Year 1</td>
+              <td class="result-label">
+                <span class="tooltip-wrap">
+                  Total Yearly Cost — Year 1
+                  <span class="tooltip-icon" tabindex="0">?</span>
+                  <span class="tooltip-box tooltip-down">The same as Average Monthly Cost × 12. Shown annually for easier comparison against income figures.</span>
+                </span>
+              </td>
               <td id="r-yearly-buy" class="result-val">—</td>
               <td id="r-yearly-rent" class="result-val">—</td>
             </tr>
             <tr>
-              <td class="result-label" id="r-spent-label">Cumulative Money Spent</td>
+              <td class="result-label">
+                <span id="r-spent-label">Cumulative Money Spent</span>
+                <a href="#acc-cum-spent" class="result-footnote-link">
+                  <span class="result-footnote">→ What does this mean?</span>
+                </a>
+              </td>
               <td id="r-spent-buy" class="result-val">—</td>
               <td id="r-spent-rent" class="result-val">—</td>
             </tr>
             <tr>
-              <td class="result-label" id="r-return-label">Savings Return</td>
+              <td class="result-label">
+                <span id="r-return-label">Savings Return</span>
+                <a href="#acc-savings-return" class="result-footnote-link">
+                  <span class="result-footnote">→ What does this mean?</span>
+                </a>
+              </td>
               <td id="r-return-buy" class="result-val">—</td>
               <td id="r-return-rent" class="result-val">—</td>
             </tr>
             <tr>
-              <td class="result-label" id="r-net-label">Return Minus Cumulative Spent</td>
+              <td class="result-label">
+                <span id="r-net-label">Return Minus Cumulative Spent</span>
+                <a href="#acc-net" class="result-footnote-link">
+                  <span class="result-footnote">→ What does this mean?</span>
+                </a>
+              </td>
               <td id="r-net-buy" class="result-val">—</td>
               <td id="r-net-rent" class="result-val">—</td>
             </tr>
@@ -2020,7 +2077,71 @@
       </div>
 
       <!-- Results accordions -->
-      <div class="accordion" style="margin-top: 2.5rem;">
+      <p class="section-label" style="margin-top: 2.5rem;">Understanding Your Results</p>
+      <div class="accordion" id="acc-results-explainer">
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-where-next">
+            Where do I go from here?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-where-next">
+            <p>Your results are a starting point — not a verdict. And keep in mind that this is just the financial perspective; there may be things that matter more to you than a price tag.</p>
+            <p>Here's how to read your results:</p>
+            <p>If the buying column is mostly green and your PTR is blue or green, buying may be the stronger financial choice. This usually means renting is expensive enough relative to ownership that the savings advantage of renting is reduced or eliminated.</p>
+            <p>If the renting column is mostly green and your PTR is yellow, orange, or red, renting and saving the difference is probably the smarter move. Home prices in your scenario are high enough relative to rent that your savings and investments are likely to outgrow whatever you'd build in home equity — even accounting for appreciation.</p>
+            <p>A few things worth keeping in mind as you interpret your numbers: home value appreciation is never guaranteed. The profit you'd make selling your home depends heavily on market conditions, local demand, and timing — factors entirely outside your control. Long-term savings and investments, by contrast, are more flexible and have historically provided more reliable growth even through economic downturns.</p>
+            <p>And if renting makes more sense right now, that doesn't mean buying won't make sense later. Interest rates change, family situations evolve, and the math shifts. Saving and investing now is one of the best ways to keep your options open — including building a down payment if buying becomes the right move down the road.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-cum-spent">
+            Cumulative Money Spent
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-cum-spent">
+            <p>This row shows everything you paid out of pocket over your chosen timeframe — every dollar that left your hands, on both sides of the comparison.</p>
+            <p>This is important because it answers the question: how much did your asset(s) actually cost you? Yes, you've built equity in your home or grown your savings — but what was the total cost to do so?</p>
+            <p>For buying, this includes your upfront costs (down payment, closing costs, moving, and reserves), plus all ongoing costs over the years: mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. The gain on sale is deliberately excluded here — it's included separately in the Savings Return row. This separation is intentional: it lets you see what you actually spent, independent of what you got back.</p>
+            <p>For renting, this includes your upfront costs (security deposit, moving, reserve, and initial deposit), plus all ongoing costs: rent, renters insurance, utilities, and your monthly savings contributions. Your savings contributions count as money spent here because they represent real dollars leaving your pocket each month — even though they're working for you in the background.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-savings-return">
+            Savings Return
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-savings-return">
+            <p>This row shows what you'd walk away with at the end of your chosen timeframe — the financial return on each path.</p>
+            <p>For buying, this is your home's projected value minus the remaining mortgage balance and sale closing costs. In other words, what you'd actually pocket if you sold the home at the end of the period. It accounts for appreciation over time but also for the significant cost of selling.</p>
+            <p>For renting, this is the total value of your savings and investments — your initial deposit plus all monthly contributions, compounded at your chosen rate of return over the full timeframe.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-net">
+            Return Minus Cumulative Spent
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-net">
+            <p>This is the bottom line. It takes your Savings Return and subtracts everything you spent to get there. A positive number means you came out ahead financially. A negative number means the costs outweighed the return over your chosen timeframe.</p>
+            <p>Green highlighting shows which option produces the better outcome on this row. But a word of caution: a higher number isn't always the right choice for your life. This is a financial comparison — it doesn't weigh stability, flexibility, community, or any of the other reasons people choose to buy or rent. Use it as one input in your decision, not the deciding factor.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-ptr">
+            Price-to-Rent Ratio (PTR)
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-ptr">
+            <p>The price-to-rent ratio is a useful high-level metric for quickly gauging whether buying or renting makes more financial sense in a given market. To dig deeper into how it works, check out this <a href="https://www.investopedia.com/terms/p/price-to-rent-ratio.asp" target="_blank" rel="noopener noreferrer">great article</a>.</p>
+            <p>The PTR value above will highlight in the color scale automatically based on your inputs — blue and green generally favor buying, yellow through red generally favor renting. But it's worth remembering that the PTR is a filter, not a final answer. It doesn't account for your specific mortgage terms, tax situation, down payment, or what you'd do with your savings if you rented instead. The full picture is in the summary table above.</p>
+          </div>
+        </div>
+
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-30rule">
             The 30% Rule — How We Calculate Recommended Income
@@ -2033,6 +2154,7 @@
             <p>For the Renting column, this row assumes 30% for housing and 10% for savings — a total of 40% of net income — based on the savings parameters you provided.</p>
           </div>
         </div>
+
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-lifestyle">
             The Current Lifestyle Approach — A More Personalized Estimate
@@ -2045,9 +2167,8 @@
             <p>For the Renting column, this row automatically accounts for your savings contributions when calculating the recommended gross income. You don't need to subtract savings from your lifestyle spending amount.</p>
           </div>
         </div>
-      </div>
 
-    </div>
+      </div>
     <!-- end results-content -->
 
   </section>
@@ -2691,10 +2812,14 @@
         link.addEventListener('click', e => {
           e.preventDefault();
           const id = link.getAttribute('href').slice(1);
-          openAccordionById(id);
+          const target = document.getElementById(id);
+          if (!target) return;
+          // Only try to open if it's an accordion body (has accordion-body class)
+          if (target.classList.contains('accordion-body')) {
+            openAccordionById(id);
+          }
           setTimeout(() => {
-            const target = document.getElementById(id);
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }, 50);
         });
       });
