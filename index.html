@@ -183,6 +183,12 @@
       max-width: 520px;
       margin: 0 auto 2rem;
     }
+    #intro .updated {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-bottom: 10px; /* A tiny gap to keep them distinct */
+    }
+    
     .btn-primary {
       display: inline-block;
       background: var(--amber);
@@ -999,6 +1005,292 @@
       flex-direction: column;
     }  
 
+    /* ════════════════════════════
+       SHARE MODAL STYLES
+    ════════════════════════════ */
+
+    /* ── Share button ── */
+    .btn-share {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--warm-white);
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 2rem;
+      border-radius: 99px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .btn-share:hover {
+      border-color: var(--sky);
+      background: var(--sky-light);
+      color: var(--sky);
+    }
+
+    /* ── Modal overlay ── */
+    #share-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(30, 45, 64, 0.65);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    #share-modal.open {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    /* ── Modal card ── */
+    .share-modal-card {
+      background: var(--warm-white);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 540px;
+      margin: auto;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    /* ── Modal header ── */
+    .share-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .share-modal-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .share-modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 1.25rem;
+      line-height: 1;
+      padding: 0.25rem 0.4rem;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .share-modal-close:hover {
+      color: var(--navy);
+      background: var(--cream);
+    }
+
+    /* ── Mode tabs ── */
+    .share-tabs {
+      display: flex;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+    .share-tab {
+      flex: 1;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 0.7rem 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      text-align: center;
+    }
+    .share-tab:hover { color: var(--sky); }
+    .share-tab.active {
+      color: var(--sky);
+      border-bottom-color: var(--sky);
+      background: var(--warm-white);
+    }
+
+    /* ── Share card preview (the visual that gets captured) ── */
+    #share-card-preview {
+      padding: 1.25rem 1.5rem;
+      background: var(--cream);
+    }
+    #share-card-inner {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .share-card-header {
+      background: var(--navy);
+      padding: 0.9rem 1.25rem;
+    }
+    .share-card-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.2rem;
+    }
+    .share-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* ── Share card table ── */
+    .share-card-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .share-card-table thead tr { background: var(--navy); }
+    .share-card-table thead th {
+      padding: 0.45rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      text-align: left;
+    }
+    .share-card-table thead th:not(:first-child) { text-align: right; }
+    .share-card-table tbody tr:nth-child(even) { background: var(--cream); }
+    .share-card-table tbody tr:nth-child(odd)  { background: var(--warm-white); }
+    .share-card-table td {
+      padding: 0.5rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.3;
+    }
+    .share-card-table td:not(:first-child) {
+      text-align: right;
+      font-weight: 600;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    .share-card-table td.sc-green {
+      background: #e8f5e9;
+      color: #2e7d32 !important;
+    }
+
+    /* ── PTR badge ── */
+    .share-ptr-row {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .share-ptr-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .share-ptr-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 2px solid currentColor;
+    }
+    .share-ptr-badge.ptr-blue   { background: #e6f2fa; color: #2a7ab8; }
+    .share-ptr-badge.ptr-green  { background: #e8f5e9; color: #2e7d32; }
+    .share-ptr-badge.ptr-yellow { background: #fffde7; color: #b7860f; }
+    .share-ptr-badge.ptr-orange { background: #fff3e0; color: #e65100; }
+    .share-ptr-badge.ptr-red    { background: #ffebee; color: #c62828; }
+
+    /* ── Share card footer ── */
+    .share-card-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border);
+      background: var(--cream);
+    }
+    .share-card-footer p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+    .share-card-url {
+      font-size: 0.72rem;
+      color: var(--sky);
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    /* ── Modal action buttons ── */
+    .share-modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem 1.25rem;
+      flex-wrap: wrap;
+    }
+    .btn-share-action {
+      flex: 1;
+      min-width: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn-share-action:active { transform: translateY(1px); }
+    .btn-share-action.primary {
+      background: var(--sky);
+      color: #fff;
+    }
+    .btn-share-action.primary:hover { opacity: 0.88; }
+    .btn-share-action.secondary {
+      background: var(--cream);
+      color: var(--navy);
+      border: 1.5px solid var(--border);
+    }
+    .btn-share-action.secondary:hover {
+      border-color: var(--sky);
+      background: var(--sky-light);
+      color: var(--sky);
+    }
+
+    /* ── Toast ── */
+    #share-toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(0.5rem);
+      background: var(--navy);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.6rem 1.25rem;
+      border-radius: 99px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 3000;
+      white-space: nowrap;
+    }
+    #share-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
   </style>
 
   <!-- Web Application Schema -->
@@ -1220,6 +1512,7 @@
     <div>
       <span class="hero-eyebrow">Free Housing Calculator</span>
       <h1 id="h-intro">Can you afford to buy&nbsp;— or is renting smarter?</h1>
+      <p class="updated">- Updated April 2026- </p>
       <p class="tagline">This free home affordability calculator helps you compare the true cost of buying vs. renting — including mortgage payments, property taxes, HOA fees, insurance, and maintenance — so you can make the biggest financial decision of your life with your eyes wide open.</p>
       <a href="#property-info" class="btn-primary">Get Started →</a>
     </div>
@@ -1947,8 +2240,13 @@
     <p class="section-intro">Here's what the numbers say. Fill in the sections above and hit Calculate to see your results.</p>
 
     <!-- Calculate button -->
-    <button class="btn-primary" id="calculate-btn" style="margin-bottom: 2rem;">Calculate →</button>
-
+    <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; margin-bottom:2rem;">
+          <button class="btn-primary" id="calculate-btn">Calculate →</button>
+          <button class="btn-share" id="share-btn" style="display:none;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share Results
+          </button>
+        </div>
     <!-- Validation message -->
     <div class="warning-card" id="validation-msg" style="display: none; margin-bottom: 1.5rem;"></div>
 
@@ -2006,7 +2304,7 @@
             </tr>
             <tr>
               <td class="result-label">
-                <span id="r-spent-label">Cumulative Money Spent</span>
+                <span id="r-spent-label">Cumulative Spending</span>
                 <a href="#acc-cum-spent" class="result-footnote-link">
                   <span class="result-footnote">→ What does this mean?</span>
                 </a>
@@ -2016,7 +2314,7 @@
             </tr>
             <tr>
               <td class="result-label">
-                <span id="r-return-label">Savings Return</span>
+                <span id="r-return-label">Financial Return</span>
                 <a href="#acc-savings-return" class="result-footnote-link">
                   <span class="result-footnote">→ What does this mean?</span>
                 </a>
@@ -2026,7 +2324,7 @@
             </tr>
             <tr>
               <td class="result-label">
-                <span id="r-net-label">Return Minus Cumulative Spent</span>
+                <span id="r-net-label">Financial Return Vs Cumulative Spending</span>
                 <a href="#acc-net" class="result-footnote-link">
                   <span class="result-footnote">→ What does this mean?</span>
                 </a>
@@ -2036,7 +2334,7 @@
             </tr>
             <tr>
               <td class="result-label">
-                Recommended Annual Gross Income
+                Recommended Annual Gross Income (30% Rule)
                 <a href="#acc-30rule" class="result-footnote-link">
                   <span class="result-footnote">→ 30% Rule</span>
                 </a>
@@ -2046,7 +2344,7 @@
             </tr>
             <tr>
               <td class="result-label">
-                Recommended Annual Gross Income
+                Recommended Annual Gross Income (Lifestyle Rule)
                 <a href="#acc-lifestyle" class="result-footnote-link">
                   <span class="result-footnote">→ Current Lifestyle</span>
                 </a>
@@ -2097,20 +2395,20 @@
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-cum-spent">
-            Cumulative Money Spent
+            Cumulative Spending
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-cum-spent">
             <p>This row shows everything you paid out of pocket over your chosen timeframe — every dollar that left your hands, on both sides of the comparison.</p>
             <p>This is important because it answers the question: how much did your asset(s) actually cost you? Yes, you've built equity in your home or grown your savings — but what was the total cost to do so?</p>
-            <p>For buying, this includes your upfront costs (down payment, closing costs, moving, and reserves), plus all ongoing costs over the years: mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. The gain on sale is deliberately excluded here — it's included separately in the Savings Return row. This separation is intentional: it lets you see what you actually spent, independent of what you got back.</p>
+            <p>For buying, this includes your upfront costs (down payment, closing costs, moving, and reserves), plus all ongoing costs over the years: mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. The gain on sale is deliberately excluded here — it's included separately in the Financial Return row. This separation is intentional: it lets you see what you actually spent, independent of what you got back.</p>
             <p>For renting, this includes your upfront costs (security deposit, moving, reserve, and initial deposit), plus all ongoing costs: rent, renters insurance, utilities, and your monthly savings contributions. Your savings contributions count as money spent here because they represent real dollars leaving your pocket each month — even though they're working for you in the background.</p>
           </div>
         </div>
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-savings-return">
-            Savings Return
+            Financial Return
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-savings-return">
@@ -2122,11 +2420,11 @@
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-net">
-            Return Minus Cumulative Spent
+            Financial Return Vs Cumulative Spending
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-net">
-            <p>This is the bottom line. It takes your Savings Return and subtracts everything you spent to get there. A positive number means you came out ahead financially. A negative number means the costs outweighed the return over your chosen timeframe.</p>
+            <p>This is the bottom line. It takes your Financial Return and subtracts everything you spent to get there. A positive number means you came out ahead financially. A negative number means the costs outweighed the return over your chosen timeframe.</p>
             <p>Green highlighting shows which option produces the better outcome on this row. But a word of caution: a higher number isn't always the right choice for your life. This is a financial comparison — it doesn't weigh stability, flexibility, community, or any of the other reasons people choose to buy or rent. Use it as one input in your decision, not the deciding factor.</p>
           </div>
         </div>
@@ -2172,6 +2470,69 @@
     <!-- end results-content -->
 
   </section>
+
+  <!-- ── Share Modal ── -->
+  <div id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+    <div class="share-modal-card">
+
+      <div class="share-modal-header">
+        <h3 id="share-modal-title">Share Your Results</h3>
+        <button class="share-modal-close" id="share-modal-close" aria-label="Close">✕</button>
+      </div>
+
+      <div class="share-tabs" role="tablist">
+        <button class="share-tab active" data-mode="both" role="tab">Buying vs. Renting</button>
+        <button class="share-tab" data-mode="buy" role="tab">Buying Only</button>
+        <button class="share-tab" data-mode="rent" role="tab">Renting Only</button>
+      </div>
+
+      <div id="share-card-preview">
+        <div id="share-card-inner">
+
+          <div class="share-card-header">
+            <div class="share-card-eyebrow">caniaffordthishouse.app</div>
+            <div class="share-card-title" id="sc-title">My Housing Calculator Results</div>
+          </div>
+
+          <table class="share-card-table" id="sc-table">
+            <thead>
+              <tr>
+                <th id="sc-th-label"></th>
+                <th id="sc-th-buy">Buying</th>
+                <th id="sc-th-rent">Renting & Saving</th>
+              </tr>
+            </thead>
+            <tbody id="sc-tbody"></tbody>
+          </table>
+
+          <div class="share-ptr-row" id="sc-ptr-row">
+            <span class="share-ptr-label">Price-to-Rent Ratio:</span>
+            <span class="share-ptr-badge" id="sc-ptr-badge">—</span>
+          </div>
+
+          <div class="share-card-footer">
+              <p>Here are my results from the rent vs. buy calculator. Check it out at caniaffordthishouse.app!</p>
+            </div>
+
+        </div>
+      </div>
+
+      <div class="share-modal-actions">
+        <button class="btn-share-action primary" id="share-summary-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          Share Summary
+        </button>
+        <button class="btn-share-action secondary" id="share-full-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Share Full Results
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div id="share-toast"></div>
 
   <script>
 
@@ -2633,9 +2994,9 @@
       setVal('r-net-buy',       buyNetReturn - buyCumSpent);
       setVal('r-net-rent',      savingsValue - rentCumSpent);
 
-      setStr('r-spent-label',  `Cumulative Money Spent — ${years} Years`);
-      setStr('r-return-label', `Savings Return — ${years} Years`);
-      setStr('r-net-label',    `Return Minus Cumulative Spent — ${years} Years`);
+      setStr('r-spent-label',  `Cumulative Spending — ${years} Years`);
+      setStr('r-return-label', `Financial Return — ${years} Years`);
+      setStr('r-net-label',    `Financial Return Vs Cumulative Spending — ${years} Years`);
 
       // ── Income rows ──
       const incomeFields = [
@@ -2696,9 +3057,27 @@
         else               document.querySelector('.ptr-red').classList.add('active');
       }
 
-      // ── Show results ──
+     // ── Show results ──
       document.getElementById('results-placeholder').style.display = 'none';
       document.getElementById('results-content').style.display     = 'block';
+      document.getElementById('share-btn').style.display           = 'inline-flex';
+
+      // ── Store results for share card ──
+      lastResults = {
+        buyUpfront,
+        rentUpfront,
+        buyMonthly,
+        rentMonthly,
+        buyNetReturn,
+        savingsValue,
+        buyCumSpent,
+        rentCumSpent,
+        buyIncome30:   buyIncome30   || null,
+        rentIncome30:  rentIncome30  || null,
+        buyIncomeLife: buyIncomeLife || null,
+        rentIncomeLife:rentIncomeLife|| null,
+        ptr,
+      };
     }
 
     // ── Wire up all event listeners ──
@@ -2919,12 +3298,718 @@
       dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
     }
 
+    // ════════════════════════════
+    // SHARE FEATURE
+    // ════════════════════════════
+
+    // ── Stored results for share card (populated by runCalculations) ──
+    let lastResults = null;
+
+    // ── URL encode/decode (Base64 compressed input state) ──
+    function encodeStateToUrl() {
+      const ids = [
+        'purchase-price','down-payment-pct','interest-rate','property-tax-rate',
+        'ho-insurance','moving-costs','hoa-fees','maintenance-costs',
+        'electric-buy','water-buy','other-util-buy','inflation-rate',
+        'home-appreciation','sale-closing-costs','years-timeline','monthly-rent',
+        'security-deposit','renters-insurance','moving-costs-rent',
+        'electric-rent','water-rent','other-util-rent','prior-savings',
+        'rate-of-return','rent-increase-yoy','tax-rate-buying','tax-rate-renting',
+        'lifestyle-spending','initial-deposit-manual-input','monthly-contrib-manual-input'
+      ];
+      const state = {};
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value !== '') state[id] = el.value;
+      });
+      // Radios
+      const term = document.querySelector('input[name="loan-term"]:checked');
+      if (term) state['loan-term'] = term.value;
+      const closing = document.querySelector('input[name="closing-pct"]:checked');
+      if (closing) state['closing-pct'] = closing.value;
+      // Toggles
+      state['initial-deposit-toggle'] = document.getElementById('initial-deposit-toggle').checked ? '1' : '0';
+      state['monthly-contrib-toggle']  = document.getElementById('monthly-contrib-toggle').checked  ? '1' : '0';
+
+      const json    = JSON.stringify(state);
+      const encoded = btoa(encodeURIComponent(json));
+      return 'https://caniaffordthishouse.app/?d=' + encoded;
+    }
+
+    function decodeStateFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const d = params.get('d');
+      if (!d) return false;
+      try {
+        const json  = decodeURIComponent(atob(d));
+        const state = JSON.parse(json);
+
+        Object.entries(state).forEach(([id, val]) => {
+          // Radios
+          if (id === 'loan-term') {
+            const radio = document.querySelector(`input[name="loan-term"][value="${val}"]`);
+            if (radio) radio.checked = true;
+            return;
+          }
+          if (id === 'closing-pct') {
+            const radio = document.querySelector(`input[name="closing-pct"][value="${val}"]`);
+            if (radio) radio.checked = true;
+            return;
+          }
+          // Toggle checkboxes
+          if (id === 'initial-deposit-toggle') {
+            const el = document.getElementById(id);
+            el.checked = val === '1';
+            // Sync the visible UI
+            document.getElementById('initial-deposit-default-display').style.display = el.checked ? 'flex'  : 'none';
+            document.getElementById('initial-deposit-manual').style.display          = el.checked ? 'none'  : 'block';
+            return;
+          }
+          if (id === 'monthly-contrib-toggle') {
+            const el = document.getElementById(id);
+            el.checked = val === '1';
+            document.getElementById('monthly-contrib-default-display').style.display = el.checked ? 'flex'  : 'none';
+            document.getElementById('monthly-contrib-manual').style.display          = el.checked ? 'none'  : 'block';
+            return;
+          }
+          // Standard inputs
+          const el = document.getElementById(id);
+          if (el) el.value = val;
+        });
+
+        // Re-run live updates so output cards reflect loaded values
+        updateMortgageOutputs();
+        updateSavingsDefaults();
+        return true;
+      } catch(e) {
+        console.warn('Could not decode share URL:', e);
+        return false;
+      }
+    }
+
+    // ── Build the income range string for the share card ──
+    function buildIncomeRange(val30, valLife) {
+      const has30   = val30   !== null && !isNaN(val30);
+      const lifestyle = parseFloat(document.getElementById('lifestyle-spending').value);
+      const hasLife = valLife !== null && !isNaN(valLife) && !isNaN(lifestyle) && lifestyle > 0;
+      if (!has30 && !hasLife) return null;
+      if (has30 && !hasLife)  return fmt(val30);
+      if (!has30 && hasLife)  return fmt(valLife);
+      // Both present — show range or higher value per spec
+      if (valLife <= val30) {
+        // Range: lifestyle is the lower bound
+        return fmt(valLife) + ' – ' + fmt(val30);
+      } else {
+        // Lifestyle is higher — just show the higher number
+        return fmt(valLife);
+      }
+    }
+
+    // ── Populate the share card based on current mode tab ──
+    function populateShareCard(mode) {
+      if (!lastResults) return;
+      const r = lastResults;
+      const years = parseInt(document.getElementById('years-timeline').value) || 0;
+
+      // Title
+      const titleMap = {
+        both: 'My Buying vs. Renting Results',
+        buy:  'My Home Buying Cost Results',
+        rent: 'My Renting & Saving Results',
+      };
+      document.getElementById('sc-title').textContent = titleMap[mode];
+
+      // Column headers
+      document.getElementById('sc-th-buy').style.display  = (mode === 'rent') ? 'none' : '';
+      document.getElementById('sc-th-rent').style.display = (mode === 'buy')  ? 'none' : '';
+
+      // Build rows
+      const rows = [
+        {
+          label: 'Total Upfront Cost',
+          buy:   r.buyUpfront,
+          rent:  r.rentUpfront,
+          lowerIsBetter: true,
+        },
+        {
+          label: 'Avg Monthly Cost — Yr 1',
+          buy:   r.buyMonthly,
+          rent:  r.rentMonthly,
+          lowerIsBetter: true,
+        },
+        {
+          label: `Financial Return — ${years} Yrs`,
+          buy:   r.buyNetReturn,
+          rent:  r.savingsValue,
+          lowerIsBetter: false,
+        },
+        {
+          label: `Cumulative Spending — ${years} Yrs`,
+          buy:   r.buyCumSpent,
+          rent:  r.rentCumSpent,
+          lowerIsBetter: true,
+        },
+      ];
+
+      // Income range row — only if tax rates were entered
+      const incomeRangeBuy  = buildIncomeRange(r.buyIncome30,  r.buyIncomeLife);
+      const incomeRangeRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
+      if (incomeRangeBuy || incomeRangeRent) {
+        rows.push({
+          label: 'Recommended Gross Income',
+          buyRaw:  incomeRangeBuy  || '—',
+          rentRaw: incomeRangeRent || '—',
+          isRangeRow: true,
+        });
+      }
+
+      const tbody = document.getElementById('sc-tbody');
+      tbody.innerHTML = '';
+
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+
+        // Label cell
+        const tdLabel = document.createElement('td');
+        tdLabel.textContent = row.label;
+        tr.appendChild(tdLabel);
+
+        if (row.isRangeRow) {
+          // Green highlight based on highest upper bound in range
+          const extractUpper = str => {
+            if (!str || str === '—') return -Infinity;
+            const parts = str.split('–');
+            const last = parts[parts.length - 1].trim();
+            return parseFloat(last.replace(/[$,]/g, '')) || -Infinity;
+          };
+          const buyUpper  = extractUpper(row.buyRaw);
+          const rentUpper = extractUpper(row.rentRaw);
+          const buyWins   = buyUpper  < rentUpper;
+          const rentWins  = rentUpper < buyUpper;
+
+          if (mode !== 'rent') {
+            const td = document.createElement('td');
+            td.textContent = row.buyRaw;
+            if (mode === 'both' && buyWins) td.classList.add('sc-green');
+            tr.appendChild(td);
+          }
+          if (mode !== 'buy') {
+            const td = document.createElement('td');
+            td.textContent = row.rentRaw;
+            if (mode === 'both' && rentWins) td.classList.add('sc-green');
+            tr.appendChild(td);
+          }
+        } else {
+          const buyWins  = row.lowerIsBetter ? row.buy  < row.rent  : row.buy  > row.rent;
+          const rentWins = row.lowerIsBetter ? row.rent < row.buy   : row.rent > row.buy;
+
+          if (mode !== 'rent') {
+            const td = document.createElement('td');
+            td.textContent = fmt(row.buy);
+            if (mode === 'both' && buyWins) td.classList.add('sc-green');
+            tr.appendChild(td);
+          }
+          if (mode !== 'buy') {
+            const td = document.createElement('td');
+            td.textContent = fmt(row.rent);
+            if (mode === 'both' && rentWins) td.classList.add('sc-green');
+            tr.appendChild(td);
+          }
+        }
+
+        tbody.appendChild(tr);
+      });
+
+      // PTR badge
+      const ptrVal = r.ptr;
+      const badge  = document.getElementById('sc-ptr-badge');
+      const ptrRow = document.getElementById('sc-ptr-row');
+
+      if (ptrVal !== null && mode === 'both') {
+        ptrRow.style.display = '';
+        badge.className = 'share-ptr-badge';
+        let ptrClass = '', ptrText = '';
+        if      (ptrVal < 10) { ptrClass = 'ptr-blue';   ptrText = 'Below 10 — Yes, if affordable'; }
+        else if (ptrVal < 15) { ptrClass = 'ptr-green';  ptrText = '10–15 — Worth considering'; }
+        else if (ptrVal < 20) { ptrClass = 'ptr-yellow'; ptrText = '15–20 — Probably not'; }
+        else if (ptrVal < 25) { ptrClass = 'ptr-orange'; ptrText = '20–25 — No'; }
+        else                  { ptrClass = 'ptr-red';    ptrText = 'Above 25 — Run the other direction'; }
+        badge.classList.add(ptrClass);
+        badge.textContent = ptrVal.toFixed(1);
+      } else {
+        ptrRow.style.display = 'none';
+      }
+
+      // URL
+      const url = encodeStateToUrl();
+      document.getElementById('sc-url-display').textContent = url;
+    }
+
+    // ── Open/close modal ──
+    function openShareModal() {
+      const modal = document.getElementById('share-modal');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // Default to 'both' tab
+      setShareTab('both');
+    }
+
+    function closeShareModal() {
+      document.getElementById('share-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function setShareTab(mode) {
+      document.querySelectorAll('.share-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.mode === mode);
+      });
+      populateShareCard(mode);
+    }
+
+    function getCurrentMode() {
+      const active = document.querySelector('.share-tab.active');
+      return active ? active.dataset.mode : 'both';
+    }
+
+    // ── Toast helper ──
+    function showToast(message) {
+      const toast = document.getElementById('share-toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ── Canvas image capture ──
+    // ── Canvas image capture (manual paint — Safari compatible) ──
+    async function htmlToCanvas(element) {
+      const scale  = window.devicePixelRatio || 2;
+      const card   = document.getElementById('share-card-inner');
+
+      // ── Collect all the data we need to paint ──
+      const mode   = getCurrentMode();
+      const r      = lastResults;
+      const years  = parseInt(document.getElementById('years-timeline').value) || 0;
+
+      // Colors
+      const navy      = '#1e2d40';
+      const cream     = '#fdf8f2';
+      const warmWhite = '#fffcf8';
+      const border    = '#e8e0d5';
+      const muted     = '#5a6a7a';
+      const green     = '#2e7d32';
+      const greenBg   = '#e8f5e9';
+      const sky       = '#2a7ab8';
+      const white     = '#ffffff';
+
+      // PTR colors
+      const ptrColors = {
+        'ptr-blue':   { bg: '#e6f2fa', text: '#2a7ab8' },
+        'ptr-green':  { bg: '#e8f5e9', text: '#2e7d32' },
+        'ptr-yellow': { bg: '#fffde7', text: '#b7860f' },
+        'ptr-orange': { bg: '#fff3e0', text: '#e65100' },
+        'ptr-red':    { bg: '#ffebee', text: '#c62828' },
+      };
+
+      // ── Build row data (same logic as populateShareCard) ──
+      const rows = [
+        { label: 'Total Upfront Cost',          buy: r.buyUpfront,   rent: r.rentUpfront,  lowerIsBetter: true  },
+        { label: 'Avg Monthly Cost — Yr 1',      buy: r.buyMonthly,   rent: r.rentMonthly,  lowerIsBetter: true  },
+        { label: `Financial Return — ${years} Yrs`, buy: r.buyNetReturn, rent: r.savingsValue, lowerIsBetter: false },
+        { label: `Cumulative Spent — ${years} Yrs`, buy: r.buyCumSpent,  rent: r.rentCumSpent, lowerIsBetter: true  },
+      ];
+      const incomeRangeBuy  = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
+      const incomeRangeRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
+      if (incomeRangeBuy || incomeRangeRent) {
+        rows.push({ label: 'Recommended Gross Income', buyRaw: incomeRangeBuy || '—', rentRaw: incomeRangeRent || '—', isRangeRow: true });
+      }
+
+      // ── Layout constants ──
+      const W          = 540;
+      const headerH    = 58;
+      const tableHeadH = 32;
+      const rowH       = 38;
+      const ptrH       = mode === 'both' && r.ptr !== null ? 44 : 0;
+      const footerH    = 68;
+      const totalH     = headerH + tableHeadH + rows.length * rowH + ptrH + footerH;
+
+      const canvas  = document.createElement('canvas');
+      canvas.width  = W * scale;
+      canvas.height = totalH * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      // Column widths
+      const showBuy  = mode !== 'rent';
+      const showRent = mode !== 'buy';
+      const numValCols = (showBuy ? 1 : 0) + (showRent ? 1 : 0);
+      const labelW  = numValCols === 2 ? W * 0.42 : W * 0.58;
+      const valW    = (W - labelW) / numValCols;
+
+      // Helper: rounded rect
+      function roundRect(x, y, w, h, r2) {
+        ctx.beginPath();
+        ctx.moveTo(x + r2, y);
+        ctx.lineTo(x + w - r2, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r2);
+        ctx.lineTo(x + w, y + h - r2);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r2, y + h);
+        ctx.lineTo(x + r2, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r2);
+        ctx.lineTo(x, y + r2);
+        ctx.quadraticCurveTo(x, y, x + r2, y);
+        ctx.closePath();
+      }
+
+      // ── Draw card background ──
+      ctx.fillStyle = warmWhite;
+      roundRect(0, 0, W, totalH, 12);
+      ctx.fill();
+
+      // ── Draw border ──
+      ctx.strokeStyle = border;
+      ctx.lineWidth   = 1;
+      roundRect(0, 0, W, totalH, 12);
+      ctx.stroke();
+
+      // ── Header ──
+      ctx.fillStyle = navy;
+      roundRect(0, 0, W, headerH, 12);
+      ctx.fill();
+      // Square off bottom corners of header
+      ctx.fillRect(0, headerH - 12, W, 12);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font      = 'bold 10px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText('CANIAFFORDTHISHOUSE.APP', 20, 20);
+
+      const titleMap = { both: 'My Buying vs. Renting Results', buy: 'My Home Buying Cost Results', rent: 'My Renting & Saving Results' };
+      ctx.fillStyle = white;
+      ctx.font      = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText(titleMap[mode], 20, 42);
+
+      // ── Table header row ──
+      let y = headerH;
+      ctx.fillStyle = navy;
+      ctx.fillRect(0, y, W, tableHeadH);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.font      = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('', 20, y + 21);
+
+      let colX = labelW;
+      if (showBuy) {
+        ctx.textAlign = 'right';
+        ctx.fillText('Buying', colX + valW - 16, y + 21);
+        colX += valW;
+      }
+      if (showRent) {
+        ctx.textAlign = 'right';
+        ctx.fillText('Renting & Saving', colX + valW - 16, y + 21);
+      }
+
+      // ── Table rows ──
+      y += tableHeadH;
+      rows.forEach((row, i) => {
+        const bg = i % 2 === 0 ? warmWhite : cream;
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, y, W, rowH);
+
+        // Label
+        ctx.fillStyle  = muted;
+        ctx.font       = '13px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign  = 'left';
+        ctx.fillText(row.label, 20, y + rowH / 2 + 5);
+
+        if (row.isRangeRow) {
+          const extractUpper = str => {
+            if (!str || str === '—') return -Infinity;
+            const parts = str.split('–');
+            const last  = parts[parts.length - 1].trim();
+            return parseFloat(last.replace(/[$,]/g, '')) || -Infinity;
+          };
+          const buyUpper  = extractUpper(row.buyRaw);
+          const rentUpper = extractUpper(row.rentRaw);
+
+          colX = labelW;
+          if (showBuy) {
+            const wins = mode === 'both' && buyUpper > rentUpper;
+            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
+            ctx.fillStyle  = wins ? green : navy;
+            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign  = 'right';
+            ctx.fillText(row.buyRaw || '—', colX + valW - 16, y + rowH / 2 + 5);
+            colX += valW;
+          }
+          if (showRent) {
+            const wins = mode === 'both' && rentUpper > buyUpper;
+            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
+            ctx.fillStyle  = wins ? green : navy;
+            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign  = 'right';
+            ctx.fillText(row.rentRaw || '—', colX + valW - 16, y + rowH / 2 + 5);
+          }
+        } else {
+          const buyWins  = row.lowerIsBetter ? row.buy  < row.rent  : row.buy  > row.rent;
+          const rentWins = row.lowerIsBetter ? row.rent < row.buy   : row.rent > row.buy;
+
+          colX = labelW;
+          if (showBuy) {
+            const wins = mode === 'both' && buyWins;
+            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
+            ctx.fillStyle  = wins ? green : navy;
+            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign  = 'right';
+            ctx.fillText(fmt(row.buy), colX + valW - 16, y + rowH / 2 + 5);
+            colX += valW;
+          }
+          if (showRent) {
+            const wins = mode === 'both' && rentWins;
+            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
+            ctx.fillStyle  = wins ? green : navy;
+            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+            ctx.textAlign  = 'right';
+            ctx.fillText(fmt(row.rent), colX + valW - 16, y + rowH / 2 + 5);
+          }
+        }
+
+        // Row bottom border
+        ctx.strokeStyle = border;
+        ctx.lineWidth   = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(0, y + rowH);
+        ctx.lineTo(W, y + rowH);
+        ctx.stroke();
+
+        y += rowH;
+      });
+
+      // ── PTR row ──
+      if (mode === 'both' && r.ptr !== null) {
+        ctx.fillStyle = warmWhite;
+        ctx.fillRect(0, y, W, ptrH);
+
+        ctx.strokeStyle = border;
+        ctx.lineWidth   = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+
+        ctx.fillStyle  = muted;
+        ctx.font       = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign  = 'left';
+        ctx.fillText('Price-to-Rent Ratio:', 20, y + 28);
+
+        // PTR badge
+        const badge = document.getElementById('sc-ptr-badge');
+        let ptrClass = '';
+        badge.classList.forEach(c => { if (c.startsWith('ptr-')) ptrClass = c; });
+        const colors  = ptrColors[ptrClass] || { bg: '#e6f2fa', text: '#2a7ab8' };
+        const badgeText = r.ptr.toFixed(1);
+        ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
+        const textW   = ctx.measureText(badgeText).width;
+        const badgeX  = 165;
+        const badgeY  = y + 14;
+        const badgePad = 10;
+        const badgeW  = textW + badgePad * 2;
+        const badgeH  = 22;
+
+        const r2 = badgeH / 2;
+        ctx.fillStyle   = colors.bg;
+        ctx.strokeStyle = colors.text;
+        ctx.lineWidth   = 1.5;
+        ctx.beginPath();
+        ctx.arc(badgeX + r2,          badgeY + r2, r2, Math.PI / 2, Math.PI * 3 / 2);
+        ctx.arc(badgeX + badgeW - r2, badgeY + r2, r2, Math.PI * 3 / 2, Math.PI / 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = colors.text;
+        ctx.textAlign = 'center';
+        ctx.fillText(badgeText, badgeX + badgeW / 2, badgeY + 15);
+
+        y += ptrH;
+      }
+
+      // ── Footer ──
+      ctx.fillStyle = cream;
+      ctx.fillRect(0, y, W, footerH);
+
+      ctx.strokeStyle = border;
+      ctx.lineWidth   = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+
+      ctx.fillStyle  = muted;
+      ctx.font       = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign  = 'left';
+      ctx.fillText("Here are my results from the rent vs. buy calculator", 20, y + 22);
+      ctx.fillText("— check it out at caniaffordthishouse.app!", 20, y + 38);
+
+      ctx.fillStyle = sky;
+      ctx.font      = 'bold 11px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillText('caniaffordthishouse.app', 20, y + 56);
+
+      return canvas;
+    }
+
+    // ── Share Summary — image capture via canvas ──
+    async function shareSummary() {
+      const mode = getCurrentMode();
+      const url  = encodeStateToUrl();
+      const titleMap = { both: 'Buying vs. Renting Results', buy: 'Buying Results', rent: 'Renting Results' };
+      const summaryText = buildShareText(mode);
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile && navigator.share) {
+        try {
+          await navigator.share({
+            title: titleMap[mode],
+            text:  summaryText,
+            url:   url,
+          });
+          return;
+        } catch(e) {
+          if (e.name === 'AbortError') return;
+          // Fall through to clipboard
+        }
+      }
+
+      // Desktop — generate PNG and download it
+      try {
+        const card   = document.getElementById('share-card-inner');
+        const canvas = await htmlToCanvas(card);
+        const link   = document.createElement('a');
+        link.download = 'my-housing-results.png';
+        link.href     = canvas.toDataURL('image/png');
+        link.click();
+        showToast('Image downloaded!');
+      } catch(e) {
+        // Canvas failed — fall back to clipboard text
+        try {
+          await navigator.clipboard.writeText(summaryText + '\n\n' + url);
+          showToast('Summary copied to clipboard!');
+        } catch(e2) {
+          showToast('Could not generate image — try Share Full Results.');
+        }
+      }
+    }
+
+    // ── Build plain-text summary for Web Share / clipboard ──
+    function buildShareText(mode) {
+      if (!lastResults) return '';
+      const r     = lastResults;
+      const years = parseInt(document.getElementById('years-timeline').value) || 0;
+      const lines = [];
+
+      lines.push('📊 My Housing Calculator Results');
+      lines.push('');
+
+      if (mode !== 'rent') {
+        lines.push('🏠 BUYING');
+        lines.push(`  Upfront cost: ${fmt(r.buyUpfront)}`);
+        lines.push(`  Monthly cost (yr 1): ${fmt(r.buyMonthly)}`);
+        lines.push(`  Financial return (${years} yrs): ${fmt(r.buyNetReturn)}`);
+        lines.push(`  Total spent (${years} yrs): ${fmt(r.buyCumSpent)}`);
+        const incBuy = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
+        if (incBuy) lines.push(`  Recommended income: ${incBuy}`);
+        lines.push('');
+      }
+
+      if (mode !== 'buy') {
+        lines.push('💰 RENTING & SAVING');
+        lines.push(`  Upfront cost: ${fmt(r.rentUpfront)}`);
+        lines.push(`  Monthly cost (yr 1): ${fmt(r.rentMonthly)}`);
+        lines.push(`  Savings value (${years} yrs): ${fmt(r.savingsValue)}`);
+        lines.push(`  Total spent (${years} yrs): ${fmt(r.rentCumSpent)}`);
+        const incRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
+        if (incRent) lines.push(`  Recommended income: ${incRent}`);
+        lines.push('');
+      }
+
+      if (r.ptr !== null && mode !== 'buy') {
+        lines.push(`Price-to-Rent Ratio: ${r.ptr.toFixed(1)}`);
+        lines.push('');
+      }
+
+      lines.push("Here are my results — check it out if you'd like to dig into the details!");
+
+      return lines.join('\n');
+    }
+
+    // ── Share Full Results — copies the encoded URL ──
+    async function shareFullResults() {
+      const url  = encodeStateToUrl();
+      const mode = getCurrentMode();
+      const titleMap = { both: 'Buying vs. Renting Results', buy: 'Buying Results', rent: 'Renting Results' };
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile && navigator.share) {
+        try {
+          await navigator.share({
+            title: titleMap[mode],
+            text:  "Check out my housing calculator results!",
+            url:   url,
+          });
+          return;
+        } catch(e) {
+          if (e.name === 'AbortError') return;
+        }
+      }
+
+      // Desktop — always copy URL to clipboard
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Link copied to clipboard!');
+      } catch(e) {
+        showToast('Could not copy link automatically.');
+      }
+    }
+
+    // ── Wire up share modal events ──
+    function initShareModal() {
+      document.getElementById('share-btn').addEventListener('click', openShareModal);
+      document.getElementById('share-modal-close').addEventListener('click', closeShareModal);
+
+      // Close on backdrop click
+      document.getElementById('share-modal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('share-modal')) closeShareModal();
+      });
+
+      // Tab switching
+      document.querySelectorAll('.share-tab').forEach(tab => {
+        tab.addEventListener('click', () => setShareTab(tab.dataset.mode));
+      });
+
+      document.getElementById('share-summary-btn').addEventListener('click', shareSummary);
+      document.getElementById('share-full-btn').addEventListener('click', shareFullResults);
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeShareModal();
+      });
+    }
+
     // ── Initialize ──
-    wireUpListeners();
-    initAccordions();    
-    initObserver();
-    initAdvSettingToggle();
-    initInputClamping();
+    document.addEventListener('DOMContentLoaded', () => {
+      wireUpListeners();
+      initAccordions();    
+      initObserver();
+      initAdvSettingToggle();
+      initInputClamping();
+      initShareModal();
+
+      // Auto-load from shared URL if present
+      if (decodeStateFromUrl()) {
+        handleCalculate();
+      }
+    });
 
   </script>
 

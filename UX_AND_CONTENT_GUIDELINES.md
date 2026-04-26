@@ -53,6 +53,16 @@ These lines capture the owner's voice and should not be rewritten without owner 
 - Humor should be gentle and self-aware, never at the user's expense
 - Emoji use is intentional and sparse — 🤓, 🫣, 😄 are established in the codebase
 
+## SEO Writing Guidelines
+
+- Every headline should remain human-first but keyword-aware
+- Use natural phrasing over forced keyword stuffing
+- Prefer question-based headings where useful
+- FAQ answers should target featured snippets
+- Include synonyms:
+  buying a house, buying a home, renting vs buying, affordability
+- Maintain owner's warm tone while satisfying search intent
+
 ---
 
 ## Layout Decisions
@@ -114,6 +124,16 @@ These lines capture the owner's voice and should not be rewritten without owner 
 - Full-width bottom border in #c8bfb0
 - Used to organize inputs within a section (e.g., "The Home", "Upfront Costs", "Utilities")
 
+### How It Works Step Block (.how-it-works)
+A lightweight 3-step visual block in the intro body, between the "Here's how it works:" line and the "Before you dive in" paragraph.
+- Flex column layout with top/bottom border separating it from surrounding text
+- Each item: numbered circle (sky blue, 22×22px) + step text
+- Numbered circles use --sky-light background and --sky text
+- Items separated by 0.5px --border dividers
+- No card wrapper — sits open within the intro body text flow
+- CSS classes: .how-it-works, .how-it-works-item, .how-it-works-num, .how-it-works-text
+
+
 ### Results Table — Responsive Breakpoints
 The results table has two responsive breakpoints:
 - **max-width: 768px** — `table-layout: fixed`, tighter padding (0.5rem/0.3rem), 0.8rem font, overflow hidden on wrapper, column widths locked 40%/30%/30%
@@ -163,11 +183,21 @@ Everything else — all results table values, PTR, green highlighting.
 - Chevron rotates 180° when open
 - Anchor links from results table open the target accordion and scroll to it
 
-### Advanced Settings Toggle
-- Visually distinct from content accordions (muted label color, different styling)
-- Used for: inflation rate, home appreciation, sale closing costs
-- Also used for: "How do I calculate my lifestyle spending?" in Financial Picture section
-- Collapsed by default — power users only
+### Results Nav Link (.results-nav-link)
+A small amber-colored navigation link that appears above the results table, inside the results-content div.
+- Text: "→ How to read your results"
+- Color: var(--amber), hover: var(--amber-light) with underline
+- Font size: 0.88rem, font-weight: 600
+- Links to #acc-results-explainer (the accordion group wrapper div)
+- Scrolls to the accordion section without opening any specific accordion
+- Intentionally amber rather than sky blue — signals "worth your attention" vs. a standard footnote
+
+### Table Row Tooltips
+- Results table rows 1–3 (Total Upfront Cost, Average Monthly Cost, Total Yearly Cost) use tooltip icons for brief one-sentence explanations
+- Tooltips in the table use the .tooltip-box.tooltip-down modifier — opens downward rather than rightward to avoid mobile overflow in the constrained label column
+- Results table rows 4–6 (Cumulative Money Spent, Savings Return, Return Minus Cumulative Spent) use footnote accordion links instead of tooltips — content is too substantial for a tooltip
+- The IDs on rows 4–6 are on inner <span> elements, not the <td> itself, so JS setStr() calls update only the text node while leaving tooltip/footnote markup intact
+
 
 ---
 
@@ -214,9 +244,35 @@ Hint boxes are a signature element of this tool. They add personality and break 
 These sections exist to teach, not just collect input. Treat them with full content depth:
 
 ### Intro Accordions
-- **Things to Keep in Mind — The Big Picture:** Core mindset content. Do not condense. This is why the tool exists.
-- **Additional Resources:** External links organized by topic. All URLs are live.
-- **Feedback & Suggestions:** GitHub Discussions primary, Google Form secondary.
+Three distinct accordion groups in the intro section:
+
+**Group 1 — Things to Keep in Mind** (no label above it, first and self-explanatory)
+Core mindset content — slimmed to four items only:
+- The disclaimer
+- Buying vs. renting is your call to make
+- Renting doesn't mean you're throwing money away
+- This analysis is purely financial
+Do not condense further or add new items without owner approval. This is why the tool exists.
+
+**Group 2 — Common Questions** (section-label: "Common Questions")
+11 FAQ accordion items, one question per accordion item, in this order:
+1. How does this calculator compare buying vs. renting?
+2. How much house can I afford?
+3. How much do I need for a down payment?
+4. What are the hidden costs of homeownership?
+5. What is PMI and when do I have to pay it?
+6. What is included in a monthly mortgage payment?
+7. What are closing costs when buying a home?
+8. When is renting better than buying?
+9. Should I save the difference if renting is cheaper?
+10. Is a primary home a good investment?
+11. What is a price-to-rent ratio, and what does it mean?
+These questions match the FAQPage schema exactly. Do not reorder or rename without updating the schema to match.
+
+**Group 3 — Resources & Feedback** (section-label: "Resources & Feedback")
+- Additional Resources: external links organized by topic. All URLs are live.
+- Feedback & Suggestions: GitHub Discussions primary, Google Form secondary.
+
 
 ### Help Notes on Inputs
 - Property tax: explanation of gross vs. base rate, Zillow tip
@@ -227,8 +283,31 @@ These sections exist to teach, not just collect input. Treat them with full cont
 - Effective income tax rate: gross vs net distinction, bracket warning
 
 ### Results Section Accordions
-- **The 30% Rule:** Why net income is used instead of gross, lifestyle inflation concept, renting column uses 40% (30% housing + 10% savings)
-- **The Current Lifestyle Approach:** Lifestyle inflation warning, this is a MINIMUM estimate, savings contribution accounting explanation
+One accordion group with section-label "Understanding Your Results" above it.
+Seven accordion items in this order:
+
+1. **Where do I go from here?** — High-level guide to interpreting results. Covers Case 1 (buying favored), Case 2 (renting favored), investment return caveat, and the "renting now doesn't mean buying never" point.
+2. **Cumulative Money Spent** — Explains what's included in each column, why principal counts, why gain on sale is excluded for buying, and why savings contributions count as spent for renting.
+3. **Savings Return** — Explains what the return represents for each path (home equity net of sale costs vs. compounded savings value).
+4. **Return Minus Cumulative Spent** — Explains the bottom-line calculation and the green highlighting logic. Notes this is a financial comparison only.
+5. **Price-to-Rent Ratio (PTR)** — Explains the metric, links to Investopedia reference, notes the color scale and its limitations.
+6. **The 30% Rule** — Why net income is used instead of gross, lifestyle inflation concept, renting column uses 40% (30% housing + 10% savings).
+7. **The Current Lifestyle Approach** — Lifestyle inflation warning, this is a MINIMUM estimate, savings contribution accounting explanation.
+
+Anchor links from results table rows open the target accordion and scroll to it.
+The nav link "→ How to read your results" above the table scrolls to the accordion group wrapper without opening any specific item.
+
+---
+
+### FAQ Strategy
+
+FAQ content is not filler. It serves:
+
+- User education
+- Objection handling
+- Long-tail search capture
+- Structured data eligibility
+- Featured snippet opportunities
 
 ---
 

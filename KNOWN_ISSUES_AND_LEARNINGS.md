@@ -111,6 +111,20 @@ dynamically injected errors.
 Lesson: Never use a shared visual class as a DOM selector for programmatic
 removal. Dynamic elements need their own distinct class for lifecycle management.
 
+### Bug 11 — Anchor Links to Non-Accordion Elements Blocked by Click Handler
+Issue: The results nav link ("→ How to read your results") uses href="#acc-results-explainer"
+which targets the accordion group wrapper div, not an accordion body. The existing
+a[href^="#acc-"] click handler called openAccordionById() and e.preventDefault() on
+all matching links, silently blocking the scroll without opening anything.
+Fix: Added a classList check before calling openAccordionById(). The handler now
+only attempts to open an accordion if the target element has the class "accordion-body".
+Non-accordion targets fall through to scroll-only behavior.
+Lesson: When intercepting anchor clicks by href pattern, always verify the target
+element type before assuming it's the expected component. Pattern matching on href
+prefix is too broad when the same prefix is used for both component targets and
+structural anchors.
+
+
 ### Known Issue — clampOnBlur conflicts with maintenance-costs auto-fill
 If maintenance-costs is included in the dollar clamp list, the blur handler's
 synthetic input event dispatch triggers updateMortgageOutputs(), which overwrites
@@ -183,6 +197,10 @@ These areas are interdependent and easy to break:
    conflict with the auto-fill behavior in updateMortgageOutputs().
 10. Do not change clearErrors() to select by ".warning-card" — it must select
    only ".dynamic-error" to avoid deleting static DOM elements.
+11. The a[href^="#acc-"] click handler checks classList.contains('accordion-body') before
+    calling openAccordionById(). Do not remove this check — it allows the results nav link
+    to scroll without attempting to open a non-existent accordion.
+
 
 ---
 
