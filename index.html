@@ -3387,16 +3387,6 @@
       }
     }
 
-        // Re-run live updates so output cards reflect loaded values
-        updateMortgageOutputs();
-        updateSavingsDefaults();
-        return true;
-      } catch(e) {
-        console.warn('Could not decode share URL:', e);
-        return false;
-      }
-    }
-
     // ── Build the income range string for the share card ──
     function buildIncomeRange(val30, valLife) {
       const has30   = val30   !== null && !isNaN(val30);
