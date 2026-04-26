@@ -3890,7 +3890,7 @@
           if (fileToShare && navigator.canShare && navigator.canShare({ files: [fileToShare] })) {
             shareData.files = [fileToShare];
             // Note: Some apps ignore the URL when a file is attached, so we append the URL to the text just in case.
-            shareData.text += '\n\n'; 
+            shareData.text; 
           }
 
           await navigator.share(shareData);
