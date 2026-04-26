@@ -3345,7 +3345,7 @@
         }
       });
 
-      return window.location.origin + window.location.pathname + '?' + params.toString();
+      return window.location.origin + window.location.pathname + '?' + params.toString()+ '#results';
     }
 
     function decodeStateFromUrl() {
@@ -4030,6 +4030,15 @@
       // Auto-load from shared URL if present
       if (decodeStateFromUrl()) {
         handleCalculate();
+        // JUMP TO RESULTS
+          // We use a tiny timeout to ensure the 'hidden' class is removed 
+          // and the browser has rendered the section before we scroll.
+          setTimeout(() => {
+            const resultsSection = document.getElementById('results');
+            if (resultsSection) {
+              resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
       }
     });
 
