@@ -1174,7 +1174,8 @@
       text-align: right;
       font-weight: 600;
       color: var(--navy);
-      white-space: nowrap;
+      white-space: normal;
+      word-wrap: break-word;
     }
     .share-card-table td.sc-green {
       background: #e8f5e9;
@@ -3306,76 +3307,85 @@
     let lastResults = null;
 
     // ── URL encode/decode (Base64 compressed input state) ──
-    function encodeStateToUrl() {
-      const ids = [
-        'purchase-price','down-payment-pct','interest-rate','property-tax-rate',
-        'ho-insurance','moving-costs','hoa-fees','maintenance-costs',
-        'electric-buy','water-buy','other-util-buy','inflation-rate',
-        'home-appreciation','sale-closing-costs','years-timeline','monthly-rent',
-        'security-deposit','renters-insurance','moving-costs-rent',
-        'electric-rent','water-rent','other-util-rent','prior-savings',
-        'rate-of-return','rent-increase-yoy','tax-rate-buying','tax-rate-renting',
-        'lifestyle-spending','initial-deposit-manual-input','monthly-contrib-manual-input'
-      ];
-      const state = {};
-      ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.value !== '') state[id] = el.value;
-      });
-      // Radios
-      const term = document.querySelector('input[name="loan-term"]:checked');
-      if (term) state['loan-term'] = term.value;
-      const closing = document.querySelector('input[name="closing-pct"]:checked');
-      if (closing) state['closing-pct'] = closing.value;
-      // Toggles
-      state['initial-deposit-toggle'] = document.getElementById('initial-deposit-toggle').checked ? '1' : '0';
-      state['monthly-contrib-toggle']  = document.getElementById('monthly-contrib-toggle').checked  ? '1' : '0';
+    // ── URL Dictionary for ultra-lean URLs ──
+    const urlMap = {
+      'purchase-price': 'p', 'down-payment-pct': 'dp', 'interest-rate': 'ir', 'property-tax-rate': 'pt',
+      'ho-insurance': 'hi', 'moving-costs': 'mb', 'hoa-fees': 'ho', 'maintenance-costs': 'mc',
+      'electric-buy': 'eb', 'water-buy': 'wb', 'other-util-buy': 'ob', 'inflation-rate': 'in',
+      'home-appreciation': 'ha', 'sale-closing-costs': 'sc', 'years-timeline': 'y', 'monthly-rent': 'r',
+      'security-deposit': 'sd', 'renters-insurance': 'ri', 'moving-costs-rent': 'mr',
+      'electric-rent': 'er', 'water-rent': 'wr', 'other-util-rent': 'or', 'prior-savings': 'ps',
+      'rate-of-return': 'rr', 'rent-increase-yoy': 'ry', 'tax-rate-buying': 'tb', 'tax-rate-renting': 'tr',
+      'lifestyle-spending': 'ls', 'initial-deposit-manual-input': 'idm', 'monthly-contrib-manual-input': 'mcm',
+      'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct'
+    };
+    // Create a reverse map for decoding
+    const reverseUrlMap = Object.fromEntries(Object.entries(urlMap).map(([k, v]) => [v, k]));
 
-      const json    = JSON.stringify(state);
-      const encoded = btoa(encodeURIComponent(json));
-      return 'https://caniaffordthishouse.app/?d=' + encoded;
+    function encodeStateToUrl() {
+      const params = new URLSearchParams();
+
+      Object.keys(urlMap).forEach(id => {
+        // Toggles
+        if (id === 'initial-deposit-toggle' || id === 'monthly-contrib-toggle') {
+          const isChecked = document.getElementById(id).checked;
+          params.set(urlMap[id], isChecked ? '1' : '0');
+          return;
+        }
+        // Radios
+        if (id === 'loan-term' || id === 'closing-pct') {
+          const checkedRadio = document.querySelector(`input[name="${id}"]:checked`);
+          if (checkedRadio) params.set(urlMap[id], checkedRadio.value);
+          return;
+        }
+        // Standard inputs
+        const el = document.getElementById(id);
+        if (el && el.value !== '') {
+          params.set(urlMap[id], el.value);
+        }
+      });
+
+      return window.location.origin + window.location.pathname + '?' + params.toString();
     }
 
     function decodeStateFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      const d = params.get('d');
-      if (!d) return false;
-      try {
-        const json  = decodeURIComponent(atob(d));
-        const state = JSON.parse(json);
+      if (Array.from(params.keys()).length === 0) return false;
 
-        Object.entries(state).forEach(([id, val]) => {
+      try {
+        params.forEach((val, shortKey) => {
+          const id = reverseUrlMap[shortKey];
+          if (!id) return;
+
           // Radios
-          if (id === 'loan-term') {
-            const radio = document.querySelector(`input[name="loan-term"][value="${val}"]`);
-            if (radio) radio.checked = true;
-            return;
-          }
-          if (id === 'closing-pct') {
-            const radio = document.querySelector(`input[name="closing-pct"][value="${val}"]`);
+          if (id === 'loan-term' || id === 'closing-pct') {
+            const radio = document.querySelector(`input[name="${id}"][value="${val}"]`);
             if (radio) radio.checked = true;
             return;
           }
           // Toggle checkboxes
-          if (id === 'initial-deposit-toggle') {
+          if (id === 'initial-deposit-toggle' || id === 'monthly-contrib-toggle') {
             const el = document.getElementById(id);
             el.checked = val === '1';
             // Sync the visible UI
-            document.getElementById('initial-deposit-default-display').style.display = el.checked ? 'flex'  : 'none';
-            document.getElementById('initial-deposit-manual').style.display          = el.checked ? 'none'  : 'block';
-            return;
-          }
-          if (id === 'monthly-contrib-toggle') {
-            const el = document.getElementById(id);
-            el.checked = val === '1';
-            document.getElementById('monthly-contrib-default-display').style.display = el.checked ? 'flex'  : 'none';
-            document.getElementById('monthly-contrib-manual').style.display          = el.checked ? 'none'  : 'block';
+            const isInit = id === 'initial-deposit-toggle';
+            document.getElementById(isInit ? 'initial-deposit-default-display' : 'monthly-contrib-default-display').style.display = el.checked ? 'flex' : 'none';
+            document.getElementById(isInit ? 'initial-deposit-manual' : 'monthly-contrib-manual').style.display = el.checked ? 'none' : 'block';
             return;
           }
           // Standard inputs
           const el = document.getElementById(id);
           if (el) el.value = val;
         });
+
+        updateMortgageOutputs();
+        updateSavingsDefaults();
+        return true;
+      } catch(e) {
+        console.warn('Could not decode share URL:', e);
+        return false;
+      }
+    }
 
         // Re-run live updates so output cards reflect loaded values
         updateMortgageOutputs();
@@ -3866,13 +3876,35 @@
 
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+      // Generate the image first so we can attach it to the native share
+      let fileToShare = null;
+      try {
+        const card = document.getElementById('share-card-inner');
+        const canvas = await htmlToCanvas(card);
+        
+        // Convert canvas to a File object
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+        fileToShare = new File([blob], 'housing-results.png', { type: 'image/png' });
+      } catch (e) {
+        console.warn("Could not generate image file for sharing", e);
+      }
+
       if (isMobile && navigator.share) {
         try {
-          await navigator.share({
+          const shareData = {
             title: titleMap[mode],
-            text:  summaryText,
-            url:   url,
-          });
+            text: "Check out my results from the rent vs. buy calculator!",
+            url: url
+          };
+
+          // If we successfully generated the image and the browser allows file sharing
+          if (fileToShare && navigator.canShare && navigator.canShare({ files: [fileToShare] })) {
+            shareData.files = [fileToShare];
+            // Note: Some apps ignore the URL when a file is attached, so we append the URL to the text just in case.
+            shareData.text += '\n\n' + url; 
+          }
+
+          await navigator.share(shareData);
           return;
         } catch(e) {
           if (e.name === 'AbortError') return;
@@ -3880,17 +3912,17 @@
         }
       }
 
-      // Desktop — generate PNG and download it
+      // Desktop / Fallback — download PNG and copy text
       try {
-        const card   = document.getElementById('share-card-inner');
-        const canvas = await htmlToCanvas(card);
-        const link   = document.createElement('a');
-        link.download = 'my-housing-results.png';
-        link.href     = canvas.toDataURL('image/png');
-        link.click();
-        showToast('Image downloaded!');
+        if (fileToShare) {
+          const link = document.createElement('a');
+          link.download = 'my-housing-results.png';
+          link.href = URL.createObjectURL(fileToShare);
+          link.click();
+          URL.revokeObjectURL(link.href);
+          showToast('Image downloaded!');
+        }
       } catch(e) {
-        // Canvas failed — fall back to clipboard text
         try {
           await navigator.clipboard.writeText(summaryText + '\n\n' + url);
           showToast('Summary copied to clipboard!');
