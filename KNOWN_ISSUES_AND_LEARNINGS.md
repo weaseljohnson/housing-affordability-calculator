@@ -124,6 +124,48 @@ element type before assuming it's the expected component. Pattern matching on hr
 prefix is too broad when the same prefix is used for both component targets and
 structural anchors.
 
+### Bug 12 — Share Modal Listeners Silently Failing
+**Issue:** Clicking the Share Results button did nothing. Close button and tabs also unresponsive.
+**Cause:** `initShareModal()` was called at the bottom of the `<script>` block, outside any DOM-ready wrapper. The script ran before the modal HTML was fully parsed, so all `getElementById` calls inside `initShareModal()` returned null and listener attachment silently failed.
+**Fix:** Wrapped the entire initialize block in `document.addEventListener('DOMContentLoaded', () => { ... })`.
+**Lesson:** Any init function that attaches listeners to DOM elements must run after the DOM is ready. Silent failure with no console error is the typical symptom when listeners are attached to null.
+
+### Bug 13 — sc-url-display Null Reference in populateShareCard
+**Issue:** If the `id="sc-url-display"` element is removed from the modal HTML, `populateShareCard` throws a null reference error on every tab switch and modal open.
+**Cause:** After removing the URL display element from the modal HTML, the JS still referenced it with `document.getElementById('sc-url-display').textContent = url`.
+**Fix:** Remove these two lines from `populateShareCard` if the element is not present in the HTML:
+```javascript
+const url = encodeStateToUrl();
+document.getElementById('sc-url-display').textContent = url;
+```
+**Lesson:** When removing HTML elements, always search the JS for any references to their IDs and remove those too.
+
+### Bug 14 — Safari Canvas Capture Blank Image
+**Issue:** Share Summary produced a blank downloaded PNG in Safari.
+**Cause:** The SVG foreignObject approach to canvas capture is not supported in Safari. Safari silently renders a blank image rather than throwing an error.
+**Fix:** Replaced with a fully manual canvas painting approach — each element of the share card (header, table rows, PTR badge, footer) is drawn directly using Canvas 2D API calls. No HTML-to-canvas library or SVG serialization involved.
+**Lesson:** SVG foreignObject canvas capture is unreliable across browsers. For guaranteed cross-browser image generation, paint manually to canvas. It is more code but the only approach that works everywhere.
+
+### Bug 15 — PTR Badge Rendered as Hourglass Shape on Canvas
+**Issue:** The PTR badge on the downloaded PNG appeared as two squished, wide, pointy hourglass shapes rather than a pill shape.
+**Cause:** The custom `roundRect` helper function conflicted with Safari's internal `ctx.roundRect` implementation, producing unexpected path geometry.
+**Fix:** Replaced the `roundRect` call for the badge with explicit `ctx.arc` calls to draw two semicircular end caps connected by straight lines — a true pill shape that does not rely on `roundRect`.
+**Lesson:** Do not use custom `roundRect` helpers for pill/capsule shapes. Use paired `ctx.arc` calls instead. They are unambiguous and work identically across all browsers.
+
+---
+
+### Known Issue — Dead Code in shareSummary
+The following line in `shareSummary` is a no-op property access that does nothing and should be removed:
+```javascript
+shareData.text;
+```
+It is harmless but misleading.
+
+---
+
+### Mobile Share — navigator.canShare File Guard Required
+When passing image files to the Web Share API on mobile, always check `navigator.canShare({ files: [fileToShare] })` before setting `shareData.files`. Not all mobile browsers support file sharing via the Share API even if they support `navigator.share`. Skipping this check causes a silent failure or uncaught error on unsupported browsers.
+
 
 ### Known Issue — clampOnBlur conflicts with maintenance-costs auto-fill
 If maintenance-costs is included in the dollar clamp list, the blur handler's
@@ -200,6 +242,7 @@ These areas are interdependent and easy to break:
 11. The a[href^="#acc-"] click handler checks classList.contains('accordion-body') before
     calling openAccordionById(). Do not remove this check — it allows the results nav link
     to scroll without attempting to open a non-existent accordion.
+12. Do not move the initialize block outside of `document.addEventListener('DOMContentLoaded', ...)` — share modal listeners and all other init functions will silently fail to attach.
 
 
 ---

@@ -27,7 +27,7 @@
 <!-- Infrastructure Tags -->
 <link rel="canonical" href="https://caniaffordthishouse.app/" />
 <meta name="robots" content="index, follow" />
-<meta name="author" content="Can I Afford This House?" />
+<meta name="author" content="Josh Johnson" />
 <meta name="theme-color" content="#1e2d40" />
 <meta name="application-name" content="Can I Afford This House?" />
 
@@ -1429,7 +1429,7 @@
         "name": "Is a primary home a good investment?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: a primary home is a savings vehicle with some lifestyle benefits, not an investment. Go in with that expectation and you won't be disappointed."
+          "text": "Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. But it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: owning a primary home is a lifestyle choice that also functions as a savings vehicle; it's not an investment. Go in with that expectation and you won't be disappointed."
         }
       },
       {
@@ -1716,6 +1716,13 @@
                 <li><a href="https://clippingchains.com/2020/08/31/the-real-cost-of-home-ownership/" target="_blank" rel="noopener noreferrer">Article 2</a></li>
               </ul>
             </div>
+            <div class="resource-group">
+              <p>Comprehensive Home Buying Process Guide</p>
+              <ul class="resource-links">
+                <li><a href="https://www.reddit.com/r/FirstTimeHomeBuyer/comments/1l38kbc/the_most_frequently_asked_questions_firsttime/" target="_blank" rel="noopener noreferrer">Part 1</a></li>
+                <li><a href="https://www.reddit.com/r/NewbHomebuyer/comments/1l19eqy/the_most_common_questions_firsttime_buyers_ask_at/" target="_blank" rel="noopener noreferrer">Part 2</a></li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -1779,12 +1786,12 @@
     </div>
 
     <div class="input-group">
-      <label class="input-label" for="property-tax-rate">Gross Property Tax Rate</label>
+      <label class="input-label" for="property-tax-rate">Effective Property Tax Rate</label>
       <div class="input-wrap">
         <input type="number" id="property-tax-rate" placeholder="e.g. 2.5" min="0" max="10" step="0.1" />
         <span class="input-suffix">%</span>
       </div>
-      <span class="input-note">The gross tax rate is something you should look up for the property you're interested in. It's often higher than just the base property tax for the zip code, accounting for things like school districts, townships, and counties. On sites like Zillow, you can calculate it by looking at the public tax history on the listing. Divide the latest property tax amount by the latest assessed home value, then multiply by 100.</span>
+      <span class="input-note">The effective tax rate is something you should calculate for the property you're interested in. It's often different than just the base property tax for the zip code, accounting for things like school districts, townships, and counties. On sites like Zillow, you can calculate it by looking at the public tax history on the listing. Divide the latest property tax amount by the current home puchase price, then multiply by 100.</span>
     </div>
 
     <div class="input-group">
@@ -1832,7 +1839,7 @@
         <span class="chevron">▼</span>
       </button>
       <div class="advanced-body" id="advanced-settings">
-        <p class="input-note" style="margin-bottom: 1.25rem;">These defaults are based on long-run US averages. You're welcome to adjust them, but most users won't need to.</p>
+        <p class="input-note" style="margin-bottom: 1.25rem;">These settings provide additional customization for users who have specific scenarios or edge cases that need to be considered. You're welcome to adjust them, but most users won't need to.</p>
 
         <div class="input-group">
           <label class="input-label" for="inflation-rate">Inflation Rate</label>
@@ -1859,6 +1866,57 @@
             <span class="input-suffix">%</span>
           </div>
           <span class="input-note">The estimated cost to sell your home — agent commissions, title fees, and other closing costs. 8% is a realistic estimate for most US markets.</span>
+        </div>
+
+        <!-- Tax Filing Status -->
+        <div class="input-group">
+          <label class="input-label">Filing Status</label>
+          <div class="toggle-group">
+            <input type="radio" name="filing-status" id="filing-single" value="single" checked />
+            <label for="filing-single">Single</label>
+            <input type="radio" name="filing-status" id="filing-married" value="married" />
+            <label for="filing-married">Married Filing Jointly</label>
+          </div>
+          <span class="input-note">Used to determine your home sale exclusion — $250,000 for single filers, $500,000 for married filing jointly. Most homeowners won't owe capital gains tax unless their gain exceeds this amount.</span>
+        </div>
+
+        <!-- Capital Gains Toggle -->
+        <div class="input-group">
+          <label class="input-label">Capital Gains Tax on Home Sale</label>
+          <div class="default-toggle-row">
+            <span class="default-toggle-label">Include estimated capital gains tax</span>
+            <label class="switch">
+              <input type="checkbox" id="capital-gains-toggle" aria-label="Include capital gains tax estimate" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <span class="input-note">Off by default — most homeowners fall under the exclusion limit and owe nothing. Turn this on if you expect a large gain or want a more complete picture.</span>
+
+          <div id="capital-gains-options" style="display: none; margin-top: 1rem;">
+
+            <div class="input-group" style="margin-bottom: 1rem;">
+              <label class="input-label">Long-Term Capital Gains Rate</label>
+              <div class="discrete-group">
+                <input type="radio" name="cap-gains-rate" id="cg-0" value="0" />
+                <label for="cg-0">0%</label>
+                <input type="radio" name="cap-gains-rate" id="cg-15" value="0.15" checked />
+                <label for="cg-15">15%</label>
+                <input type="radio" name="cap-gains-rate" id="cg-20" value="0.20" />
+                <label for="cg-20">20%</label>
+              </div>
+              <span class="input-note">15% applies to most middle-income earners. 0% applies to lower income brackets. 20% applies to high earners. Check your bracket if you're unsure.</span>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 0;">
+              <label class="input-label" for="basis-adjustment">Capital Improvements & Basis Adjustments</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="basis-adjustment" placeholder="e.g. 30,000" min="0" step="500" value="0" />
+              </div>
+              <span class="input-note">Add the cost of significant improvements that increase your home's value — kitchen remodel, addition, new roof, etc. This raises your cost basis and reduces your taxable gain. Do not include routine maintenance. Your purchase closing costs are already included in your basis automatically.</span>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -2156,6 +2214,12 @@
         <span class="input-suffix">%</span>
       </div>
       <span class="input-note">This is your expected annual return on your savings or investments. For High Yield Savings Accounts or Money Market accounts, a typical value is 3–4% (though this fluctuates with the federal rate). For investment accounts like index funds, the historical average annual return is around 7%. Use whichever best reflects where you plan to put your money.</span>
+      <div class="help-links">
+        <a href="#" id="ror-tax-help-link" onclick="document.getElementById('ror-tax-help-box').style.display = document.getElementById('ror-tax-help-box').style.display === 'none' ? 'block' : 'none'; return false;">Should I use a pre-tax or after-tax rate?</a>
+      </div>
+      <div id="ror-tax-help-box" style="display: none; margin-top: 0.5rem;" class="hint">
+        <span><span class="hint-label">💡 Note:</span> It depends on your account type. If your account taxes growth annually (like a HYSA, where interest is taxed as ordinary income each year), enter your after-tax rate for a more accurate comparison. Quick math: <strong>after-tax rate = rate × (1 − your marginal tax rate)</strong>. For example, a 4.5% HYSA at a 22% marginal rate gives roughly 3.5% after tax. Tax-deferred accounts (401k, IRA) can use the gross rate since taxes only apply at withdrawal.</span>
+      </div>
     </div>
 
     <!-- Other Parameters -->
@@ -2915,9 +2979,22 @@
 
       const finalHomeValue   = price * Math.pow(1 + appreciation, years);
       const finalMortgageBal = balances[years];
-      const gainOnSale       = finalHomeValue - finalMortgageBal;
       const saleCloseCost    = finalHomeValue * saleClose;
-      const buyNetReturn     = gainOnSale - saleCloseCost;
+      const gainOnSale       = finalHomeValue - finalMortgageBal;
+
+      // Capital gains tax on home sale
+      const includeCapGains  = document.getElementById('capital-gains-toggle').checked;
+      const cgRate           = parseFloat(document.querySelector('input[name="cap-gains-rate"]:checked').value) || 0;
+      const filingStatus     = document.querySelector('input[name="filing-status"]:checked').value;
+      const exclusion        = filingStatus === 'married' ? 500000 : 250000;
+      const basisAdj         = parseFloat(document.getElementById('basis-adjustment').value) || 0;
+      const adjustedBasis    = closing + basisAdj;
+      const realizedGain     = finalHomeValue - saleCloseCost - adjustedBasis;
+      const taxableGain      = Math.max(0, realizedGain - exclusion);
+      const capGainsTax      = includeCapGains ? taxableGain * cgRate : 0;
+
+      // Net Return From Home Sale
+      const buyNetReturn     = gainOnSale - saleCloseCost - capGainsTax;
 
       // Cumulative money spent = total outflows excluding the gain
       const buyCumSpent = Math.abs(buyCumCashflow - buyNetReturn);
@@ -3175,6 +3252,11 @@
       document.addEventListener('scroll', () => {
         document.querySelectorAll('.tooltip-wrap.active').forEach(w => w.classList.remove('active'));
       }, { passive: true });
+
+      // Capital gains toggle show/hide
+      document.getElementById('capital-gains-toggle').addEventListener('change', function() {
+        document.getElementById('capital-gains-options').style.display = this.checked ? 'block' : 'none';
+      });
     }
 
     function initAccordions() {
@@ -3539,10 +3621,6 @@
       } else {
         ptrRow.style.display = 'none';
       }
-
-      // URL
-      const url = encodeStateToUrl();
-      document.getElementById('sc-url-display').textContent = url;
     }
 
     // ── Open/close modal ──
