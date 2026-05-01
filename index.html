@@ -2960,6 +2960,27 @@
       });
     }
 
+    // -- Helper function to get the necessary results summary table labels for the share modal
+    function getBuydownLabels() {
+      const bdType = getBuydownType();
+      const isTemp = bdType === '2-1' || bdType === '3-2-1';
+
+      if (isTemp) {
+        const bdPeriodEnd  = bdType === '3-2-1' ? 3 : 2;
+        const fullRateYear = bdPeriodEnd + 1;
+
+        return {
+          monthly: `Average Monthly Cost — After Buydown`,
+          yearly:  `Total Yearly Cost — After Buydown`
+        };
+      }
+
+      return {
+        monthly: 'Average Monthly Cost',
+        yearly:  'Total Yearly Cost'
+      };
+    }
+
     // ── Required field validation ──
     function validateInputs() {
       const required = [
@@ -3838,6 +3859,7 @@
       if (!lastResults) return;
       const r = lastResults;
       const years = parseInt(document.getElementById('years-timeline').value) || 0;
+      const labels = getBuydownLabels();
 
       // Title
       const titleMap = {
@@ -3860,7 +3882,7 @@
           lowerIsBetter: true,
         },
         {
-          label: 'Avg Monthly Cost — Yr 1',
+          label: labels.monthly,
           buy:   r.buyMonthly,
           rent:  r.rentMonthly,
           lowerIsBetter: true,
@@ -4008,6 +4030,7 @@
     async function htmlToCanvas(element) {
       const scale  = window.devicePixelRatio || 2;
       const card   = document.getElementById('share-card-inner');
+      const labels = getBuydownLabels();
 
       // ── Collect all the data we need to paint ──
       const mode   = getCurrentMode();
@@ -4037,7 +4060,7 @@
       // ── Build row data (same logic as populateShareCard) ──
       const rows = [
         { label: 'Total Upfront Cost',          buy: r.buyUpfront,   rent: r.rentUpfront,  lowerIsBetter: true  },
-        { label: 'Avg Monthly Cost — Yr 1',      buy: r.buyMonthly,   rent: r.rentMonthly,  lowerIsBetter: true  },
+        { label: labels.monthly,      buy: r.buyMonthly,   rent: r.rentMonthly,  lowerIsBetter: true  },
         { label: `Financial Return — ${years} Yrs`, buy: r.buyNetReturn, rent: r.savingsValue, lowerIsBetter: false },
         { label: `Cumulative Spent — ${years} Yrs`, buy: r.buyCumSpent,  rent: r.rentCumSpent, lowerIsBetter: true  },
       ];
@@ -4054,7 +4077,8 @@
       const rowH       = 38;
       const ptrH       = mode === 'both' && r.ptr !== null ? 44 : 0;
       const footerH    = 68;
-      const totalH     = headerH + tableHeadH + rows.length * rowH + ptrH + footerH;
+      let computedRowsH = 0;
+      const totalH = headerH + tableHeadH + rows.length * rowH + ptrH + footerH;
 
       const canvas  = document.createElement('canvas');
       canvas.width  = W * scale;
@@ -4082,6 +4106,25 @@
         ctx.lineTo(x, y + r2);
         ctx.quadraticCurveTo(x, y, x + r2, y);
         ctx.closePath();
+      }
+
+      // Helper: wrapping text
+      function wrapText(ctx, text, maxWidth) {
+        const words = text.split(' ');
+        const lines = [];
+        let current = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+          const test = current + ' ' + words[i];
+          if (ctx.measureText(test).width < maxWidth) {
+            current = test;
+          } else {
+            lines.push(current);
+            current = words[i];
+          }
+        }
+        lines.push(current);
+        return lines;
       }
 
       // ── Draw card background ──
@@ -4135,45 +4178,68 @@
       // ── Table rows ──
       y += tableHeadH;
       rows.forEach((row, i) => {
-        const bg = i % 2 === 0 ? warmWhite : cream;
-        ctx.fillStyle = bg;
-        ctx.fillRect(0, y, W, rowH);
+      const bg = i % 2 === 0 ? warmWhite : cream;
+      ctx.fillStyle = bg;
+      
+      const labelMaxWidth = labelW - 30;
+      const lineHeight = 15;
+      const paddingY = 12;
 
-        // Label
-        ctx.fillStyle  = muted;
-        ctx.font       = '13px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign  = 'left';
-        ctx.fillText(row.label, 20, y + rowH / 2 + 5);
+      const labelLines = wrapText(ctx, row.label, labelMaxWidth);
+      const dynamicRowH = Math.max(rowH, labelLines.length * lineHeight + paddingY);
 
-        if (row.isRangeRow) {
-          const extractUpper = str => {
-            if (!str || str === '—') return -Infinity;
-            const parts = str.split('–');
-            const last  = parts[parts.length - 1].trim();
-            return parseFloat(last.replace(/[$,]/g, '')) || -Infinity;
-          };
-          const buyUpper  = extractUpper(row.buyRaw);
-          const rentUpper = extractUpper(row.rentRaw);
+      const valueY = y + dynamicRowH / 2 + 4;
 
-          colX = labelW;
-          if (showBuy) {
-            const wins = mode === 'both' && buyUpper > rentUpper;
-            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
-            ctx.fillStyle  = wins ? green : navy;
-            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.textAlign  = 'right';
-            ctx.fillText(row.buyRaw || '—', colX + valW - 16, y + rowH / 2 + 5);
-            colX += valW;
-          }
-          if (showRent) {
-            const wins = mode === 'both' && rentUpper > buyUpper;
-            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
-            ctx.fillStyle  = wins ? green : navy;
-            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.textAlign  = 'right';
-            ctx.fillText(row.rentRaw || '—', colX + valW - 16, y + rowH / 2 + 5);
-          }
-        } else {
+      const textBlockHeight = labelLines.length * lineHeight;
+      const startY = y + (dynamicRowH - textBlockHeight) / 2 + 11;  
+
+      // background
+      ctx.fillRect(0, y, W, dynamicRowH);
+
+      // draw label
+      labelLines.forEach((line, i) => {
+        ctx.fillText(line, 20, startY + (i * lineHeight));
+      });
+
+      // Label
+      ctx.fillStyle  = muted;
+      ctx.font       = '13px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign  = 'left';
+
+      // draw multi-line label
+      labelLines.forEach((line, i) => {
+        ctx.fillText(line, 20, startY + (i * lineHeight));
+      });
+
+      if (row.isRangeRow) {
+        const extractUpper = str => {
+          if (!str || str === '—') return -Infinity;
+          const parts = str.split('–');
+          const last  = parts[parts.length - 1].trim();
+          return parseFloat(last.replace(/[$,]/g, '')) || -Infinity;
+        };
+        const buyUpper  = extractUpper(row.buyRaw);
+        const rentUpper = extractUpper(row.rentRaw);
+
+        colX = labelW;
+        if (showBuy) {
+          const wins = mode === 'both' && buyUpper > rentUpper;
+          if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
+          ctx.fillStyle  = wins ? green : navy;
+          ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.textAlign  = 'right';
+          ctx.fillText(row.buyRaw || '—', colX + valW - 16, valueY);
+          colX += valW;
+        }
+        if (showRent) {
+          const wins = mode === 'both' && rentUpper > buyUpper;
+          if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
+          ctx.fillStyle  = wins ? green : navy;
+          ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.textAlign  = 'right';
+          ctx.fillText(row.rentRaw || '—', colX + valW - 16, valueY);
+        }
+      } else {
           const buyWins  = row.lowerIsBetter ? row.buy  < row.rent  : row.buy  > row.rent;
           const rentWins = row.lowerIsBetter ? row.rent < row.buy   : row.rent > row.buy;
 
@@ -4184,7 +4250,7 @@
             ctx.fillStyle  = wins ? green : navy;
             ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign  = 'right';
-            ctx.fillText(fmt(row.buy), colX + valW - 16, y + rowH / 2 + 5);
+            ctx.fillText(fmt(row.buy), colX + valW - 16, valueY);
             colX += valW;
           }
           if (showRent) {
@@ -4193,7 +4259,7 @@
             ctx.fillStyle  = wins ? green : navy;
             ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
             ctx.textAlign  = 'right';
-            ctx.fillText(fmt(row.rent), colX + valW - 16, y + rowH / 2 + 5);
+            ctx.fillText(fmt(row.rent), colX + valW - 16, valueY);
           }
         }
 
@@ -4201,11 +4267,11 @@
         ctx.strokeStyle = border;
         ctx.lineWidth   = 0.5;
         ctx.beginPath();
-        ctx.moveTo(0, y + rowH);
-        ctx.lineTo(W, y + rowH);
+        ctx.moveTo(0, y + dynamicRowH);
+        ctx.lineTo(W, y + dynamicRowH);
         ctx.stroke();
 
-        y += rowH;
+        y += dynamicRowH;
       });
 
       // ── PTR row ──
@@ -4351,6 +4417,7 @@
       const r     = lastResults;
       const years = parseInt(document.getElementById('years-timeline').value) || 0;
       const lines = [];
+      const labels = getBuydownLabels();
 
       lines.push('📊 My Housing Calculator Results');
       lines.push('');
@@ -4369,7 +4436,7 @@
       if (mode !== 'buy') {
         lines.push('💰 RENTING & SAVING');
         lines.push(`  Upfront cost: ${fmt(r.rentUpfront)}`);
-        lines.push(`  Monthly cost (yr 1): ${fmt(r.rentMonthly)}`);
+        lines.push(`  ${labels.monthly}: ${fmt(r.rentMonthly)}`);
         lines.push(`  Savings value (${years} yrs): ${fmt(r.savingsValue)}`);
         lines.push(`  Total spent (${years} yrs): ${fmt(r.rentCumSpent)}`);
         const incRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
