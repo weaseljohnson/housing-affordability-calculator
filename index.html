@@ -1919,6 +1919,98 @@
           </div>
         </div>
 
+        <!-- Mortgage Buydown Toggle -->
+        <div class="input-group" style="margin-top: 1.5rem;">
+          <label class="input-label">Mortgage Buydown</label>
+          <div class="default-toggle-row">
+            <span class="default-toggle-label">Include mortgage buydown</span>
+            <label class="switch">
+              <input type="checkbox" id="buydown-toggle" aria-label="Include mortgage buydown" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <span class="input-note">A buydown reduces your interest rate — either temporarily (2-1, 3-2-1) or permanently (discount points). Temporary buydowns lower your payment for the first few years before reverting to the full note rate. Permanent buydowns lower your rate for the life of the loan.</span>
+
+          <div id="buydown-options" style="display: none; margin-top: 1.25rem;">
+
+            <!-- Buydown Type Radio -->
+            <div class="input-group">
+              <label class="input-label">Buydown Type</label>
+              <div class="toggle-group">
+                <input type="radio" name="buydown-type" id="buydown-21" value="2-1" checked />
+                <label for="buydown-21">2-1</label>
+                <input type="radio" name="buydown-type" id="buydown-321" value="3-2-1" />
+                <label for="buydown-321">3-2-1</label>
+                <input type="radio" name="buydown-type" id="buydown-perm" value="permanent" />
+                <label for="buydown-perm">Permanent</label>
+              </div>
+              <span class="input-note" id="buydown-type-note-temp">A temporary buydown lowers your payment for the first 2–3 years using funds set aside at closing, then reverts to your full note rate. You'll still qualify based on the full rate.</span>
+              <span class="input-note" id="buydown-type-note-perm" style="display:none;">A permanent buydown uses discount points paid at closing to reduce your rate for the entire loan term. One point = 1% of the loan amount.</span>
+            </div>
+
+            <!-- Who Pays Toggle -->
+            <div class="input-group">
+              <label class="input-label">Who pays the buydown cost?</label>
+              <div class="toggle-group">
+                <input type="radio" name="buydown-payer" id="buydown-buyer" value="buyer" checked />
+                <label for="buydown-buyer">I'm paying it</label>
+                <input type="radio" name="buydown-payer" id="buydown-other" value="other" />
+                <label for="buydown-other">Seller / Builder</label>
+              </div>
+              <span class="input-note">If the seller or builder is covering the buydown cost, it won't be included in your upfront cash needed.</span>
+            </div>
+
+            <!-- Permanent Buydown Inputs (shown only when permanent is selected) -->
+            <div id="buydown-permanent-inputs" style="display: none;">
+              <div class="input-group">
+                <label class="input-label" for="buydown-points">Discount Points</label>
+                <div class="input-wrap">
+                  <input type="number" id="buydown-points" value="0" min="0" max="10" step="0.25" />
+                  <span class="input-suffix">pts</span>
+                </div>
+                <span class="input-note">Each point costs 1% of your loan amount. Entering 1 point on a $300,000 loan costs $3,000 upfront.</span>
+              </div>
+              <div class="input-group" style="margin-bottom: 0;">
+                <label class="input-label" for="buydown-rate-per-point">Rate Reduction Per Point</label>
+                <div class="input-wrap">
+                  <input type="number" id="buydown-rate-per-point" value="0.25" min="0" max="1" step="0.05" />
+                  <span class="input-suffix">%</span>
+                </div>
+                <span class="input-note">Typically 0.25% per point, but varies by lender and market conditions. Check your lender's current pricing.</span>
+              </div>
+            </div>
+
+            <!-- Buydown Payment Schedule Card (shown for temporary buydowns) -->
+            <div id="buydown-schedule-card" style="margin-top: 1.25rem;">
+              <p class="calc-group-label" style="margin-top: 0;">Buydown Payment Schedule</p>
+              <div class="output-cards" style="grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="output-card">
+                  <div class="output-card-label">Year 1 Payment</div>
+                  <div class="output-card-value" id="bd-year1-payment">—</div>
+                </div>
+                <div class="output-card">
+                  <div class="output-card-label">Year 2 Payment</div>
+                  <div class="output-card-value" id="bd-year2-payment">—</div>
+                </div>
+                <div class="output-card" id="bd-year3-card" style="display:none;">
+                  <div class="output-card-label">Year 3 Payment</div>
+                  <div class="output-card-value" id="bd-year3-payment">—</div>
+                </div>
+                <div class="output-card highlight">
+                  <div class="output-card-label">Full Rate Payment</div>
+                  <div class="output-card-value" id="bd-full-payment">—</div>
+                </div>
+                <!-- Upfront cost cell — only shown when buyer is paying -->
+                <div class="output-card total" id="bd-upfront-cost-card" style="display:none; grid-column: 1 / -1;">
+                  <div class="output-card-label">Buydown Upfront Cost</div>
+                  <div class="output-card-value" id="bd-upfront-cost">—</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -2616,10 +2708,10 @@
 
     // ── PMT calculation (monthly mortgage payment) ──
     function calcPMT(principal, annualRate, years) {
-      if (!principal || !annualRate || !years) return 0;
+      if (!principal || !years || annualRate == null) return 0;
       const r = annualRate / 100 / 12;
       const n = years * 12;
-      if (r === 0) return principal / n;
+      if (r <= 0) return principal / n;
       return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     }
 
@@ -2627,7 +2719,7 @@
     function updateMortgageOutputs() {
       const price    = parseFloat(document.getElementById('purchase-price').value) || 0;
       const dpPct    = parseFloat(document.getElementById('down-payment-pct').value) || 0;
-      const rate     = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const rate     = getEffectiveRate();
       const term     = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
 
       const dp       = price * (dpPct / 100);
@@ -2640,6 +2732,9 @@
 
       // also update upfront outputs since they depend on monthly
       updateUpfrontOutputs(loan, monthly);
+
+      // Ensure the buydown schedule updates whenever core loan math changes
+      updateBuydownScheduleCard();
 
       // Prefill maintenance at 2% of purchase price
       const maintenance = document.getElementById('maintenance-costs');
@@ -2656,14 +2751,27 @@
       const closingPct = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
       const insurance  = parseFloat(document.getElementById('ho-insurance').value) || 0;
       const taxRate    = parseFloat(document.getElementById('property-tax-rate').value) || 0;
+      const noteRate   = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const term       = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
 
       const closing    = loan * closingPct;
       const monthTax   = (price * taxRate / 100 / 12);
       const reserves   = 2* ( monthly + insurance / 12 + monthTax);
-      const total      = dp + closing + moving + reserves;
+
+      const buydownCost = (() => {
+        const bdType = getBuydownType();
+        const payer  = getBuydownPayer();
+        if (payer !== 'buyer') return 0;
+        if (bdType === 'permanent') return calcPermanentBuydownUpfront(loan);
+        if (bdType === '2-1' || bdType === '3-2-1') return calcTemporaryBuydownUpfront(loan, noteRate, term);
+        return 0;
+      })();
+
+      const total = dp + closing + moving + reserves + buydownCost;
 
       document.getElementById('out-reserves').textContent      = fmt(reserves);
       document.getElementById('out-total-upfront').textContent = fmt(total);
+      // debugger;
     }
 
     // ── Calculate default monthly contribution ──
@@ -2695,6 +2803,123 @@
       if (dpPct > 5 && dpPct < 10) return 146;
       if (dpPct >= 10 && dpPct < 20) return 60;
       return 0;
+    }
+    
+    // ── Buydown helpers ──
+
+    function getBuydownType() {
+      if (!document.getElementById('buydown-toggle').checked) return 'none';
+      return document.querySelector('input[name="buydown-type"]:checked').value;
+    }
+
+    function getBuydownPayer() {
+      return document.querySelector('input[name="buydown-payer"]:checked').value;
+    }
+
+    // Returns the effective interest rate for mortgage setup.
+    // For permanent buydowns, reduces the note rate by (points × ratePerPoint).
+    // For temporary buydowns, the full note rate is always used — the subsidy
+    // covers the difference, not a change to the underlying loan rate.
+    function getEffectiveRate() {
+      const baseRate = parseFloat(document.getElementById('interest-rate').value) || 0;
+      if (getBuydownType() !== 'permanent') return baseRate;
+      const points       = parseFloat(document.getElementById('buydown-points').value) || 0;
+      const ratePerPoint = parseFloat(document.getElementById('buydown-rate-per-point').value) || 0.25;
+      return Math.max(0, baseRate - (points * ratePerPoint));
+    }
+
+    // Returns the annual subsidy amount for a given year under a temporary buydown.
+    // The subsidy is the difference between what the borrower pays (reduced rate PMT)
+    // and what the note requires (full rate PMT), multiplied by 12 months.
+    // yearNum is 1-indexed. Returns 0 if no subsidy applies for that year.
+    function getTemporaryBuydownSubsidy(yearNum, loan, fullRate, term) {
+      const type = getBuydownType();
+      let rateReduction = 0;
+      if (type === '2-1') {
+        if (yearNum === 1) rateReduction = 2;
+        else if (yearNum === 2) rateReduction = 1;
+      } else if (type === '3-2-1') {
+        if (yearNum === 1) rateReduction = 3;
+        else if (yearNum === 2) rateReduction = 2;
+        else if (yearNum === 3) rateReduction = 1;
+      }
+      if (rateReduction === 0) return 0;
+      const reducedRate = Math.max(0, fullRate - rateReduction);
+      const fullPMT     = calcPMT(loan, fullRate, term);
+      const reducedPMT  = calcPMT(loan, reducedRate, term);
+      return (fullPMT - reducedPMT) * 12;
+    }
+
+    // Returns the total upfront subsidy cost for a temporary buydown
+    // (sum of all monthly payment reductions across the full buydown period).
+    function calcTemporaryBuydownUpfront(loan, fullRate, term) {
+      const type = getBuydownType();
+      if (type !== '2-1' && type !== '3-2-1') return 0;
+      const subsidyYears = type === '2-1' ? 2 : 3;
+      let total = 0;
+      for (let y = 1; y <= subsidyYears; y++) {
+        total += getTemporaryBuydownSubsidy(y, loan, fullRate, term);
+      }
+      return total;
+    }
+
+    // Returns the upfront cost of a permanent buydown (discount points × loan amount).
+    function calcPermanentBuydownUpfront(loan) {
+      if (getBuydownType() !== 'permanent') return 0;
+      const points = parseFloat(document.getElementById('buydown-points').value) || 0;
+      return loan * (points / 100);
+    }
+
+    // Updates the buydown payment schedule card for temporary buydowns.
+    // Shows each subsidized year's reduced monthly payment and the full note rate payment.
+    function updateBuydownScheduleCard() {
+      const type = getBuydownType();
+      if (type === 'none' || type === 'permanent') return;
+
+      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const rate  = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const term  = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
+      const loan  = price - price * (dpPct / 100);
+
+      // Full note rate payment (what the borrower pays after the buydown period ends)
+      const pmtFull = calcPMT(loan, rate, term);
+
+      // 2-1 buydown: Year 1 = rate - 2%, Year 2 = rate - 1%, Year 3+ = full rate
+      // 3-2-1 buydown: Year 1 = rate - 3%, Year 2 = rate - 2%, Year 3 = rate - 1%, Year 4+ = full rate
+      const pmtYear1 = type === '2-1'
+        ? calcPMT(loan, Math.max(0, rate - 2), term)
+        : calcPMT(loan, Math.max(0, rate - 3), term);
+
+      const pmtYear2 = type === '2-1'
+        ? calcPMT(loan, Math.max(0, rate - 1), term)
+        : calcPMT(loan, Math.max(0, rate - 2), term);
+
+      // Year 3 only exists for 3-2-1 (rate - 1%)
+      const pmtYear3 = calcPMT(loan, Math.max(0, rate - 1), term);
+
+      document.getElementById('bd-year1-payment').textContent = fmt(pmtYear1);
+      document.getElementById('bd-year2-payment').textContent = fmt(pmtYear2);
+      document.getElementById('bd-full-payment').textContent  = fmt(pmtFull);
+
+      // Show or hide the Year 3 card depending on buydown type
+      const year3Card = document.getElementById('bd-year3-card');
+      if (type === '3-2-1') {
+        year3Card.style.display = '';
+        document.getElementById('bd-year3-payment').textContent = fmt(pmtYear3);
+      } else {
+        year3Card.style.display = 'none';
+      }
+
+      // Upfront cost cell — only shown when buyer is paying
+      const upfrontCard = document.getElementById('bd-upfront-cost-card');
+      if (getBuydownPayer() === 'buyer') {
+        const subsidy = calcTemporaryBuydownUpfront(loan, rate, term);
+        document.getElementById('bd-upfront-cost').textContent = fmt(subsidy);
+        upfrontCard.style.display = '';
+      } else {
+        upfrontCard.style.display = 'none';
+      }
     }
 
     // ── Update savings defaults ──
@@ -2842,7 +3067,8 @@
       // ════════════════════════════
       const price        = parseFloat(document.getElementById('purchase-price').value) || 0;
       const dpPct        = parseFloat(document.getElementById('down-payment-pct').value) || 0;
-      const rate         = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const noteRate     = parseFloat(document.getElementById('interest-rate').value) || 0;
+      const rate         = getEffectiveRate(); // = noteRate for temporary buydowns; reduced for permanent
       const term         = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
       const years        = parseInt(document.getElementById('years-timeline').value) || 0;
       const taxRate      = parseFloat(document.getElementById('property-tax-rate').value) / 100 || 0;
@@ -2857,6 +3083,7 @@
       const saleClose    = parseFloat(document.getElementById('sale-closing-costs').value) / 100 || 0.08;
       const movingBuy    = parseFloat(document.getElementById('moving-costs').value) || 0;
       const closingPct   = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
+      const monthBuyTax   = (price * taxRate / 12);
 
       const rent         = parseFloat(document.getElementById('monthly-rent').value) || 0;
       const secDeposit   = parseFloat(document.getElementById('security-deposit').value) || 0;
@@ -2881,10 +3108,11 @@
       const closing      = loan * closingPct;
       const monthlyRate  = rate / 100 / 12;
       const numPayments  = term * 12;
-      const monthlyPMT   = monthlyRate === 0 ? loan / numPayments
-                           : loan * (monthlyRate * Math.pow(1 + monthlyRate, numPayments))
-                             / (Math.pow(1 + monthlyRate, numPayments) - 1);
-      const reserves     = monthlyPMT * 2;
+      // const monthlyPMT   = monthlyRate === 0 ? loan / numPayments
+      //                      : loan * (monthlyRate * Math.pow(1 + monthlyRate, numPayments))
+      //                        / (Math.pow(1 + monthlyRate, numPayments) - 1);
+      const monthlyPMT   = calcPMT(loan, rate, term);
+      const reserves     = 2 * (monthlyPMT + insurance / 12 + monthBuyTax);
       const pmi          = calcPMI();
 
       // ── Annual interest & principal using monthly compounding summed per year ──
@@ -2933,7 +3161,7 @@
       // ════════════════════════════
       let buyCumCashflow = -(dp + closing + movingBuy + reserves);
       let homeValue      = price;
-      let buyYear1Cost   = 0;
+      let buyYearFullRateCost   = 0;
 
       // Pre-compute mortgage balances to save performance
       const balances = [loan];
@@ -2959,12 +3187,14 @@
         const movingYear = (y === years) ? movingBuy : 0;
 
         if (y === 1) {
-          buyYear1Cost = interest + principal + propTax + hoaYear
+          buyYearFullRateCost = interest + principal + propTax + hoaYear
                        + insYear + maintYear + pmiYear + utilYear;
         }
 
+        const buydownSubsidy = getTemporaryBuydownSubsidy(y, loan, noteRate, term);
         const yearSpend = interest + principal + propTax + hoaYear
-                        + insYear + maintYear + pmiYear + utilYear + movingYear;
+                        + insYear + maintYear + pmiYear + utilYear + movingYear
+                        - buydownSubsidy;
 
         if (y === years) {
           const finalBal      = balances[years];
@@ -2988,7 +3218,7 @@
       const filingStatus     = document.querySelector('input[name="filing-status"]:checked').value;
       const exclusion        = filingStatus === 'married' ? 500000 : 250000;
       const basisAdj         = parseFloat(document.getElementById('basis-adjustment').value) || 0;
-      const adjustedBasis    = closing + basisAdj;
+      const adjustedBasis    = price + closing + basisAdj;
       const realizedGain     = finalHomeValue - saleCloseCost - adjustedBasis;
       const taxableGain      = Math.max(0, realizedGain - exclusion);
       const capGainsTax      = includeCapGains ? taxableGain * cgRate : 0;
@@ -3030,16 +3260,24 @@
       // ════════════════════════════
       // SUMMARY TABLE VALUES
       // ════════════════════════════
-      const buyUpfront  = dp + closing + movingBuy + reserves;
+      const buydownUpfront = (() => {
+        const bdType  = getBuydownType();
+        const payer   = getBuydownPayer();
+        if (payer !== 'buyer') return 0;
+        if (bdType === 'permanent') return calcPermanentBuydownUpfront(loan);
+        if (bdType === '2-1' || bdType === '3-2-1') return calcTemporaryBuydownUpfront(loan, noteRate, term);
+        return 0;
+      })();
+      const buyUpfront = dp + closing + movingBuy + reserves + buydownUpfront;
       const rentUpfront = secDeposit + movingRent + rentReserves + initialDeposit;
 
-      const buyMonthly  = buyYear1Cost / 12;
+      const buyMonthly  = buyYearFullRateCost / 12;
       const rentMonthly = rentYear1Cost / 12;
 
-      const buyIncome30    = taxRateBuy  > 0 ? (buyYear1Cost  / 0.3) / (1 - taxRateBuy)  : null;
+      const buyIncome30    = taxRateBuy  > 0 ? (buyYearFullRateCost  / 0.3) / (1 - taxRateBuy)  : null;
       const rentIncome30   = taxRateRent > 0 ? (rentYear1Cost / 0.4) / (1 - taxRateRent) : null;
       const buyIncomeLife  = taxRateBuy  > 0
-                             ? (buyYear1Cost + lifestyle) / (1 - taxRateBuy) : null;
+                             ? (buyYearFullRateCost + lifestyle) / (1 - taxRateBuy) : null;
       const rentIncomeLife = taxRateRent > 0
                              ? (rentYear1Cost - monthlyContrib * 12 + lifestyle)
                                / (1 - taxRateRent) : null;
@@ -3063,7 +3301,7 @@
       setVal('r-upfront-rent',  rentUpfront);
       setVal('r-monthly-buy',   buyMonthly);
       setVal('r-monthly-rent',  rentMonthly);
-      setVal('r-yearly-buy',    buyYear1Cost);
+      setVal('r-yearly-buy',    buyYearFullRateCost);
       setVal('r-yearly-rent',   rentYear1Cost);
       setVal('r-spent-buy',     buyCumSpent);
       setVal('r-spent-rent',    rentCumSpent);
@@ -3075,6 +3313,35 @@
       setStr('r-spent-label',  `Cumulative Spending — ${years} Years`);
       setStr('r-return-label', `Financial Return — ${years} Years`);
       setStr('r-net-label',    `Financial Return Vs Cumulative Spending — ${years} Years`);
+
+      // ── Relabel monthly/yearly rows for temporary buydowns ──
+      const bdType        = getBuydownType();
+      const isTempBuydown = bdType === '2-1' || bdType === '3-2-1';
+      const bdPeriodEnd   = bdType === '3-2-1' ? 3 : 2;
+      const fullRateYear  = bdPeriodEnd + 1;
+
+      // Target the tooltip-wrap span inside each label cell,
+      // then update its first child text node directly.
+      const monthlyTooltipSpan = document.querySelector('#r-monthly-buy')
+        ?.closest('tr')
+        ?.querySelector('.tooltip-wrap');
+      const yearlyTooltipSpan  = document.querySelector('#r-yearly-buy')
+        ?.closest('tr')
+        ?.querySelector('.tooltip-wrap');
+
+      if (monthlyTooltipSpan && yearlyTooltipSpan) {
+        // The text node is the first child of the tooltip-wrap span
+        const monthlyTextNode = monthlyTooltipSpan.childNodes[0];
+        const yearlyTextNode  = yearlyTooltipSpan.childNodes[0];
+
+        if (isTempBuydown) {
+          monthlyTextNode.textContent = `Average Monthly Cost — After Buydown (Yr ${fullRateYear}+)`;
+          yearlyTextNode.textContent  = `Total Yearly Cost — After Buydown (Yr ${fullRateYear}+)`;
+        } else {
+          monthlyTextNode.textContent = 'Average Monthly Cost — Year 1';
+          yearlyTextNode.textContent  = 'Total Yearly Cost — Year 1';
+        }
+      }
 
       // ── Income rows ──
       const incomeFields = [
@@ -3156,6 +3423,7 @@
         rentIncomeLife:rentIncomeLife|| null,
         ptr,
       };
+      // debugger;
     }
 
     // ── Wire up all event listeners ──
@@ -3177,7 +3445,8 @@
         document.getElementById(id).addEventListener('input', () => {
           const price   = parseFloat(document.getElementById('purchase-price').value) || 0;
           const dpPct   = parseFloat(document.getElementById('down-payment-pct').value) || 0;
-          const rate    = parseFloat(document.getElementById('interest-rate').value) || 0;
+          // const rate    = parseFloat(document.getElementById('interest-rate').value) || 0;
+          const rate    = getEffectiveRate();
           const term    = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
           const loan    = price - price * (dpPct / 100);
           const monthly = calcPMT(loan, rate, term);
@@ -3381,6 +3650,45 @@
       dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
     }
 
+    function initBuydownControls() {
+      const toggle  = document.getElementById('buydown-toggle');
+      const options = document.getElementById('buydown-options');
+
+      toggle.addEventListener('change', () => {
+        options.style.display = toggle.checked ? 'block' : 'none';
+        if (toggle.checked) {
+          updateBuydownScheduleCard();
+        }
+        updateMortgageOutputs();
+      });
+
+      document.querySelectorAll('input[name="buydown-type"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          const isPerm = radio.value === 'permanent';
+          document.getElementById('buydown-permanent-inputs').style.display = isPerm ? 'block' : 'none';
+          document.getElementById('buydown-schedule-card').style.display   = isPerm ? 'none'  : 'block';
+          document.getElementById('buydown-type-note-temp').style.display  = isPerm ? 'none'  : 'block';
+          document.getElementById('buydown-type-note-perm').style.display  = isPerm ? 'block' : 'none';
+          updateBuydownScheduleCard();
+          updateMortgageOutputs();
+        });
+      });
+
+      document.querySelectorAll('input[name="buydown-payer"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          updateBuydownScheduleCard();
+          updateMortgageOutputs();
+        });
+      });
+
+      ['buydown-points', 'buydown-rate-per-point'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+          updateBuydownScheduleCard();
+          updateMortgageOutputs();
+        });
+      });
+    }
+
     // ════════════════════════════
     // SHARE FEATURE
     // ════════════════════════════
@@ -3399,7 +3707,8 @@
       'electric-rent': 'er', 'water-rent': 'wr', 'other-util-rent': 'or', 'prior-savings': 'ps',
       'rate-of-return': 'rr', 'rent-increase-yoy': 'ry', 'tax-rate-buying': 'tb', 'tax-rate-renting': 'tr',
       'lifestyle-spending': 'ls', 'initial-deposit-manual-input': 'idm', 'monthly-contrib-manual-input': 'mcm',
-      'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct'
+      'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct',
+      'buydown-toggle': 'bd', 'buydown-type': 'bdt', 'buydown-payer': 'bdpy', 'buydown-points': 'bdp', 'buydown-rate-per-point': 'bdr',
     };
     // Create a reverse map for decoding
     const reverseUrlMap = Object.fromEntries(Object.entries(urlMap).map(([k, v]) => [v, k]));
@@ -3414,10 +3723,19 @@
           params.set(urlMap[id], isChecked ? '1' : '0');
           return;
         }
+        if (id === 'buydown-toggle') {
+          params.set(urlMap[id], document.getElementById(id).checked ? '1' : '0');
+          return;
+        }
         // Radios
         if (id === 'loan-term' || id === 'closing-pct') {
           const checkedRadio = document.querySelector(`input[name="${id}"]:checked`);
           if (checkedRadio) params.set(urlMap[id], checkedRadio.value);
+          return;
+        }
+        if (id === 'buydown-type' || id === 'buydown-payer') {
+          const checked = document.querySelector(`input[name="${id}"]:checked`);
+          if (checked) params.set(urlMap[id], checked.value);
           return;
         }
         // Standard inputs
@@ -3439,13 +3757,13 @@
           const id = reverseUrlMap[shortKey];
           if (!id) return;
 
-          // Radios
+          // Closing Percent Radio
           if (id === 'loan-term' || id === 'closing-pct') {
             const radio = document.querySelector(`input[name="${id}"][value="${val}"]`);
             if (radio) radio.checked = true;
             return;
           }
-          // Toggle checkboxes
+          // Savings Toggle checkboxes
           if (id === 'initial-deposit-toggle' || id === 'monthly-contrib-toggle') {
             const el = document.getElementById(id);
             el.checked = val === '1';
@@ -3453,6 +3771,34 @@
             const isInit = id === 'initial-deposit-toggle';
             document.getElementById(isInit ? 'initial-deposit-default-display' : 'monthly-contrib-default-display').style.display = el.checked ? 'flex' : 'none';
             document.getElementById(isInit ? 'initial-deposit-manual' : 'monthly-contrib-manual').style.display = el.checked ? 'none' : 'block';
+            return;
+          }
+          // Buydown toggle
+          if (id === 'buydown-toggle') {
+            const el = document.getElementById(id);
+            el.checked = val === '1';
+            document.getElementById('buydown-options').style.display = el.checked ? 'block' : 'none';
+            return;
+          }
+
+          // Buydown type radio
+          if (id === 'buydown-type') {
+            const radio = document.querySelector(`input[name="buydown-type"][value="${val}"]`);
+            if (radio) {
+              radio.checked = true;
+              const isPerm = val === 'permanent';
+              document.getElementById('buydown-permanent-inputs').style.display = isPerm ? 'block' : 'none';
+              document.getElementById('buydown-schedule-card').style.display   = isPerm ? 'none'  : 'block';
+              document.getElementById('buydown-type-note-temp').style.display  = isPerm ? 'none'  : 'block';
+              document.getElementById('buydown-type-note-perm').style.display  = isPerm ? 'block' : 'none';
+            }
+            return;
+          }
+
+          // Buydown payer radio
+          if (id === 'buydown-payer') {
+            const radio = document.querySelector(`input[name="buydown-payer"][value="${val}"]`);
+            if (radio) radio.checked = true;
             return;
           }
           // Standard inputs
@@ -4103,6 +4449,7 @@
       initAdvSettingToggle();
       initInputClamping();
       initShareModal();
+      initBuydownControls();
 
       // Auto-load from shared URL if present
       if (decodeStateFromUrl()) {

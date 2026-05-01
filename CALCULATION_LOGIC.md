@@ -99,6 +99,16 @@ Checked each year using prior year's balance and prior year's home value.
 - Year 1 (y=1): exponent = 0, so cost is unchanged
 - Default inflation = 3%
 
+### Capital Gains Tax
+- Capital gains exclusion amount based on tax filing status toggle (married vs single)
+- User chooses capital gains tax rate from radio (default 15%)
+- User also input basis adjustment
+- adjusted basis = closing costs + user input basis adjustment
+- realizedGain = finalHomeValue - saleCloseCost - adjustedBasis;
+- taxable gain derived from difference between realized gain and exclusion amount
+- total capital gains tax = taxable gain * CG tax rate
+- Total CG tax subtracted from the net return on selling the home.
+
 ---
 
 ## Buy Side — Year-by-Year Loop
