@@ -139,6 +139,10 @@ The product functions as both:
 - Results nav link "→ How to read your results" added above results table in amber
 - Results accordions expanded to 7 items under "Understanding Your Results" label: Where do I go from here?, Cumulative Money Spent, Savings Return, Return Minus Cumulative Spent, PTR explainer, 30% Rule, Current Lifestyle Approach
 - README for the GitHub repo
+- Capital gains tax on home sale (Advanced Settings, off by default) — filing status toggle, capital gains rate selector (0/15/20%), basis adjustment field
+- Rate of return inline help box (toggle-on-click, hint style)
+- Mortgage Buydown options: 2-1, 3-2-1, and Permanent
+- Optional manual mode for PMI. PMI card now shows in property section when it is applicable.
 
 ### Not Yet Built
 - Year-by-year data tables (collapsed by default, one for buying, one for renting)

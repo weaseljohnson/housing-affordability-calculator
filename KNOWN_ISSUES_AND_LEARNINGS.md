@@ -152,6 +152,19 @@ document.getElementById('sc-url-display').textContent = url;
 **Fix:** Replaced the `roundRect` call for the badge with explicit `ctx.arc` calls to draw two semicircular end caps connected by straight lines — a true pill shape that does not rely on `roundRect`.
 **Lesson:** Do not use custom `roundRect` helpers for pill/capsule shapes. Use paired `ctx.arc` calls instead. They are unambiguous and work identically across all browsers.
 
+### Bug 16 — Upfront Cost Card and Results Table Showed Different Values for Buydown
+**Issue:** The Step 1 "Total Upfront Cash Needed" card did not include the buydown cost while the results table `r-upfront-buy` cell did.
+**Cause:** `updateUpfrontOutputs()` originally had no awareness of buydown cost. `runCalculations()` correctly added `buydownUpfront` to `buyUpfront`, but the live card used a separate code path.
+**Fix:** Added buydown cost calculation to `updateUpfrontOutputs()` using the same IIFE pattern as `runCalculations()`. Added local `noteRate` and `term` reads inside `updateUpfrontOutputs()` since those weren't previously in scope.
+**Lesson:** Any time a cost component is added to the results table upfront cell, it must also be added to the live Step 1 upfront card. These are two separate code paths that must stay in sync.
+
+### Bug 17 — Share Modal Table Not Updating Dynamically with Buydown State
+**Issue:** The share modal table did not reflect buydown-adjusted labels or values when the buydown toggle was active.
+**Cause:** `populateShareCard()` and `htmlToCanvas()` were not calling `getBuydownLabels()` to get the correct row label strings, and were not using `lastResults` values that reflected the buydown-adjusted calculation.
+**Fix:** Both functions now call `getBuydownLabels()` and use the `labels.monthly` / `labels.yearly` strings for the relevant row. `lastResults` is populated by `runCalculations()` after each Calculate press, so values are always current.
+**Lesson:** Any display function that mirrors the results table must pull from the same label helpers that the results table uses.
+
+
 ---
 
 ### Known Issue — Dead Code in shareSummary
@@ -243,6 +256,15 @@ These areas are interdependent and easy to break:
     calling openAccordionById(). Do not remove this check — it allows the results nav link
     to scroll without attempting to open a non-existent accordion.
 12. Do not move the initialize block outside of `document.addEventListener('DOMContentLoaded', ...)` — share modal listeners and all other init functions will silently fail to attach.
+13. `getEffectiveRate()` must be called wherever the mortgage interest rate is consumed — not the raw `interest-rate` field value. This includes `updateMortgageOutputs()`, `updateUpfrontOutputs()`, and `runCalculations()`.
+14. `getTemporaryBuydownSubsidy()` and `calcTemporaryBuydownUpfront()` must receive `noteRate` (the raw input rate), not `rate` (the effective rate). Passing `rate` would cause permanent and temporary buydown logic to interfere with each other.
+15. Do not subtract `buydownSubsidy` from `buyYearFullRateCost`. That variable must always represent full-rate year 1 costs for the results table monthly/yearly rows and income estimates.
+16. The `updateBuydownScheduleCard()` call inside `updateMortgageOutputs()` is intentional. Removing it would cause the payment schedule card to go stale when the user changes purchase price, rate, or term.
+17. The `pmi-manual-toggle` checkbox controls both the visibility of the PMI card and
+    which branch of `calcPMI()` is used. Do not remove the `isManual` guard from
+    `calcPMI()` — without it, manual mode silently falls back to auto-tier values.
+    The equity drop-off check (prevBal / prevVal >= 0.8) in the buy loop applies in
+    both modes and must not be conditioned on the toggle.
 
 
 ---

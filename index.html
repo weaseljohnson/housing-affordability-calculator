@@ -1440,6 +1440,38 @@
           "text": "The price-to-rent ratio (PTR) compares the cost of buying a home to the cost of renting a comparable one. It's calculated by dividing the home's purchase price by the annual rent for a similar property. A PTR below 10 strongly favors buying. Between 10–15, buying may be worth considering. Between 15–20, renting is generally smarter. Above 20, renting is almost always the better financial choice. The PTR is a useful quick filter, but it doesn't replace a full cost comparison that accounts for your specific mortgage terms, tax situation, and investment alternatives."
         }
       }
+      {
+        "@type": "Question",
+        "name": "What is a mortgage buydown?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A mortgage buydown is a way to reduce your interest rate — either for the first few years of the loan (a temporary buydown) or for the full loan term (a permanent buydown). In both cases, money is paid upfront to subsidize a lower rate. That money can come from you, the seller, or a builder offering an incentive. Temporary buydowns don't change the underlying loan rate — they put funds into an escrow account that covers the difference between your reduced payment and what the lender is actually owed. A permanent buydown uses discount points paid at closing to get the lender to lower your rate for good."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a 2-1 and a 3-2-1 mortgage buydown?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both are temporary buydowns that reduce your payment for a fixed period before reverting to the full note rate. A 2-1 buydown reduces your rate by 2 percentage points in Year 1 and 1 percentage point in Year 2, then reverts to the full rate in Year 3. A 3-2-1 buydown reduces your rate by 3 points in Year 1, 2 points in Year 2, and 1 point in Year 3, then reverts in Year 4. For example, on a 7% note rate, a 2-1 buydown would produce payments at 5% in Year 1 and 6% in Year 2. Neither type reduces the total interest owed over the life of the loan — the upfront subsidy simply prepays the difference. You also still qualify for the loan based on the full note rate, not the reduced rate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are mortgage discount points and how does a permanent buydown work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Discount points are prepaid interest paid at closing in exchange for a permanently lower interest rate. One point equals 1% of the loan amount — so one point on a $300,000 loan costs $3,000. The rate reduction per point varies by lender, but a common rule of thumb is approximately 0.25% per point. Whether a permanent buydown makes financial sense depends on how long you keep the loan. If paying two points saves you $100 per month, you break even in about 20 months per point — roughly 5 years total. If you sell or refinance before then, you paid more than you saved. If you stay significantly longer, the permanent rate reduction can be well worth the upfront cost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who pays for a mortgage buydown — the buyer or the seller?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Either party can pay for a buydown, and it matters significantly for how you think about the cost. When a seller or builder pays, you receive the payment reduction without adding anything to your upfront cash burden — it functions as a financing concession rather than a price cut, and is common in new construction markets. When you pay for it yourself, the cost is due at closing alongside your down payment and closing costs, increasing your total cash needed. A buyer-paid temporary buydown subsidy is calculated as the sum of all monthly payment reductions across the subsidized years. A buyer-paid permanent buydown costs one percent of the loan amount per discount point purchased."
+        }
+      }
     ]
   }
 </script>
@@ -1816,7 +1848,7 @@
       </div>
     </div>
 
-    <!-- Live output cards -->
+   <!-- Live output cards -->
     <div class="output-cards">
       <div class="output-card">
         <div class="output-card-label">Down Payment</div>
@@ -1826,8 +1858,46 @@
         <div class="output-card-label">Loan Amount</div>
         <div class="output-card-value" id="out-loan-amount">—</div>
       </div>
-      <div class="output-card highlight">
-        <div class="output-card-label">Monthly Payment</div>
+    </div>
+
+    <!-- PMI card — shown only when PMI > 0 or manual mode active -->
+    <div id="pmi-card-wrap" style="display: none; margin-top: 10px;">
+      <div class="output-card">
+        <div class="output-card-label" style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;">
+          <span class="tooltip-wrap">
+            PMI
+            <span class="tooltip-icon" tabindex="0">?</span>
+            <span class="tooltip-box">Private Mortgage Insurance is required when your down payment is under 20%. It protects the lender — not you — and is automatically removed once your equity reaches 22%.</span>
+          </span>
+          <span style="display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0;">
+            <span style="font-size: 0.75rem; color: var(--text-light); font-weight: 500;">Manual</span>
+            <label class="switch" style="width: 32px; height: 18px;">
+              <input type="checkbox" id="pmi-manual-toggle" aria-label="Switch to manual PMI entry" />
+              <span class="slider" style="border-radius: 18px;"></span>
+            </label>
+          </span>
+        </div>
+        <!-- Auto display -->
+        <div id="pmi-auto-display">
+          <div class="output-card-value" id="out-pmi">—</div>
+          <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;">/mo · auto-calculated</div>
+        </div>
+        <!-- Manual input -->
+        <div id="pmi-manual-input-wrap" style="display: none; margin-top: 0.5rem;">
+          <div class="input-wrap" style="border-color: var(--border);">
+            <span class="input-prefix">$</span>
+            <input type="number" id="pmi-manual-input" placeholder="e.g. 0" min="0" step="5" aria-label="Monthly PMI amount" />
+            <span class="input-suffix">/mo</span>
+          </div>
+          <span class="input-note" style="margin-top: 0.3rem; display: block;">Set to $0 for VA loans or other PMI-exempt financing. Auto-drop at 22% equity still applies.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly payment — last, since it's the number everything builds to -->
+    <div class="output-cards" style="margin-top: 10px;">
+      <div class="output-card highlight" style="grid-column: 1 / -1;">
+        <div class="output-card-label">Monthly Mortgage Payment (P&I)</div>
         <div class="output-card-value" id="out-monthly-payment">—</div>
       </div>
     </div>
@@ -2724,11 +2794,27 @@
 
       const dp       = price * (dpPct / 100);
       const loan     = price - dp;
+
+      const rateBlank = document.getElementById('interest-rate').value === '';
+
+      // PMI card visibility and value
+      const pmi = calcPMI();
+      const isManual = document.getElementById('pmi-manual-toggle').checked;
+      const pmiCardWrap = document.getElementById('pmi-card-wrap');
+      const dpBlank = document.getElementById('down-payment-pct').value === '';
+      if (isManual || (pmi > 0 && !dpBlank)) {
+        pmiCardWrap.style.display = '';
+        document.getElementById('out-pmi').textContent = fmt(pmi) + '/mo';
+      } else {
+        pmiCardWrap.style.display = 'none';
+      }
+
+      // Calculate monthly payment and pdate output cards
       const monthly  = calcPMT(loan, rate, term);
 
       document.getElementById('out-downpayment').textContent    = fmt(dp);
       document.getElementById('out-loan-amount').textContent    = fmt(loan);
-      document.getElementById('out-monthly-payment').textContent = fmt(monthly);
+      document.getElementById('out-monthly-payment').textContent = rateBlank ? '—' : fmt(monthly);
 
       // also update upfront outputs since they depend on monthly
       updateUpfrontOutputs(loan, monthly);
@@ -2797,10 +2883,16 @@
     }
 
     // ── Calculate PMI ──
+    // Returns the base monthly PMI amount (before equity drop-off check).
+    // In manual mode, returns the user's entered value instead of auto-tiers.
     function calcPMI() {
+      const isManual = document.getElementById('pmi-manual-toggle').checked;
+      if (isManual) {
+        return parseFloat(document.getElementById('pmi-manual-input').value) || 0;
+      }
       const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
-      if (dpPct <= 5)             return 200;
-      if (dpPct > 5 && dpPct < 10) return 146;
+      if (dpPct <= 5)                return 200;
+      if (dpPct > 5 && dpPct < 10)  return 146;
       if (dpPct >= 10 && dpPct < 20) return 60;
       return 0;
     }
@@ -2966,8 +3058,6 @@
       const isTemp = bdType === '2-1' || bdType === '3-2-1';
 
       if (isTemp) {
-        const bdPeriodEnd  = bdType === '3-2-1' ? 3 : 2;
-        const fullRateYear = bdPeriodEnd + 1;
 
         return {
           monthly: `Average Monthly Cost — After Buydown`,
@@ -3129,9 +3219,6 @@
       const closing      = loan * closingPct;
       const monthlyRate  = rate / 100 / 12;
       const numPayments  = term * 12;
-      // const monthlyPMT   = monthlyRate === 0 ? loan / numPayments
-      //                      : loan * (monthlyRate * Math.pow(1 + monthlyRate, numPayments))
-      //                        / (Math.pow(1 + monthlyRate, numPayments) - 1);
       const monthlyPMT   = calcPMT(loan, rate, term);
       const reserves     = 2 * (monthlyPMT + insurance / 12 + monthBuyTax);
       const pmi          = calcPMI();
@@ -3543,6 +3630,21 @@
         document.querySelectorAll('.tooltip-wrap.active').forEach(w => w.classList.remove('active'));
       }, { passive: true });
 
+      // PMI manual toggle
+      document.getElementById('pmi-manual-toggle').addEventListener('change', function() {
+        const isManual = this.checked;
+        document.getElementById('pmi-auto-display').style.display      = isManual ? 'none'  : '';
+        document.getElementById('pmi-manual-input-wrap').style.display  = isManual ? 'block' : 'none';
+        if (isManual) document.getElementById('pmi-card-wrap').style.display = 'block';
+        updateMortgageOutputs();
+        updateSavingsDefaults();
+      });
+
+      document.getElementById('pmi-manual-input').addEventListener('input', () => {
+        updateMortgageOutputs();
+        updateSavingsDefaults();
+      });
+
       // Capital gains toggle show/hide
       document.getElementById('capital-gains-toggle').addEventListener('change', function() {
         document.getElementById('capital-gains-options').style.display = this.checked ? 'block' : 'none';
@@ -3666,7 +3768,8 @@
         'electric-buy', 'water-buy', 'other-util-buy', 'monthly-rent', 
         'security-deposit', 'renters-insurance', 'moving-costs-rent', 
         'electric-rent', 'water-rent', 'other-util-rent', 'prior-savings', 
-        'initial-deposit-manual-input', 'monthly-contrib-manual-input', 'lifestyle-spending'
+        'initial-deposit-manual-input', 'monthly-contrib-manual-input', 'lifestyle-spending',
+        'pmi-manual-input'
       ];
       dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
     }
@@ -3730,6 +3833,7 @@
       'lifestyle-spending': 'ls', 'initial-deposit-manual-input': 'idm', 'monthly-contrib-manual-input': 'mcm',
       'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct',
       'buydown-toggle': 'bd', 'buydown-type': 'bdt', 'buydown-payer': 'bdpy', 'buydown-points': 'bdp', 'buydown-rate-per-point': 'bdr',
+      'pmi-manual-toggle': 'pmt', 'pmi-manual-input': 'pmv',
     };
     // Create a reverse map for decoding
     const reverseUrlMap = Object.fromEntries(Object.entries(urlMap).map(([k, v]) => [v, k]));
@@ -3745,6 +3849,10 @@
           return;
         }
         if (id === 'buydown-toggle') {
+          params.set(urlMap[id], document.getElementById(id).checked ? '1' : '0');
+          return;
+        }
+        if (id === 'pmi-manual-toggle') {
           params.set(urlMap[id], document.getElementById(id).checked ? '1' : '0');
           return;
         }
@@ -3799,6 +3907,17 @@
             const el = document.getElementById(id);
             el.checked = val === '1';
             document.getElementById('buydown-options').style.display = el.checked ? 'block' : 'none';
+            return;
+          }
+
+          // PMI manual toggle
+          if (id === 'pmi-manual-toggle') {
+            const el = document.getElementById(id);
+            el.checked = val === '1';
+            const isManual = el.checked;
+            document.getElementById('pmi-auto-display').style.display      = isManual ? 'none'  : '';
+            document.getElementById('pmi-manual-input-wrap').style.display  = isManual ? 'block' : 'none';
+            if (isManual) document.getElementById('pmi-card-wrap').style.display = 'block';
             return;
           }
 
@@ -4077,7 +4196,6 @@
       const rowH       = 38;
       const ptrH       = mode === 'both' && r.ptr !== null ? 44 : 0;
       const footerH    = 68;
-      let computedRowsH = 0;
       const totalH = headerH + tableHeadH + rows.length * rowH + ptrH + footerH;
 
       const canvas  = document.createElement('canvas');
@@ -4196,11 +4314,6 @@
       // background
       ctx.fillRect(0, y, W, dynamicRowH);
 
-      // draw label
-      labelLines.forEach((line, i) => {
-        ctx.fillText(line, 20, startY + (i * lineHeight));
-      });
-
       // Label
       ctx.fillStyle  = muted;
       ctx.font       = '13px -apple-system, BlinkMacSystemFont, sans-serif';
@@ -4223,7 +4336,7 @@
 
         colX = labelW;
         if (showBuy) {
-          const wins = mode === 'both' && buyUpper > rentUpper;
+          const wins = mode === 'both' && buyUpper < rentUpper;  // buy wins
           if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
           ctx.fillStyle  = wins ? green : navy;
           ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
@@ -4232,7 +4345,7 @@
           colX += valW;
         }
         if (showRent) {
-          const wins = mode === 'both' && rentUpper > buyUpper;
+          const wins = mode === 'both' && rentUpper < buyUpper;  // rent wins
           if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
           ctx.fillStyle  = wins ? green : navy;
           ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
@@ -4425,7 +4538,7 @@
       if (mode !== 'rent') {
         lines.push('🏠 BUYING');
         lines.push(`  Upfront cost: ${fmt(r.buyUpfront)}`);
-        lines.push(`  Monthly cost (yr 1): ${fmt(r.buyMonthly)}`);
+        lines.push(`  ${labels.monthly}: ${fmt(r.buyMonthly)}`);
         lines.push(`  Financial return (${years} yrs): ${fmt(r.buyNetReturn)}`);
         lines.push(`  Total spent (${years} yrs): ${fmt(r.buyCumSpent)}`);
         const incBuy = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
@@ -4436,7 +4549,7 @@
       if (mode !== 'buy') {
         lines.push('💰 RENTING & SAVING');
         lines.push(`  Upfront cost: ${fmt(r.rentUpfront)}`);
-        lines.push(`  ${labels.monthly}: ${fmt(r.rentMonthly)}`);
+        lines.push(`  Monthly Cost: ${fmt(r.rentMonthly)}`);
         lines.push(`  Savings value (${years} yrs): ${fmt(r.savingsValue)}`);
         lines.push(`  Total spent (${years} yrs): ${fmt(r.rentCumSpent)}`);
         const incRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);

@@ -83,6 +83,18 @@ Fixed monthly dollar estimates based on down payment %:
 PMI drops off when (mortgage balance / home value) < 0.8 (i.e. 20% equity reached).
 Checked each year using prior year's balance and prior year's home value.
 
+### PMI — Manual Override
+- The PMI manual toggle (`pmi-manual-toggle`) switches `calcPMI()` between two modes:
+  - **Auto:** Tiered fixed monthly estimates based on down payment % (existing logic)
+  - **Manual:** Returns the raw value from `pmi-manual-input`, clamped to 0 minimum
+- In both modes, the equity drop-off check in the buy loop still applies:
+  if `prevBal / prevVal < 0.8` (20% equity reached), PMI = 0 for that year regardless
+  of the base value returned by `calcPMI()`
+- The PMI output card is hidden when auto mode returns 0 (down payment ≥ 20%).
+  In manual mode, the card is always visible so the user can edit the value.
+- Manual PMI value and toggle state are included in the share URL encoding
+  (`pmt` = toggle state, `pmv` = manual value)
+
 ### Home Value
 - Starts at purchase price
 - Each year: homeValue = purchasePrice × (1 + appreciation)^y
@@ -99,15 +111,75 @@ Checked each year using prior year's balance and prior year's home value.
 - Year 1 (y=1): exponent = 0, so cost is unchanged
 - Default inflation = 3%
 
-### Capital Gains Tax
-- Capital gains exclusion amount based on tax filing status toggle (married vs single)
-- User chooses capital gains tax rate from radio (default 15%)
-- User also input basis adjustment
-- adjusted basis = closing costs + user input basis adjustment
-- realizedGain = finalHomeValue - saleCloseCost - adjustedBasis;
-- taxable gain derived from difference between realized gain and exclusion amount
-- total capital gains tax = taxable gain * CG tax rate
-- Total CG tax subtracted from the net return on selling the home.
+### Capital Gains Tax on Home Sale
+Only applied when the capital gains toggle is enabled in Advanced Settings.
+
+- adjustedBasis = purchasePrice + purchaseClosingCosts + basisAdjustment
+- saleCloseCost = finalHomeValue × saleCloseRate
+- realizedGain = finalHomeValue - saleCloseCost - adjustedBasis
+- taxableGain = max(0, realizedGain - exclusion)
+  - exclusion = $250,000 (single) or $500,000 (married filing jointly)
+- capGainsTax = taxableGain × capitalGainsRate (0%, 15%, or 20%)
+- buyNetReturn = gainOnSale - saleCloseCost - capGainsTax
+
+Off by default. Most users will see $0 tax since gains rarely exceed the exclusion
+on typical timelines and price points. Useful for expensive markets, long timelines,
+or fixer-upper scenarios where improvements are tracked via the basis adjustment field.
+
+---
+
+## Mortgage Buydown Options
+
+Buydown settings live in the Advanced Settings accordion of Step 1. All buydown logic is optional and off by default.
+
+### Buydown Types
+
+**Temporary buydowns (2-1 and 3-2-1)** reduce the borrower's effective payment for the first 2–3 years via an upfront subsidy fund, then revert to the full note rate. The underlying loan rate never changes — the subsidy covers the difference.
+
+- 2-1: Year 1 = note rate − 2%, Year 2 = note rate − 1%, Year 3+ = full note rate
+- 3-2-1: Year 1 = note rate − 3%, Year 2 = note rate − 2%, Year 3 = note rate − 1%, Year 4+ = full note rate
+
+**Permanent buydowns** use discount points paid at closing to reduce the note rate for the full loan term. Each point costs 1% of the loan amount and reduces the rate by a lender-specified amount (default 0.25% per point).
+
+### Key Variables
+
+| Variable | What it is |
+|---|---|
+| `noteRate` | The original interest rate from the input field — always the full note rate |
+| `rate` / `getEffectiveRate()` | The rate used for mortgage math — equals `noteRate` for temporary buydowns, reduced by `(points × ratePerPoint)` for permanent |
+| `getTemporaryBuydownSubsidy(y, loan, noteRate, term)` | Annual subsidy for year `y` = `(fullPMT - reducedPMT) × 12`. Returns 0 if no subsidy applies |
+| `calcTemporaryBuydownUpfront(loan, noteRate, term)` | Total subsidy cost = sum of annual subsidies across all buydown years |
+| `calcPermanentBuydownUpfront(loan)` | Point cost = `loan × (points / 100)` |
+
+### How Buydowns Affect the Buy Loop
+
+Inside the buy year-by-year loop, `yearSpend` is reduced by `getTemporaryBuydownSubsidy(y, ...)` for the applicable years. This lowers cumulative cashflow (and therefore cumulative spending) by the total subsidy value.
+
+`buyYearFullRateCost` is calculated at `y === 1` without the subsidy deduction. This is intentional — it represents the full-rate cost used for the monthly/yearly display rows and income estimates, labeled "After Buydown" when a temporary buydown is active.
+
+### Upfront Cost Impact
+
+If the payer toggle is set to "I'm paying it":
+- Temporary buydown: subsidy total is added to `buyUpfront` and to the Step 1 "Total Upfront Cash Needed" card
+- Permanent buydown: point cost is added to `buyUpfront` and to the Step 1 "Total Upfront Cash Needed" card
+
+If payer is "Seller / Builder", no buydown cost is added to any upfront output.
+
+### Results Table Behavior
+
+- **Permanent buydown:** All results reflect the reduced rate automatically. Row labels remain "Year 1".
+- **Temporary buydown:** Monthly and yearly cost rows are relabeled to "After Buydown (Yr N+)" where N is the first full-rate year (3 for 2-1, 4 for 3-2-1). Values show full-rate costs, not subsidized costs.
+
+### Buydown Payment Schedule Card
+
+Visible inside Advanced Settings when a temporary buydown is active. Shows the monthly payment for each subsidized year, the full note rate payment, and (if buyer is paying) the total upfront subsidy cost. Updates live as purchase price, down payment, rate, and term change.
+
+### Helper Functions (Do Not Break)
+
+- `getEffectiveRate()` must be used everywhere the mortgage rate is needed for calculations — not the raw `interest-rate` input value
+- `getTemporaryBuydownSubsidy()` must receive `noteRate`, not `rate`, so the subsidy is always computed against the true note rate regardless of permanent buydown settings
+- `calcTemporaryBuydownUpfront()` similarly must receive `noteRate` and `term`
+- Do not add `buydownSubsidy` subtraction to `buyYearFullRateCost` — that variable intentionally reflects full-rate costs for the results table label rows
 
 ---
 
@@ -231,6 +303,10 @@ The savings return is shown separately in the results table.
 | Purchase closing costs | 2% of loan amount | Discrete selector (2/3/4/5%) |
 | Buying reserves | 2 months mortgage payment | Calculated |
 | Renting reserves | 1 month's rent | Calculated |
+| Filing status | Single | Radio toggle in Advanced Settings |
+| Capital gains toggle | Off | Must be manually enabled |
+| Capital gains rate | 15% | Pre-selected; 0/15/20% options |
+| Basis adjustment | $0 | Manual entry when capital gains is enabled |
 
 ---
 

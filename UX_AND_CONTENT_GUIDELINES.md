@@ -176,12 +176,33 @@ Everything else — all results table values, PTR, green highlighting.
 - Default OFF: shows editable input field with note explaining $0 behavior
 - Switching back to default restores the calculated value display
 
+### PMI Card (Property Info section)
+- Appears automatically when auto-calculated PMI > 0 (down payment under 20%)
+- Hidden in auto mode when down payment ≥ 20% — no card shown for a $0 value
+- A Manual toggle in the card label row switches between auto display and an editable input
+- In manual mode, the card is always visible regardless of down payment percentage
+- Use case: VA loans, other PMI-exempt financing, or custom PMI amounts
+- The equity auto-drop at 22% applies in both modes — manual mode does not disable it
+- Input is clamped to 0 minimum on blur
+
 ### Accordions
 - Used throughout for educational content and advanced settings
 - Closed by default everywhere
 - Triggered by clicking header button
 - Chevron rotates 180° when open
 - Anchor links from results table open the target accordion and scroll to it
+
+### Buydown Payment Schedule Card
+- Lives inside the Advanced Settings accordion, visible only when a temporary buydown type (2-1 or 3-2-1) is selected and the buydown toggle is on
+- Shows Year 1, Year 2 (and Year 3 for 3-2-1), full rate payment, and upfront cost (only when buyer is paying)
+- Updates live alongside the mortgage output cards — no Calculate required
+- The upfront cost cell uses the `.output-card.total` dark navy style to visually signal it as a total/summary figure
+
+### Results Table Relabeling for Buydowns
+- When a temporary buydown is active, the "Average Monthly Cost" and "Total Yearly Cost" row labels are dynamically updated to "After Buydown (Yr N+)" on Calculate
+- This signals that the displayed costs reflect what the user will pay after the buydown period ends, not the subsidized early years
+- When buydown is off or a permanent buydown is active, labels restore to "Year 1"
+- The relabeling targets the text node inside `.tooltip-wrap` spans — do not restructure those cells without updating the targeting logic in `runCalculations()`
 
 ### Results Nav Link (.results-nav-link)
 A small amber-colored navigation link that appears above the results table, inside the results-content div.
