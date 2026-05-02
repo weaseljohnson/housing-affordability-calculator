@@ -1545,7 +1545,7 @@
     <div>
       <span class="hero-eyebrow">Free Housing Calculator</span>
       <h1 id="h-intro">Can you afford to buy&nbsp;— or is renting smarter?</h1>
-      <p class="updated">- Updated April 2026- </p>
+      <p class="updated">- Updated May 2026- </p>
       <p class="tagline">This free home affordability calculator helps you compare the true cost of buying vs. renting — including mortgage payments, property taxes, HOA fees, insurance, and maintenance — so you can make the biggest financial decision of your life with your eyes wide open.</p>
       <a href="#property-info" class="btn-primary">Get Started →</a>
     </div>
@@ -1848,6 +1848,15 @@
       </div>
     </div>
 
+    <div class="input-group">
+      <label class="input-label" for="years-timeline">How Long Do You Plan to Stay?</label>
+      <div class="input-wrap" style="max-width: 200px;">
+        <input type="number" id="years-timeline" placeholder="e.g. 10" min="1" max="50" step="1" />
+        <span class="input-suffix">yrs</span>
+      </div>
+      <span class="input-note">This sets the timeline for the entire analysis. Not sure? 7–10 years is a common planning horizon for first-time buyers.</span>
+    </div>
+
    <!-- Live output cards -->
     <div class="output-cards">
       <div class="output-card">
@@ -2081,6 +2090,48 @@
           </div>
         </div>
 
+        <!-- Extra Principal Paydown -->
+        <div class="input-group" style="margin-top: 1.5rem;">
+          <label class="input-label">Extra Monthly Principal Payment</label>
+          <div class="default-toggle-row">
+            <span class="default-toggle-label">Include extra principal paydown</span>
+            <label class="switch">
+              <input type="checkbox" id="extra-principal-toggle" aria-label="Include extra monthly principal payment" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <span class="input-note">An extra payment applied directly to your principal each month. This reduces your balance faster, cuts total interest paid, and shortens your loan term — without changing your required monthly payment.</span>
+
+          <div id="extra-principal-options" style="display: none; margin-top: 1.25rem;">
+            <div class="input-group" style="margin-bottom: 0;">
+              <label class="input-label" for="extra-principal-amount">Extra Monthly Principal</label>
+              <div class="input-wrap">
+                <span class="input-prefix">$</span>
+                <input type="number" id="extra-principal-amount" placeholder="e.g. 200" min="0" step="50" />
+                <span class="input-suffix">/mo</span>
+              </div>
+              <span class="input-note">Applied on top of your regular monthly payment. Even a small amount compounds significantly over time.</span>
+            </div>
+
+            <!-- Output card: interest saved + time reduction -->
+            <div id="extra-principal-output" style="display: none; margin-top: 1.25rem;">
+              <p class="calc-group-label" style="margin-top: 0;">Impact of Extra Payments</p>
+              <div class="output-cards-2">
+                <div class="output-card">
+                  <div class="output-card-label">Interest Saved</div>
+                  <div class="output-card-value" id="out-interest-saved">—</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;" id="out-interest-saved-label">over your timeline</div>
+                </div>
+                <div class="output-card highlight">
+                  <div class="output-card-label">Loan Paid Off Sooner</div>
+                  <div class="output-card-value" id="out-payoff-reduction">—</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.2rem;">earlier than standard</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -2203,18 +2254,6 @@
       </div>
     </div>
 
-  </section>
-
-  <!-- ── Timeline ── -->
-  <section class="section" id="timeline" style="padding-top: 2rem; padding-bottom: 2rem;">
-    <div class="input-group" style="margin-bottom: 0;">
-      <label class="input-label" for="years-timeline" style="font-size: 1.1rem; font-weight: 800; color: var(--navy);">How long do you plan to stay?</label>
-      <div class="input-wrap" style="max-width: 200px; margin-top: 0.5rem;">
-        <input type="number" id="years-timeline" placeholder="e.g. 10" min="1" max="50" step="1" />
-        <span class="input-suffix">yrs</span>
-      </div>
-      <span class="input-note" style="margin-top: 0.5rem; display: block;">This sets the timeline for the entire analysis. We'll compare what buying vs. renting would cost you over this period. Not sure? 7–10 years is a common planning horizon for first-time buyers.</span>
-    </div>
   </section>
 
   <!-- ── Step 3: Renting & Saving ── -->
@@ -3223,29 +3262,68 @@
       const reserves     = 2 * (monthlyPMT + insurance / 12 + monthBuyTax);
       const pmi          = calcPMI();
 
+      // Extra Principal Paydown Value Helper
+      function getExtraPrincipal() {
+        if (!document.getElementById('extra-principal-toggle').checked) return 0;
+        return parseFloat(document.getElementById('extra-principal-amount').value) || 0;
+      }
+
       // ── Annual interest & principal using monthly compounding summed per year ──
       function annualInterest(yearNum) {
+        const extra = getExtraPrincipal();
+        if (extra === 0) {
+          // Standard formula
+          let total = 0;
+          const startMonth = (yearNum - 1) * 12 + 1;
+          const endMonth   = yearNum * 12;
+          for (let m = startMonth; m <= endMonth; m++) {
+            const balance = loan * Math.pow(1 + monthlyRate, m - 1)
+                          - monthlyPMT * (Math.pow(1 + monthlyRate, m - 1) - 1) / monthlyRate;
+            total += balance * monthlyRate;
+          }
+          return total;
+        }
+        // With extra principal: run from month 1 to end of yearNum, tracking balance
+        let bal = loan;
         let total = 0;
-        const startMonth = (yearNum - 1) * 12 + 1;
-        const endMonth   = yearNum * 12;
-        for (let m = startMonth; m <= endMonth; m++) {
-          const balance = loan * Math.pow(1 + monthlyRate, m - 1)
-                        - monthlyPMT * (Math.pow(1 + monthlyRate, m - 1) - 1) / monthlyRate;
-          total += balance * monthlyRate;
+        const endMonth = yearNum * 12;
+        for (let m = 1; m <= endMonth; m++) {
+          if (bal <= 0) break;
+          const interestThisMonth = bal * monthlyRate;
+          const principalThisMonth = Math.min(monthlyPMT - interestThisMonth + extra, bal);
+          if (m > (yearNum - 1) * 12) {
+            total += interestThisMonth;
+          }
+          bal -= principalThisMonth;
         }
         return total;
       }
 
       function annualPrincipal(yearNum) {
-        return monthlyPMT * 12 - annualInterest(yearNum);
+        const balStart = mortgageBalance(yearNum - 1);
+        if (balStart <= 0) return 0;
+        return Math.min(monthlyPMT * 12 - annualInterest(yearNum), balStart);
       }
 
       function mortgageBalance(afterYear) {
         if (afterYear === 0) return loan;
-        let bal = 0;
+        const extra = getExtraPrincipal();
+        if (extra === 0) {
+          // Standard formula — no change
+          let bal = 0;
+          for (let m = 1; m <= afterYear * 12; m++) {
+            bal = loan * Math.pow(1 + monthlyRate, m)
+                - monthlyPMT * (Math.pow(1 + monthlyRate, m) - 1) / monthlyRate;
+          }
+          return Math.max(0, bal);
+        }
+        // With extra principal: must track month by month
+        let bal = loan;
         for (let m = 1; m <= afterYear * 12; m++) {
-          bal = loan * Math.pow(1 + monthlyRate, m)
-              - monthlyPMT * (Math.pow(1 + monthlyRate, m) - 1) / monthlyRate;
+          if (bal <= 0) break;
+          const interestThisMonth = bal * monthlyRate;
+          const principalThisMonth = Math.min(monthlyPMT - interestThisMonth + extra, bal);
+          bal -= principalThisMonth;
         }
         return Math.max(0, bal);
       }
@@ -3300,9 +3378,16 @@
         }
 
         const buydownSubsidy = getTemporaryBuydownSubsidy(y, loan, noteRate, term);
+        const extraPrincipalYear = bal => {
+          // Extra principal is capped at remaining balance so we don't overpay
+          return Math.min(getExtraPrincipal() * 12, bal);
+        };
+        const prevBalForExtra = balances[y - 1];
+        const extraSpendYear = prevBalForExtra > 0 ? extraPrincipalYear(prevBalForExtra) : 0;
+
         const yearSpend = interest + principal + propTax + hoaYear
                         + insYear + maintYear + pmiYear + utilYear + movingYear
-                        - buydownSubsidy;
+                        - buydownSubsidy + extraSpendYear;
 
         if (y === years) {
           const finalBal      = balances[years];
@@ -3769,7 +3854,7 @@
         'security-deposit', 'renters-insurance', 'moving-costs-rent', 
         'electric-rent', 'water-rent', 'other-util-rent', 'prior-savings', 
         'initial-deposit-manual-input', 'monthly-contrib-manual-input', 'lifestyle-spending',
-        'pmi-manual-input'
+        'pmi-manual-input', 'extra-principal-amount'
       ];
       dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
     }
@@ -3778,12 +3863,21 @@
       const toggle  = document.getElementById('buydown-toggle');
       const options = document.getElementById('buydown-options');
 
+      function refreshExtraPrincipalIfActive() {
+        const epToggle = document.getElementById('extra-principal-toggle');
+        const epInput  = document.getElementById('extra-principal-amount');
+        if (!epToggle.checked) return;
+        const extra = parseFloat(epInput.value) || 0;
+        if (extra > 0) calcExtraPrincipalImpact(extra);
+      }
+
       toggle.addEventListener('change', () => {
         options.style.display = toggle.checked ? 'block' : 'none';
         if (toggle.checked) {
           updateBuydownScheduleCard();
         }
         updateMortgageOutputs();
+        refreshExtraPrincipalIfActive();
       });
 
       document.querySelectorAll('input[name="buydown-type"]').forEach(radio => {
@@ -3795,6 +3889,7 @@
           document.getElementById('buydown-type-note-perm').style.display  = isPerm ? 'block' : 'none';
           updateBuydownScheduleCard();
           updateMortgageOutputs();
+          refreshExtraPrincipalIfActive();
         });
       });
 
@@ -3809,8 +3904,106 @@
         document.getElementById(id).addEventListener('input', () => {
           updateBuydownScheduleCard();
           updateMortgageOutputs();
+          refreshExtraPrincipalIfActive();
         });
       });
+    }
+
+    function initExtraPrincipalControls() {
+      const toggle  = document.getElementById('extra-principal-toggle');
+      const options = document.getElementById('extra-principal-options');
+      const input   = document.getElementById('extra-principal-amount');
+      const output  = document.getElementById('extra-principal-output');
+
+      toggle.addEventListener('change', () => {
+        options.style.display = toggle.checked ? 'block' : 'none';
+        if (!toggle.checked) {
+          output.style.display = 'none';
+        }
+        // Upfront output card depends on reserves which depend on monthly payment — no change,
+        // but savings defaults use monthly owning cost so we refresh those
+        updateSavingsDefaults();
+        const extra = parseFloat(input.value) || 0;
+        if (toggle.checked && extra > 0) calcExtraPrincipalImpact(extra);
+      });
+
+      input.addEventListener('input', () => {
+        const extra = parseFloat(input.value) || 0;
+        if (extra <= 0) {
+          output.style.display = 'none';
+          return;
+        }
+        calcExtraPrincipalImpact(extra);
+      });
+    }
+
+    function calcExtraPrincipalImpact(extra) {
+      const price   = parseFloat(document.getElementById('purchase-price').value) || 0;
+      const dpPct   = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const rate    = getEffectiveRate();
+      const term    = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
+      const years   = parseInt(document.getElementById('years-timeline').value) || 0;
+
+      const loan        = price - price * (dpPct / 100);
+      const monthlyRate = rate / 100 / 12;
+      const numPayments = term * 12;
+      const monthlyPMT  = calcPMT(loan, rate, term);
+
+      if (!loan || !rate || !term) {
+        document.getElementById('extra-principal-output').style.display = 'none';
+        return;
+      }
+
+      // ── Standard interest over timeline (no extra) ──
+      let stdBal       = loan;
+      let stdInterest  = 0;
+      let stdMonths    = 0;
+      for (let m = 1; m <= numPayments; m++) {
+        if (stdBal <= 0) break;
+        const intM = stdBal * monthlyRate;
+        const prinM = Math.min(monthlyPMT - intM, stdBal);
+        if (m <= years * 12) stdInterest += intM;
+        stdBal -= prinM;
+        stdMonths++;
+      }
+
+      // ── Extra payment interest over timeline ──
+      let extBal      = loan;
+      let extInterest = 0;
+      let extMonths   = 0;
+      for (let m = 1; m <= numPayments; m++) {
+        if (extBal <= 0) break;
+        const intM   = extBal * monthlyRate;
+        const prinM  = Math.min(monthlyPMT - intM + extra, extBal);
+        if (m <= years * 12) extInterest += intM;
+        extBal  -= prinM;
+        extMonths++;
+      }
+
+      const interestSaved    = stdInterest - extInterest;
+      const monthsSaved      = stdMonths - extMonths;
+      const yearsSaved       = Math.floor(Math.abs(monthsSaved) / 12);
+      const remainingMonths  = Math.abs(monthsSaved) % 12;
+
+      // Build payoff reduction string
+      let payoffStr = '';
+      if (monthsSaved <= 0) {
+        payoffStr = 'No reduction';
+      } else if (yearsSaved === 0) {
+        payoffStr = `${remainingMonths} mo`;
+      } else if (remainingMonths === 0) {
+        payoffStr = `${yearsSaved} yr`;
+      } else {
+        payoffStr = `${yearsSaved} yr ${remainingMonths} mo`;
+      }
+
+      // Interest saved label
+      const labelEl = document.getElementById('out-interest-saved-label');
+      labelEl.textContent = years > 0 ? `over your ${years}-yr timeline` : 'over your timeline';
+
+      document.getElementById('out-interest-saved').textContent    = interestSaved > 0 ? fmt(interestSaved) : '$0';
+      document.getElementById('out-payoff-reduction').textContent  = payoffStr;
+      document.getElementById('extra-principal-output').style.display = 'block';
     }
 
     // ════════════════════════════
@@ -3833,7 +4026,7 @@
       'lifestyle-spending': 'ls', 'initial-deposit-manual-input': 'idm', 'monthly-contrib-manual-input': 'mcm',
       'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct',
       'buydown-toggle': 'bd', 'buydown-type': 'bdt', 'buydown-payer': 'bdpy', 'buydown-points': 'bdp', 'buydown-rate-per-point': 'bdr',
-      'pmi-manual-toggle': 'pmt', 'pmi-manual-input': 'pmv',
+      'pmi-manual-toggle': 'pmt', 'pmi-manual-input': 'pmv', 'extra-principal-amount': 'ep', 'extra-principal-toggle': 'ept',
     };
     // Create a reverse map for decoding
     const reverseUrlMap = Object.fromEntries(Object.entries(urlMap).map(([k, v]) => [v, k]));
@@ -3853,6 +4046,10 @@
           return;
         }
         if (id === 'pmi-manual-toggle') {
+          params.set(urlMap[id], document.getElementById(id).checked ? '1' : '0');
+          return;
+        }
+        if (id === 'extra-principal-toggle') {
           params.set(urlMap[id], document.getElementById(id).checked ? '1' : '0');
           return;
         }
@@ -3920,6 +4117,12 @@
             if (isManual) document.getElementById('pmi-card-wrap').style.display = 'block';
             return;
           }
+          if (id === 'extra-principal-toggle') {
+            const el = document.getElementById(id);
+            el.checked = val === '1';
+            document.getElementById('extra-principal-options').style.display = el.checked ? 'block' : 'none';
+            return;
+          }
 
           // Buydown type radio
           if (id === 'buydown-type') {
@@ -3948,6 +4151,22 @@
 
         updateMortgageOutputs();
         updateSavingsDefaults();
+
+        // Auto-open Advanced Settings if any toggle inside it was restored as active
+        const advancedToggles = ['buydown-toggle', 'capital-gains-toggle', 'extra-principal-toggle', 'pmi-manual-toggle'];
+        const anyAdvancedActive = advancedToggles.some(id => {
+          const el = document.getElementById(id);
+          return el && el.checked;
+        });
+        if (anyAdvancedActive) {
+          const advBody    = document.getElementById('advanced-settings');
+          const advTrigger = document.querySelector('[aria-controls="advanced-settings"]');
+          if (advBody && advTrigger) {
+            advBody.classList.add('open');
+            advTrigger.setAttribute('aria-expanded', 'true');
+          }
+        }
+
         return true;
       } catch(e) {
         console.warn('Could not decode share URL:', e);
@@ -4630,6 +4849,7 @@
       initInputClamping();
       initShareModal();
       initBuydownControls();
+      initExtraPrincipalControls();
 
       // Auto-load from shared URL if present
       if (decodeStateFromUrl()) {

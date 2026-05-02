@@ -94,6 +94,28 @@ Checked each year using prior year's balance and prior year's home value.
   In manual mode, the card is always visible so the user can edit the value.
 - Manual PMI value and toggle state are included in the share URL encoding
   (`pmt` = toggle state, `pmv` = manual value)
+  
+### Extra Principal Paydown
+
+When the extra principal toggle is enabled, a user-specified dollar amount is applied to principal each month on top of the regular mortgage payment. This changes the behavior of three core helpers:
+
+**`mortgageBalance(afterYear)`** — When extra > 0, switches from the closed-form formula to a month-by-month loop that subtracts both the regular principal portion and the extra amount each month, floored at zero.
+
+**`annualInterest(yearNum)`** — When extra > 0, runs from month 1 to the end of `yearNum` tracking the actual balance, accumulating only the months within that year. This correctly reflects that earlier extra payments reduce the balance that later months' interest is calculated against.
+
+**`annualPrincipal(yearNum)`** — Unchanged in formula: `(monthlyPMT × 12) - annualInterest(yearNum)`. Because `annualInterest` now returns a lower value, `annualPrincipal` automatically reflects the accelerated paydown.
+
+**`getExtraPrincipal()`** — Helper that returns the extra monthly amount if the toggle is on, or 0 if off. Both `mortgageBalance` and `annualInterest` call this so the toggle cleanly reverts all math to standard amortization when off.
+
+**Buy loop** — `extraSpendYear` is added to `yearSpend` each year, capped at the remaining balance so the loop never overpays. Extra principal counts as money spent (it builds equity but is real cash out of pocket).
+
+**PMI drop-off** — Because `mortgageBalance` now returns a lower balance in earlier years when extra payments are active, PMI drops off sooner automatically.
+
+**Impact output card** — Calculated independently of the main Calculate button, triggered only when the extra payment field changes. Runs two separate month-by-month loops (standard and with extra) and computes:
+- Interest saved over the user's chosen timeline
+- Full loan payoff time reduction (total months difference between the two loops)
+
+**Edge case — early payoff within timeline** — If extra payments pay off the loan before the timeline ends, the buy loop checks `balances[y-1] > 0` before applying extra spend, and `annualInterest`/`mortgageBalance` both break on zero balance. The user continues to own the home and pays taxes, insurance, HOA, maintenance, and utilities — just with all mortgage-related costs zeroed.
 
 ### Home Value
 - Starts at purchase price
@@ -307,6 +329,7 @@ The savings return is shown separately in the results table.
 | Capital gains toggle | Off | Must be manually enabled |
 | Capital gains rate | 15% | Pre-selected; 0/15/20% options |
 | Basis adjustment | $0 | Manual entry when capital gains is enabled |
+| Extra principal paydown | Off (toggle) | User opt-in in Advanced Settings |
 
 ---
 
@@ -368,6 +391,8 @@ The savings return is shown separately in the results table.
 | Tax rate (buying) | tax-rate-buying |
 | Tax rate (renting) | tax-rate-renting |
 | Lifestyle spending | lifestyle-spending |
+| Extra principal toggle | extra-principal-toggle |
+| Extra principal amount | extra-principal-amount |
 
 ---
 

@@ -143,6 +143,7 @@ The product functions as both:
 - Rate of return inline help box (toggle-on-click, hint style)
 - Mortgage Buydown options: 2-1, 3-2-1, and Permanent
 - Optional manual mode for PMI. PMI card now shows in property section when it is applicable.
+- Extra monthly principal paydown (Advanced Settings toggle): accelerated amortization with PMI drop-off impact, interest saved output card, and loan payoff reduction display
 
 ### Not Yet Built
 - Year-by-year data tables (collapsed by default, one for buying, one for renting)

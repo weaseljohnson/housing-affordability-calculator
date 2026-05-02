@@ -3,21 +3,28 @@
 
 ---
 
-## Verified Calculation Accuracy
+## Verify Calculation Accuracy
 
-All calculations have been verified against the original Apple Numbers workbook using these test inputs:
+Verify any new changes against the following inputs (all unspecified are blank or use the automatic value):
 - Purchase price: $300,000 | Down payment: 20% | Interest rate: 6% | Term: 30yr
-- Property tax: 2.2% | HOA: $25/mo | Insurance: $1,750/yr | Maintenance: $6,000/yr
-- Utilities (buying): $300/mo total | Moving (buying): $5,000
+- Property tax: 2% | Insurance: $1,800/yr | Maintenance: $6,000/yr
 - Purchase closing costs: 2% | Timeline: 10 years
 - Defaults: inflation 3%, appreciation 3%, sale closing costs 8%
-- Monthly rent: $1,740 | Security deposit: $0 | Renters insurance: $150/yr
-- Moving (renting): $0 | Utilities (renting): $200/mo total
-- Prior savings: $16,000 | Initial deposit: manual $0 | Monthly contrib: manual $500
-- Rate of return: 3.75% | Rent increase YoY: 4%
-- Tax rates: 22% buying, 14% renting | Lifestyle spending: $62,400
+- Monthly rent: $2000
+- Rate of return: 7%
+- Tax rates: 20% buying, 15% renting | Lifestyle spending: $60000
 
-Results match the workbook within acceptable rounding tolerance on all owning values. Renting values match after fixing known bugs documented below.
+Results/Outputs based on those inputs (Buying | Renting):
+- Monthly P&I: $1439 | N/A
+- Reserves: $4178 | N/A
+- Total Upfront Cost: $68,978 | $62,000
+- Average Monthly Cost: $2,589	| $2,589
+- Total Yearly Cost: $31,067 | $31,068
+- Cumulative Spending: $399,850	| $420,827
+- Financial Return: $170,075 | $222,520
+- 30% Rule Income: $129,446	| $91,376
+- Lifestyle Rule Income: $113,834 | $98,824
+- PTR: 12.9
 
 ---
 
@@ -164,6 +171,17 @@ document.getElementById('sc-url-display').textContent = url;
 **Fix:** Both functions now call `getBuydownLabels()` and use the `labels.monthly` / `labels.yearly` strings for the relevant row. `lastResults` is populated by `runCalculations()` after each Calculate press, so values are always current.
 **Lesson:** Any display function that mirrors the results table must pull from the same label helpers that the results table uses.
 
+### Bug 18 — annualPrincipal returning phantom value after loan payoff
+**Issue:** After the loan balance reached zero (early payoff via extra principal), 
+`annualPrincipal` continued returning the full annual payment amount rather than 0.
+**Cause:** Formula `(monthlyPMT × 12) - annualInterest(yearNum)` has no awareness 
+of whether the loan is already paid off — when annualInterest returns 0, it 
+returns the full payment as principal.
+**Fix:** Cap the return value at `mortgageBalance(yearNum - 1)`. If the prior 
+year's balance is 0, return 0 immediately.
+**Lesson:** Any derived formula that depends on a running balance needs a 
+zero-balance guard, not just the functions that track the balance directly.
+
 
 ---
 
@@ -226,6 +244,15 @@ Fix: maintenance-costs must not be in the clampOnBlur dollar inputs list.
 - Loop runs 0 times, all values = 0
 - Caught by validation before reaching calculation
 
+### Extra principal payoff before timeline ends
+- If extra payments pay off the loan before the user's chosen timeline, `mortgageBalance` returns 0 and the buy loop applies zero extra spend for remaining years
+- `annualInterest` breaks on zero balance, returning only interest accrued up to payoff
+- All non-mortgage costs (taxes, insurance, HOA, maintenance, utilities) continue accumulating correctly for the full timeline
+
+### Extra principal with buydown active
+- Temporary buydowns reduce the effective payment via subsidy — extra principal stacks on top of this and is not affected by the subsidy logic
+- Permanent buydowns reduce `getEffectiveRate()`, which flows into all amortization math including the extra principal impact calculation in `calcExtraPrincipalImpact`
+
 ---
 
 ## Performance Notes
@@ -265,6 +292,8 @@ These areas are interdependent and easy to break:
     `calcPMI()` — without it, manual mode silently falls back to auto-tier values.
     The equity drop-off check (prevBal / prevVal >= 0.8) in the buy loop applies in
     both modes and must not be conditioned on the toggle.
+18. `getExtraPrincipal()` is called inside both `mortgageBalance` and `annualInterest`. Do not inline the toggle check — keeping it in one helper ensures both functions stay in sync when the toggle state changes.
+19. The extra principal buy loop cap (`Math.min(getExtraPrincipal() * 12, prevBalForExtra)`) prevents overpayment in the final year of the loan. Do not remove this cap — without it, cumulative spending can be overstated when the loan pays off mid-timeline.
 
 
 ---
