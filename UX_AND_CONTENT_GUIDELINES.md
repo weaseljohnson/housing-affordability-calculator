@@ -232,8 +232,8 @@ The share card preview inside the modal displays:
 - Navy header bar with site eyebrow label and a mode-specific title
 - Abbreviated results table with four rows: Total Upfront Cost, Avg Monthly Cost — Yr 1, Financial Return, Cumulative Spending
 - Recommended Gross Income row — included only if tax rates were entered. Shows a range (lower – upper) if lifestyle spending is also entered and the lifestyle result is lower than the 30% rule result. Shows just the higher number if the lifestyle result exceeds the 30% rule. Shows only the 30% rule result if no lifestyle spending was entered.
-- PTR badge — shown in Buying vs. Renting mode only. Hidden in Buying Only and Renting Only modes. Badge color matches the PTR scale (blue / green / yellow / orange / red).
 - Footer with a brief callout to the site URL
+- Breakeven Analysis section — shown below the main table in all share modes. Displays all three breakeven values in a compact labeled layout. Null values display as "—". Included in both the modal preview and the canvas image.
 
 #### Green Highlighting in Share Card
 - Cost rows (lower is better): green highlights the lower of the two values
@@ -346,9 +346,8 @@ Seven accordion items in this order:
 2. **Cumulative Money Spent** — Explains what's included in each column, why principal counts, why gain on sale is excluded for buying, and why savings contributions count as spent for renting.
 3. **Savings Return** — Explains what the return represents for each path (home equity net of sale costs vs. compounded savings value).
 4. **Return Minus Cumulative Spent** — Explains the bottom-line calculation and the green highlighting logic. Notes this is a financial comparison only.
-5. **Price-to-Rent Ratio (PTR)** — Explains the metric, links to Investopedia reference, notes the color scale and its limitations.
-6. **The 30% Rule** — Why net income is used instead of gross, lifestyle inflation concept, renting column uses 40% (30% housing + 10% savings).
-7. **The Current Lifestyle Approach** — Lifestyle inflation warning, this is a MINIMUM estimate, savings contribution accounting explanation.
+5. **Breakeven Analysis** — Explains all three breakeven metrics: Monthly Cost (when buying's monthly outflow drops below renting's), Cumulative Spending (when total money spent buying falls below total money spent renting), and Net Position (when buying's financial return minus cumulative spending exceeds renting's equivalent figure). Notes that "No breakeven found" means renting comes out ahead for the entire horizon modeled.6. **The 30% Rule** — Why net income is used instead of gross, lifestyle inflation concept, renting column uses 40% (30% housing + 10% savings).
+6. **The Current Lifestyle Approach** — Lifestyle inflation warning, this is a MINIMUM estimate, savings contribution accounting explanation.
 
 Anchor links from results table rows open the target accordion and scroll to it.
 The nav link "→ How to read your results" above the table scrolls to the accordion group wrapper without opening any specific item.

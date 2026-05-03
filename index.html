@@ -371,6 +371,50 @@
       font-size: 0.9rem;
     }
 
+    /* ── Breakeven Cards ── */
+    .breakeven-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 0.5rem;
+    }
+    .breakeven-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--sky);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.1rem;
+    }
+    .breakeven-card.be-amber {
+      border-left-color: var(--amber);
+    }
+    .breakeven-card.be-green {
+      border-left-color: #2e7d32;
+    }
+    .breakeven-card-label {
+      flex: 1;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .breakeven-card-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      white-space: nowrap;
+      text-align: right;
+    }
+    .breakeven-card-value.be-none {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
     /* -- Link Styles -- */
     .link-amber {
       color: var(--amber);
@@ -837,40 +881,6 @@
       text-decoration: underline;
     }
 
-    /* ── PTR ── */
-    .ptr-display {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .ptr-value-wrap {
-      display: flex;
-      align-items: baseline;
-      gap: 0.75rem;
-    }
-    .ptr-label {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .ptr-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--navy);
-    }
-    .ptr-scale { display: flex; flex-direction: column; gap: 4px; }
-    .ptr-band {
-      padding: 0.5rem 0.85rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-    .ptr-blue   { background: #e6f2fa; color: #2a7ab8; }
-    .ptr-green  { background: #e8f5e9; color: #2e7d32; }
-    .ptr-yellow { background: #fffde7; color: #f57f17; }
-    .ptr-orange { background: #fff3e0; color: #e65100; }
-    .ptr-red    { background: #ffebee; color: #c62828; }
-    .ptr-band.active { outline: 2px solid currentColor; }
-
     /* ── Result footnote link ── */
     .result-footnote-link {
       text-decoration: none;
@@ -1182,35 +1192,40 @@
       color: #2e7d32 !important;
     }
 
-    /* ── PTR badge ── */
-    .share-ptr-row {
-      padding: 0.75rem 1.25rem;
+    /* ── Share card breakeven section ── */
+    .share-breakeven-section {
       border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
+      padding: 0.65rem 1.25rem;
+      background: var(--warm-white);
     }
-    .share-ptr-label {
+    .share-breakeven-header {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.4rem;
+    }
+    .share-breakeven-rows {
+      display: flex;
+      gap: 0;
+      flex-direction: column;
+    }
+    .share-breakeven-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.2rem 0;
+    }
+    .share-breakeven-label {
       font-size: 0.78rem;
       color: var(--text-muted);
-      font-weight: 500;
     }
-    .share-ptr-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 99px;
-      font-size: 0.8rem;
+    .share-breakeven-value {
+      font-size: 0.78rem;
       font-weight: 700;
-      border: 2px solid currentColor;
+      color: var(--navy);
     }
-    .share-ptr-badge.ptr-blue   { background: #e6f2fa; color: #2a7ab8; }
-    .share-ptr-badge.ptr-green  { background: #e8f5e9; color: #2e7d32; }
-    .share-ptr-badge.ptr-yellow { background: #fffde7; color: #b7860f; }
-    .share-ptr-badge.ptr-orange { background: #fff3e0; color: #e65100; }
-    .share-ptr-badge.ptr-red    { background: #ffebee; color: #c62828; }
 
     /* ── Share card footer ── */
     .share-card-footer {
@@ -1432,14 +1447,6 @@
           "text": "Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. But it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: owning a primary home is a lifestyle choice that also functions as a savings vehicle; it's not an investment. Go in with that expectation and you won't be disappointed."
         }
       },
-      {
-        "@type": "Question",
-        "name": "What is a price-to-rent ratio, and what does it mean?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The price-to-rent ratio (PTR) compares the cost of buying a home to the cost of renting a comparable one. It's calculated by dividing the home's purchase price by the annual rent for a similar property. A PTR below 10 strongly favors buying. Between 10–15, buying may be worth considering. Between 15–20, renting is generally smarter. Above 20, renting is almost always the better financial choice. The PTR is a useful quick filter, but it doesn't replace a full cost comparison that accounts for your specific mortgage terms, tax situation, and investment alternatives."
-        }
-      }
       {
         "@type": "Question",
         "name": "What is a mortgage buydown?",
@@ -1702,16 +1709,6 @@
           </button>
           <div class="accordion-body" id="acc-faq-10">
             <p>Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: a primary home is a savings vehicle with some lifestyle benefits, not an investment. Go in with that expectation and you won't be disappointed.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-11">
-            What is a price-to-rent ratio, and what does it mean?
-            <span class="chevron">▼</span>
-          </button>
-          <div class="accordion-body" id="acc-faq-11">
-            <p>The price-to-rent ratio (PTR) compares the cost of buying a home to the cost of renting a comparable one. It's calculated by dividing the home's purchase price by the annual rent for a similar property. A PTR below 10 strongly favors buying. Between 10–15, buying may be worth considering. Between 15–20, renting is generally smarter. Above 20, renting is almost always the better financial choice. The PTR is a useful quick filter, but it doesn't replace a full cost comparison that accounts for your specific mortgage terms, tax situation, and investment alternatives.</p>
           </div>
         </div>
 
@@ -2622,20 +2619,21 @@
         </table>
       </div>
 
-      <!-- PTR -->
+      <!-- Breakeven Analysis -->
       <div style="margin-top: 2.5rem;">
-        <p class="calc-group-label">Price-to-Rent Ratio (PTR)</p>
-        <div class="ptr-display">
-          <div class="ptr-value-wrap">
-            <span class="ptr-label">Your PTR is</span>
-            <span class="ptr-value" id="ptr-value">—</span>
+        <p class="calc-group-label">Breakeven Analysis</p>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">How long until buying comes out ahead of renting on each measure. <a href="#acc-breakeven" class="result-footnote-link" style="font-size: 0.88rem; color: var(--sky);">What does this mean?</a></p>        <div class="breakeven-cards">
+          <div class="breakeven-card" id="be-card-monthly">
+            <span class="breakeven-card-label">Monthly Cost</span>
+            <span class="breakeven-card-value" id="be-monthly">—</span>
           </div>
-          <div class="ptr-scale">
-            <div class="ptr-band ptr-blue">Below 10 — Yes, if you can afford it</div>
-            <div class="ptr-band ptr-green">10–15 — Worth considering, if affordable</div>
-            <div class="ptr-band ptr-yellow">15–20 — Probably not</div>
-            <div class="ptr-band ptr-orange">20–25 — No</div>
-            <div class="ptr-band ptr-red">Above 25 — Run the other direction</div>
+          <div class="breakeven-card be-amber" id="be-card-cumulative">
+            <span class="breakeven-card-label">Cumulative Spending</span>
+            <span class="breakeven-card-value" id="be-cumulative">—</span>
+          </div>
+          <div class="breakeven-card be-green" id="be-card-net">
+            <span class="breakeven-card-label">Net Position</span>
+            <span class="breakeven-card-value" id="be-net">—</span>
           </div>
         </div>
       </div>
@@ -2652,8 +2650,8 @@
           <div class="accordion-body" id="acc-where-next">
             <p>Your results are a starting point — not a verdict. And keep in mind that this is just the financial perspective; there may be things that matter more to you than a price tag.</p>
             <p>Here's how to read your results:</p>
-            <p>If the buying column is mostly green and your PTR is blue or green, buying may be the stronger financial choice. This usually means renting is expensive enough relative to ownership that the savings advantage of renting is reduced or eliminated.</p>
-            <p>If the renting column is mostly green and your PTR is yellow, orange, or red, renting and saving the difference is probably the smarter move. Home prices in your scenario are high enough relative to rent that your savings and investments are likely to outgrow whatever you'd build in home equity — even accounting for appreciation.</p>
+            <p>If the buying column is mostly green buying may be the stronger financial choice. This usually means renting is expensive enough relative to ownership that the savings advantage of renting is reduced or eliminated.</p>
+            <p>If the renting column is mostly green, renting and saving the difference is probably the smarter move. Home prices in your scenario are high enough relative to rent that your savings and investments are likely to outgrow whatever you'd build in home equity — even accounting for appreciation.</p>
             <p>A few things worth keeping in mind as you interpret your numbers: home value appreciation is never guaranteed. The profit you'd make selling your home depends heavily on market conditions, local demand, and timing — factors entirely outside your control. Long-term savings and investments, by contrast, are more flexible and have historically provided more reliable growth even through economic downturns.</p>
             <p>And if renting makes more sense right now, that doesn't mean buying won't make sense later. Interest rates change, family situations evolve, and the math shifts. Saving and investing now is one of the best ways to keep your options open — including building a down payment if buying becomes the right move down the road.</p>
           </div>
@@ -2696,13 +2694,24 @@
         </div>
 
         <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-ptr">
-            Price-to-Rent Ratio (PTR)
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-breakeven">
+            Breakeven Analysis — What Do These Mean?
             <span class="chevron">▼</span>
           </button>
-          <div class="accordion-body" id="acc-ptr">
-            <p>The price-to-rent ratio is a useful high-level metric for quickly gauging whether buying or renting makes more financial sense in a given market. To dig deeper into how it works, check out this <a href="https://www.investopedia.com/terms/p/price-to-rent-ratio.asp" target="_blank" rel="noopener noreferrer">great article</a>.</p>
-            <p>The PTR value above will highlight in the color scale automatically based on your inputs — blue and green generally favor buying, yellow through red generally favor renting. But it's worth remembering that the PTR is a filter, not a final answer. It doesn't account for your specific mortgage terms, tax situation, down payment, or what you'd do with your savings if you rented instead. The full picture is in the summary table above.</p>
+          <div class="accordion-body" id="acc-breakeven">
+            <div class="acc-item">
+              <strong>Monthly Cost</strong>
+              </p>The point when buying's monthly cost becomes cheaper than renting. Rent increases every year while your mortgage payment stays fixed — so renting often starts cheaper but eventually flips. This breakeven tells you when that flip happens.</p>
+              </p>Note that this metric includes all of your spending (including savings contributions, extra principal paydowns, etc.), not just the base PITI vs rent metric that most calculators use. That makes this metric more true to your chosen scenario than other calculators will be.</p>
+            </div>
+            <div class="acc-item">
+              <strong>Cumulative Spending</strong>
+              The point when total money spent owning falls below total money spent renting. Owning has high upfront costs and often higher early monthly costs — but those can be offset over time as rent rises and equity builds. This is the most commonly cited breakeven.
+            </div>
+            <div class="acc-item">
+              <strong>Net Position</strong>
+              The most complete metric. This is when (Financial Return minus Cumulative Spending) for buying exceeds that same figure for renting. It asks: when does buying actually leave you better off, all things considered? If no breakeven is shown, renting and investing the difference comes out ahead for the entire horizon modeled.
+            </div>
           </div>
         </div>
 
@@ -2771,9 +2780,22 @@
             <tbody id="sc-tbody"></tbody>
           </table>
 
-          <div class="share-ptr-row" id="sc-ptr-row">
-            <span class="share-ptr-label">Price-to-Rent Ratio:</span>
-            <span class="share-ptr-badge" id="sc-ptr-badge">—</span>
+          <div class="share-breakeven-section" id="sc-breakeven-section">
+            <div class="share-breakeven-header">Breakeven Analysis</div>
+            <div class="share-breakeven-rows">
+              <div class="share-breakeven-row">
+                <span class="share-breakeven-label">Monthly Cost</span>
+                <span class="share-breakeven-value" id="sc-be-monthly">—</span>
+              </div>
+              <div class="share-breakeven-row">
+                <span class="share-breakeven-label">Cumulative Spending</span>
+                <span class="share-breakeven-value" id="sc-be-cumulative">—</span>
+              </div>
+              <div class="share-breakeven-row">
+                <span class="share-breakeven-label">Net Position</span>
+                <span class="share-breakeven-value" id="sc-be-net">—</span>
+              </div>
+            </div>
           </div>
 
           <div class="share-card-footer">
@@ -3053,6 +3075,12 @@
       }
     }
 
+    // Extra Principal Paydown Value Helper
+    function getExtraPrincipal() {
+      if (!document.getElementById('extra-principal-toggle').checked) return 0;
+      return parseFloat(document.getElementById('extra-principal-amount').value) || 0;
+    }
+
     // ── Update savings defaults ──
     function updateSavingsDefaults() {
       // Initial deposit default = down payment amount
@@ -3073,6 +3101,142 @@
         contribDisplay.textContent = fmt(contrib) + '/mo';
         warning.style.display = 'none';
       }
+    }
+
+        // ── Breakeven calculations ──
+    // Searches month by month (up to maxMonths) for the point when buying
+    // crosses renting on a given measure. Returns { years, months } or null.
+    function calcBreakevens(inputs) {
+      const {
+        price, dpPct, rate, noteRate, term, taxRate, hoa, insurance, maintenance,
+        electricBuy, waterBuy, otherBuy, inflation, appreciation, saleClose,
+        movingBuy, closingPct, rent, rentersIns, electricRent, waterRent, otherRent,
+        ror, rentIncrease, initialDeposit, monthlyContrib, priorSavings,
+        secDeposit, movingRent,
+      } = inputs;
+
+      const dp           = price * (dpPct / 100);
+      const loan         = price - dp;
+      const closing      = loan * closingPct;
+      const monthlyRate  = rate / 100 / 12;
+      const numPayments  = term * 12;
+      const monthlyPMT   = calcPMT(loan, rate, term);
+      const monthTax     = (price * taxRate / 12);
+      const reserves     = 2 * (monthlyPMT + insurance / 12 + monthTax);
+      const pmi          = calcPMI();
+      const extra        = getExtraPrincipal();
+
+      const buydownUpfront = (() => {
+        const bdType = getBuydownType();
+        const payer  = getBuydownPayer();
+        if (payer !== 'buyer') return 0;
+        if (bdType === 'permanent') return calcPermanentBuydownUpfront(loan);
+        if (bdType === '2-1' || bdType === '3-2-1') return calcTemporaryBuydownUpfront(loan, noteRate, term);
+        return 0;
+      })();
+
+      const rentReserves = rent;
+
+      // Running totals — buying
+      let buyCumSpent   = dp + closing + movingBuy + reserves + buydownUpfront;
+      let buyBal        = loan;
+      let buyHomeVal    = price;
+
+      // Running totals — renting
+      let rentCumSpent  = secDeposit + movingRent + rentReserves + initialDeposit;
+      let savingsVal    = initialDeposit + priorSavings;
+      let currentRent   = rent;
+
+      // Monthly buy costs that inflate
+      let insMonthly    = insurance / 12;
+      let maintMonthly  = maintenance / 12;
+      let utilBuyMo     = electricBuy + waterBuy + otherBuy;
+      let utilRentMo    = electricRent + waterRent + otherRent;
+      let rentInsMonthly = rentersIns / 12;
+
+      const maxMonths = 50 * 12;
+
+      let beMonthly    = null;
+      let beCumulative = null;
+      let beNet        = null;
+
+      for (let m = 1; m <= maxMonths; m++) {
+        const yearFrac = (m - 1) / 12; // years elapsed before this month
+        const inflMult = Math.pow(1 + inflation, yearFrac);
+
+        // ── BUY: this month's costs ──
+        const intThisMonth  = buyBal * monthlyRate;
+        const prinThisMonth = Math.min(monthlyPMT - intThisMonth + extra, buyBal);
+        buyBal = Math.max(0, buyBal - prinThisMonth);
+
+        buyHomeVal = price * Math.pow(1 + appreciation, m / 12);
+        const propTaxMo = (price * Math.pow(1 + appreciation, (m - 1) / 12)) * taxRate / 12;
+        const pmiMo     = (buyBal / buyHomeVal >= 0.8) ? pmi : 0;
+
+        // Buydown subsidy this month
+        const yearNum = Math.ceil(m / 12);
+        const annualSubsidy = getTemporaryBuydownSubsidy(yearNum, loan, noteRate, term);
+        const subsidyMo = annualSubsidy / 12;
+
+        const buyMonthCost = monthlyPMT + propTaxMo + hoa
+          + insMonthly * inflMult + maintMonthly * inflMult
+          + pmiMo + utilBuyMo * inflMult - subsidyMo
+          + (extra > 0 && buyBal > 0 ? extra : 0);
+
+        buyCumSpent += buyMonthCost;
+
+        // ── RENT: this month's costs ──
+        const rentMonthCost = currentRent + rentInsMonthly * inflMult + utilRentMo * inflMult + monthlyContrib;
+        rentCumSpent += rentMonthCost;
+
+        // Savings growth — monthly compounding equivalent of annual ror
+        const monthlyRor = Math.pow(1 + ror, 1 / 12) - 1;
+        savingsVal = (savingsVal + monthlyContrib) * (1 + monthlyRor);
+
+        // Rent increases annually
+        if (m % 12 === 0) currentRent *= (1 + rentIncrease);
+
+        // ── Monthly cost breakeven ──
+        // Full cash outflow each month — extra principal included on buy side,
+        // savings contribution included on rent side, consistent with results table.
+        if (beMonthly === null && buyMonthCost <= rentMonthCost) {
+          beMonthly = m;
+        }
+
+        // ── Cumulative spending breakeven ──
+        if (beCumulative === null && buyCumSpent <= rentCumSpent) {
+          beCumulative = m;
+        }
+
+        // ── Net position breakeven ──
+        // Buy net = home equity after sale costs - cumulative spent
+        // Rent net = savings value - cumulative spent
+        const saleCloseCost = buyHomeVal * saleClose;
+        const buyEquity     = buyHomeVal - buyBal - saleCloseCost;
+        const buyNet        = buyEquity - buyCumSpent;
+        const rentNet       = savingsVal - rentCumSpent;
+        if (beNet === null && buyNet >= rentNet) {
+          beNet = m;
+        }
+
+        // Early exit once all three are found
+        if (beMonthly !== null && beCumulative !== null && beNet !== null) break;
+      }
+
+      function toYrMo(totalMonths) {
+        if (totalMonths === null) return null;
+        const yrs = Math.floor(totalMonths / 12);
+        const mos = totalMonths % 12;
+        if (yrs === 0) return `${mos} Mo`;
+        if (mos === 0) return `${yrs} Yr`;
+        return `${yrs} Yr ${mos} Mo`;
+      }
+
+      return {
+        monthly:    toYrMo(beMonthly),
+        cumulative: toYrMo(beCumulative),
+        net:        toYrMo(beNet),
+      };
     }
 
     // ── Toggle switch logic ──
@@ -3261,12 +3425,6 @@
       const monthlyPMT   = calcPMT(loan, rate, term);
       const reserves     = 2 * (monthlyPMT + insurance / 12 + monthBuyTax);
       const pmi          = calcPMI();
-
-      // Extra Principal Paydown Value Helper
-      function getExtraPrincipal() {
-        if (!document.getElementById('extra-principal-toggle').checked) return 0;
-        return parseFloat(document.getElementById('extra-principal-amount').value) || 0;
-      }
 
       // ── Annual interest & principal using monthly compounding summed per year ──
       function annualInterest(yearNum) {
@@ -3475,11 +3633,6 @@
                              ? (rentYear1Cost - monthlyContrib * 12 + lifestyle)
                                / (1 - taxRateRent) : null;
 
-      // ── PTR ──
-      const ptr = rent > 0
-                  ? (price + closing + reserves + movingBuy) / (12 * rent)
-                  : null;
-
       // ════════════════════════════
       // POPULATE TABLE
       // ════════════════════════════
@@ -3583,16 +3736,43 @@
       applyGreen(costRows,   false);
       applyGreen(returnRows, true);
 
-      // ── PTR ──
-      const ptrEl = document.getElementById('ptr-value');
-      ptrEl.textContent = ptr !== null ? ptr.toFixed(1) : '—';
-      document.querySelectorAll('.ptr-band').forEach(b => b.classList.remove('active'));
-      if (ptr !== null) {
-        if (ptr < 10)      document.querySelector('.ptr-blue').classList.add('active');
-        else if (ptr < 15) document.querySelector('.ptr-green').classList.add('active');
-        else if (ptr < 20) document.querySelector('.ptr-yellow').classList.add('active');
-        else if (ptr < 25) document.querySelector('.ptr-orange').classList.add('active');
-        else               document.querySelector('.ptr-red').classList.add('active');
+      // ── Breakeven Analysis ──
+      const breakevenInputs = {
+        price, dpPct, rate, noteRate, term, taxRate, hoa, insurance, maintenance,
+        electricBuy, waterBuy, otherBuy, inflation, appreciation, saleClose,
+        movingBuy, closingPct, rent, rentersIns, electricRent, waterRent, otherRent,
+        ror, rentIncrease, initialDeposit, monthlyContrib, priorSavings,
+        secDeposit, movingRent,
+      };
+      const breakevens = calcBreakevens(breakevenInputs);
+
+      const noBreakevenText = 'No breakeven found';
+
+      const beMonthlyEl = document.getElementById('be-monthly');
+      const beCumulEl   = document.getElementById('be-cumulative');
+      const beNetEl     = document.getElementById('be-net');
+
+      [beMonthlyEl, beCumulEl, beNetEl].forEach(el => el.classList.remove('be-none'));
+
+      if (breakevens.monthly) {
+        beMonthlyEl.textContent = breakevens.monthly;
+      } else {
+        beMonthlyEl.textContent = noBreakevenText;
+        beMonthlyEl.classList.add('be-none');
+      }
+
+      if (breakevens.cumulative) {
+        beCumulEl.textContent = breakevens.cumulative;
+      } else {
+        beCumulEl.textContent = noBreakevenText;
+        beCumulEl.classList.add('be-none');
+      }
+
+      if (breakevens.net) {
+        beNetEl.textContent = breakevens.net;
+      } else {
+        beNetEl.textContent = noBreakevenText;
+        beNetEl.classList.add('be-none');
       }
 
      // ── Show results ──
@@ -3614,7 +3794,9 @@
         rentIncome30:  rentIncome30  || null,
         buyIncomeLife: buyIncomeLife || null,
         rentIncomeLife:rentIncomeLife|| null,
-        ptr,
+        beMonthly:    breakevens.monthly    || null,
+        beCumulative: breakevens.cumulative || null,
+        beNet:        breakevens.net        || null,
       };
       // debugger;
     }
@@ -4308,24 +4490,12 @@
         tbody.appendChild(tr);
       });
 
-      // PTR badge
-      const ptrVal = r.ptr;
-      const badge  = document.getElementById('sc-ptr-badge');
-      const ptrRow = document.getElementById('sc-ptr-row');
-
-      if (ptrVal !== null && mode === 'both') {
-        ptrRow.style.display = '';
-        badge.className = 'share-ptr-badge';
-        let ptrClass = '', ptrText = '';
-        if      (ptrVal < 10) { ptrClass = 'ptr-blue';   ptrText = 'Below 10 — Yes, if affordable'; }
-        else if (ptrVal < 15) { ptrClass = 'ptr-green';  ptrText = '10–15 — Worth considering'; }
-        else if (ptrVal < 20) { ptrClass = 'ptr-yellow'; ptrText = '15–20 — Probably not'; }
-        else if (ptrVal < 25) { ptrClass = 'ptr-orange'; ptrText = '20–25 — No'; }
-        else                  { ptrClass = 'ptr-red';    ptrText = 'Above 25 — Run the other direction'; }
-        badge.classList.add(ptrClass);
-        badge.textContent = ptrVal.toFixed(1);
-      } else {
-        ptrRow.style.display = 'none';
+      // ── Breakeven section ──
+      const beSection = document.getElementById('sc-breakeven-section');
+      if (beSection) {
+        document.getElementById('sc-be-monthly').textContent    = r.beMonthly    || '—';
+        document.getElementById('sc-be-cumulative').textContent = r.beCumulative || '—';
+        document.getElementById('sc-be-net').textContent        = r.beNet        || '—';
       }
     }
 
@@ -4386,15 +4556,6 @@
       const sky       = '#2a7ab8';
       const white     = '#ffffff';
 
-      // PTR colors
-      const ptrColors = {
-        'ptr-blue':   { bg: '#e6f2fa', text: '#2a7ab8' },
-        'ptr-green':  { bg: '#e8f5e9', text: '#2e7d32' },
-        'ptr-yellow': { bg: '#fffde7', text: '#b7860f' },
-        'ptr-orange': { bg: '#fff3e0', text: '#e65100' },
-        'ptr-red':    { bg: '#ffebee', text: '#c62828' },
-      };
-
       // ── Build row data (same logic as populateShareCard) ──
       const rows = [
         { label: 'Total Upfront Cost',          buy: r.buyUpfront,   rent: r.rentUpfront,  lowerIsBetter: true  },
@@ -4413,9 +4574,11 @@
       const headerH    = 58;
       const tableHeadH = 32;
       const rowH       = 38;
-      const ptrH       = mode === 'both' && r.ptr !== null ? 44 : 0;
       const footerH    = 68;
-      const totalH = headerH + tableHeadH + rows.length * rowH + ptrH + footerH;
+      const beRowH    = 22;
+      const beHeaderH = 24;
+      const beSectionH = beHeaderH + (3 * beRowH) + 16; // 3 rows + padding
+      const totalH = headerH + tableHeadH + rows.length * rowH + beSectionH + footerH;
 
       const canvas  = document.createElement('canvas');
       canvas.width  = W * scale;
@@ -4606,54 +4769,44 @@
         y += dynamicRowH;
       });
 
-      // ── PTR row ──
-      if (mode === 'both' && r.ptr !== null) {
-        ctx.fillStyle = warmWhite;
-        ctx.fillRect(0, y, W, ptrH);
+      // ── Breakeven section ──
+      ctx.fillStyle = warmWhite;
+      ctx.fillRect(0, y, W, beSectionH);
 
-        ctx.strokeStyle = border;
-        ctx.lineWidth   = 0.5;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(W, y);
-        ctx.stroke();
+      ctx.strokeStyle = border;
+      ctx.lineWidth   = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
 
+      ctx.fillStyle    = '#8a9aaa';
+      ctx.font         = 'bold 10px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign    = 'left';
+      ctx.fillText('BREAKEVEN ANALYSIS', 20, y + 16);
+
+      const beRows = [
+        { label: 'Monthly Cost',       value: r.beMonthly    || '–' },
+        { label: 'Cumulative Spending', value: r.beCumulative || '–' },
+        { label: 'Net Position',        value: r.beNet        || '–' },
+      ];
+
+      let beY = y + beHeaderH;
+      beRows.forEach(row => {
         ctx.fillStyle  = muted;
         ctx.font       = '12px -apple-system, BlinkMacSystemFont, sans-serif';
         ctx.textAlign  = 'left';
-        ctx.fillText('Price-to-Rent Ratio:', 20, y + 28);
+        ctx.fillText(row.label, 20, beY + 15);
 
-        // PTR badge
-        const badge = document.getElementById('sc-ptr-badge');
-        let ptrClass = '';
-        badge.classList.forEach(c => { if (c.startsWith('ptr-')) ptrClass = c; });
-        const colors  = ptrColors[ptrClass] || { bg: '#e6f2fa', text: '#2a7ab8' };
-        const badgeText = r.ptr.toFixed(1);
-        ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
-        const textW   = ctx.measureText(badgeText).width;
-        const badgeX  = 165;
-        const badgeY  = y + 14;
-        const badgePad = 10;
-        const badgeW  = textW + badgePad * 2;
-        const badgeH  = 22;
+        ctx.fillStyle  = navy;
+        ctx.font       = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign  = 'right';
+        ctx.fillText(row.value, W - 20, beY + 15);
 
-        const r2 = badgeH / 2;
-        ctx.fillStyle   = colors.bg;
-        ctx.strokeStyle = colors.text;
-        ctx.lineWidth   = 1.5;
-        ctx.beginPath();
-        ctx.arc(badgeX + r2,          badgeY + r2, r2, Math.PI / 2, Math.PI * 3 / 2);
-        ctx.arc(badgeX + badgeW - r2, badgeY + r2, r2, Math.PI * 3 / 2, Math.PI / 2);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
+        beY += beRowH;
+      });
 
-        ctx.fillStyle = colors.text;
-        ctx.textAlign = 'center';
-        ctx.fillText(badgeText, badgeX + badgeW / 2, badgeY + 15);
-
-        y += ptrH;
-      }
+      y += beSectionH;
 
       // ── Footer ──
       ctx.fillStyle = cream;
@@ -4773,11 +4926,6 @@
         lines.push(`  Total spent (${years} yrs): ${fmt(r.rentCumSpent)}`);
         const incRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
         if (incRent) lines.push(`  Recommended income: ${incRent}`);
-        lines.push('');
-      }
-
-      if (r.ptr !== null && mode !== 'buy') {
-        lines.push(`Price-to-Rent Ratio: ${r.ptr.toFixed(1)}`);
         lines.push('');
       }
 

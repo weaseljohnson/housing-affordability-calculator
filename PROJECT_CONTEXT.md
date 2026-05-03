@@ -144,6 +144,8 @@ The product functions as both:
 - Mortgage Buydown options: 2-1, 3-2-1, and Permanent
 - Optional manual mode for PMI. PMI card now shows in property section when it is applicable.
 - Extra monthly principal paydown (Advanced Settings toggle): accelerated amortization with PMI drop-off impact, interest saved output card, and loan payoff reduction display
+- Breakeven analysis section replacing PTR: three month-by-month breakeven calculations (Monthly Cost, Cumulative Spending, Net Position) displayed as styled cards below the results table, with accordion explanation and "What does this mean?" anchor link. Breakeven values included in share card modal and canvas image.
+- PTR (Price-to-Rent Ratio) section removed — replaced by breakeven analysis as a more actionable and specific metric
 
 ### Not Yet Built
 - Year-by-year data tables (collapsed by default, one for buying, one for renting)

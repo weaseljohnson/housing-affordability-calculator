@@ -24,8 +24,9 @@ Results/Outputs based on those inputs (Buying | Renting):
 - Financial Return: $170,075 | $222,520
 - 30% Rule Income: $129,446	| $91,376
 - Lifestyle Rule Income: $113,834 | $98,824
-- PTR: 12.9
-
+- Breakeven Monthly Cost: 0 Yr 1 Mo
+- Breakeven Cumulative Spending: 5 Yr 10 Mo  
+- Breakeven Net Position: None Found
 ---
 
 ## Debugging History
@@ -181,6 +182,12 @@ returns the full payment as principal.
 year's balance is 0, return 0 immediately.
 **Lesson:** Any derived formula that depends on a running balance needs a 
 zero-balance guard, not just the functions that track the balance directly.
+
+### Bug 19 — calcBreakevens Nested Inside calcDefaultContribution
+**Issue:** Calculator threw "Can't find variable: getExtraPrincipal" on Calculate.
+**Cause:** `calcBreakevens()` was accidentally nested inside `calcDefaultContribution()` during implementation, scoping it away from the top level. Additionally, `getExtraPrincipal()` was itself nested inside an init function, making it invisible to `calcBreakevens()`.
+**Fix:** Moved `calcBreakevens()` to be a top-level function between `calcDefaultContribution()` and `runCalculations()`. Moved `getExtraPrincipal()` to be a top-level helper alongside `calcPMI()`, `getBuydownType()`, and similar helpers.
+**Lesson:** Any helper function called from `runCalculations()` or from other top-level calculation functions must itself be defined at the top level. Nesting during implementation is easy to do accidentally when adding a function "after" another — always check the closing braces.
 
 
 ---

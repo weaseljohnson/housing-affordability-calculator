@@ -205,6 +205,44 @@ Visible inside Advanced Settings when a temporary buydown is active. Shows the m
 
 ---
 
+## Breakeven Analysis
+
+Three breakeven points are calculated after the main results, using a month-by-month simulation loop (up to 50 years / 600 months). Each breakeven returns the first month where buying crosses renting on a given measure, formatted as "X Yr X Mo". Returns null (displayed as "No breakeven found") if no crossover occurs within 50 years.
+
+### The Three Breakevens
+
+**Monthly Cost** — The month when buying's total monthly cash outflow (mortgage P&I, property tax, HOA, insurance, maintenance, PMI, utilities, extra principal, minus any buydown subsidy) drops below renting's total monthly cash outflow (rent, renters insurance, utilities, savings contribution). Both sides include all real dollars leaving the user's pocket each month, consistent with the main results table.
+
+**Cumulative Spending** — The month when total money spent buying (all upfront costs plus all monthly costs accumulated) falls below total money spent renting (all upfront costs plus all monthly costs including savings contributions accumulated).
+
+**Net Position** — The most complete measure. The month when (home equity after sale costs minus cumulative spending) for buying exceeds (savings value minus cumulative spending) for renting. This is the "when does buying actually leave you better off, all things considered?" breakeven.
+
+### Key Implementation Details
+
+- The loop runs monthly, not annually, for precision
+- Rent increases are applied annually (at the end of each 12-month block)
+- Inflation is applied continuously using `Math.pow(1 + inflation, yearFrac)` where yearFrac = (m-1)/12
+- Home value appreciates continuously using `Math.pow(1 + appreciation, m/12)`
+- PMI drop-off is checked each month using current balance vs current home value
+- Savings growth uses monthly compounding: `monthlyRor = Math.pow(1 + ror, 1/12) - 1`
+- Buydown subsidy is applied monthly (annual subsidy / 12) for the applicable years
+- Extra principal is included in buy monthly cost and affects the running balance
+- Savings contribution is included in rent monthly cost
+- The loop breaks early once all three breakevens are found
+- Results are stored in `lastResults` as `beMonthly`, `beCumulative`, `beNet`
+
+### Helper Function
+
+`calcBreakevens(inputs)` — accepts a flat inputs object mirroring the variables from `runCalculations()`. Returns `{ monthly, cumulative, net }` where each value is either a formatted string ("X Yr X Mo") or null.
+
+`toYrMo(totalMonths)` — internal helper inside `calcBreakevens`. Converts a raw month count to the display string. Returns just "X Mo" if under a year, "X Yr" if an exact year, "X Yr X Mo" otherwise.
+
+### Share Card
+
+Breakeven values are included in both the modal share card preview and the canvas image. All three rows are shown regardless of share mode (Buying vs. Renting, Buying Only, Renting Only) since breakeven is a single-column value, not a per-column comparison. Null values display as "—" in the share card (shortened from "No breakeven found" for brevity).
+
+---
+
 ## Buy Side — Year-by-Year Loop
 
 **Starting cashflow (year 0):**
@@ -393,6 +431,8 @@ The savings return is shown separately in the results table.
 | Lifestyle spending | lifestyle-spending |
 | Extra principal toggle | extra-principal-toggle |
 | Extra principal amount | extra-principal-amount |
+
+Note: `getExtraPrincipal()` must be defined as a top-level function (not nested inside any init or wireup function) so it is accessible from both `runCalculations()` and `calcBreakevens()`.
 
 ---
 
