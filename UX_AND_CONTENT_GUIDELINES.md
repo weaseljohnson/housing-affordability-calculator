@@ -156,6 +156,23 @@ Only these fields update live:
 - Negative contribution warning (appears/disappears live)
 - Maintenance pre-fill (2% of purchase price — runs inside updateMortgageOutputs(), not a separate listener)
 
+### Down Payment Dual-Mode Input (% / $ Toggle)
+
+The down payment field (`down-payment-pct`) serves dual purpose — it stores either a percent or a dollar value depending on the current toggle mode, tracked via `dpModeToggle.dataset.mode` ('pct' or 'dollar').
+
+**Key rules:**
+- All reads of the down payment value must go through `getDpPct()`, not direct field reads. `getDpPct()` checks the current mode and converts dollar→percent on the fly if needed.
+- Exception: `encodeStateToUrl()` and `decodeStateFromUrl()` intentionally read/write the raw field value. The current mode is encoded separately (key: `dpm`) and the raw field value is stored as-is (dollar or percent depending on mode). On decode, the toggle UI is restored before calculations run, and `lastDpDollarValue` is set from the restored field value if mode is dollar.
+- The `dp` dollar amount in `updateMortgageOutputs()` reads the raw field directly when in dollar mode to avoid a lossy percent round-trip for display purposes. All other functions derive `dp` from `getDpPct()`.
+- Dollar→percent conversion uses `toFixed(4)` to avoid floating point round-trip errors. Do not reduce this — `toFixed(2)` causes e.g. `$80,000 → 26.67% → $80,010` due to repeating decimal precision loss.
+- `lastDpDollarValue` stores the exact dollar amount the user typed, so toggling back to dollar mode restores it exactly rather than reconverting from the lossy percent.
+
+**What not to change:**
+- Do not reduce `toFixed(4)` to fewer decimal places in the dollar→percent conversion.
+- Do not read `down-payment-pct` value directly in calculation functions — always use `getDpPct()`.
+- Do not add `down-payment-pct` mode encoding to the URL without also encoding the toggle mode (`dpm`) — a raw dollar value decoded as a percent would produce a wildly wrong down payment.
+- `dpModeToggle` is scoped inside `wireUpListeners()` — any other function that needs to reference the toggle element (e.g. `decodeStateFromUrl()`) must look it up directly via `document.getElementById('dp-mode-toggle')`.
+
 ### Mobile-Specific Behavior
 - Input fields use 16px font size explicitly to prevent iOS Safari auto-zoom on tap
 - Viewport meta tag includes `user-scalable=0` to prevent pinch-zoom layout shifts

@@ -1795,8 +1795,11 @@
     <div class="input-group">
       <label class="input-label" for="down-payment-pct">Down Payment</label>
       <div class="input-wrap">
-        <input type="number" id="down-payment-pct" placeholder="e.g. 20" min="0" max="100" step="0.5" />
-        <span class="input-suffix">%</span>
+        <input type="number" id="down-payment-pct" placeholder="e.g. 20" min="0" step="0.5" />
+        <span class="input-suffix" id="dp-mode-toggle" style="cursor:pointer; padding: 0; overflow: hidden;">
+          <span id="dp-mode-pct" style="display:inline-flex; align-items:center; justify-content:center; width:32px; height:44px; font-weight:700; color:#fff; background:var(--sky);">%</span>
+          <span id="dp-mode-dollar" style="display:inline-flex; align-items:center; justify-content:center; width:32px; height:44px; font-weight:700; color:var(--text-light); background:var(--cream);">$</span>
+        </span>
       </div>
       <div class="help-links">
         <a href="https://www.bankrate.com/mortgages/average-down-payment/" target="_blank" rel="noopener noreferrer">How much should a down payment be?</a>
@@ -2846,10 +2849,25 @@
       return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     }
 
+    // ── Down payment mode formatting helpers ──
+    function getDpMode() {
+      return document.getElementById('dp-mode-toggle').dataset.mode || 'pct';
+    }
+
+    function getDpPct() {
+      const raw   = parseFloat(document.getElementById('down-payment-pct').value);
+      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
+      if (isNaN(raw)) return 0;
+      if (getDpMode() === 'dollar') {
+        return price > 0 ? (raw / price) * 100 : 0;
+      }
+      return raw;
+    }
+
     // ── Live update: mortgage outputs ──
     function updateMortgageOutputs() {
       const price    = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct    = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();      
       const rate     = getEffectiveRate();
       const term     = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
 
@@ -2892,7 +2910,7 @@
     // ── Update upfront cost outputs ──
     function updateUpfrontOutputs(loan, monthly) {
       const price      = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct      = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();      
       const dp         = price * (dpPct / 100);
       const moving     = parseFloat(document.getElementById('moving-costs').value) || 0;
       const closingPct = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
@@ -2951,7 +2969,7 @@
       if (isManual) {
         return parseFloat(document.getElementById('pmi-manual-input').value) || 0;
       }
-      const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();      
       if (dpPct <= 5)                return 200;
       if (dpPct > 5 && dpPct < 10)  return 146;
       if (dpPct >= 10 && dpPct < 20) return 60;
@@ -3030,7 +3048,7 @@
       if (type === 'none' || type === 'permanent') return;
 
       const price = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();
       const rate  = parseFloat(document.getElementById('interest-rate').value) || 0;
       const term  = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
       const loan  = price - price * (dpPct / 100);
@@ -3085,7 +3103,7 @@
     function updateSavingsDefaults() {
       // Initial deposit default = down payment amount
       const price = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();      
       const dp    = price * (dpPct / 100);
       document.getElementById('initial-deposit-default-value').textContent = fmt(dp);
 
@@ -3380,7 +3398,7 @@
       // INPUTS
       // ════════════════════════════
       const price        = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct        = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();      
       const noteRate     = parseFloat(document.getElementById('interest-rate').value) || 0;
       const rate         = getEffectiveRate(); // = noteRate for temporary buydowns; reduced for permanent
       const term         = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
@@ -3815,11 +3833,79 @@
         el.addEventListener('change', updateMortgageOutputs);
       });
 
+      // Down payment mode toggle
+      const dpModeToggle = document.getElementById('dp-mode-toggle');
+      dpModeToggle.dataset.mode = 'pct';
+
+      document.getElementById('down-payment-pct').addEventListener('blur', () => {
+        const input = document.getElementById('down-payment-pct');
+        const val = parseFloat(input.value);
+        if (getDpMode() === 'pct') {
+          if (val > 100) {
+            input.value = 100;
+            showClampNote(input, `That's more than 100% — adjusted down to 100%.`);
+          } else if (val < 0) {
+            input.value = 0;
+            showClampNote(input, `Down payment can't be negative — adjusted to 0%.`);
+          }
+        } else {
+          const price = parseFloat(document.getElementById('purchase-price').value) || 0;
+          if (val > price) {
+            input.value = price;
+            showClampNote(input, `Down payment can't exceed the purchase price — adjusted to ${fmt(price)}.`);
+          } else if (val < 0) {
+            input.value = 0;
+            showClampNote(input, `Down payment can't be negative — adjusted to $0.`);
+          }
+        }
+        input.dispatchEvent(new Event('input'));
+      });
+
+      dpModeToggle.addEventListener('click', () => {
+        const input = document.getElementById('down-payment-pct');
+        const price = parseFloat(document.getElementById('purchase-price').value) || 0;
+        const currentVal = parseFloat(input.value);
+        const currentMode = getDpMode();
+
+        if (currentMode === 'pct') {
+          // Switch to dollar mode
+          dpModeToggle.dataset.mode = 'dollar';
+          document.getElementById('dp-mode-pct').style.color      = 'var(--text-light)';
+          document.getElementById('dp-mode-pct').style.background = 'var(--cream)';
+          document.getElementById('dp-mode-dollar').style.color      = '#fff';
+          document.getElementById('dp-mode-dollar').style.background = 'var(--sky)';
+          input.placeholder = 'e.g. 60,000';
+          input.step = '1000';
+          // Convert current value if price is present
+          if (!isNaN(currentVal) && price > 0) {
+            input.value = Math.round((currentVal / 100) * price);
+          } else {
+            input.value = '';
+          }
+        } else {
+          // Switch to pct mode
+          dpModeToggle.dataset.mode = 'pct';
+          document.getElementById('dp-mode-pct').style.color      = '#fff';
+          document.getElementById('dp-mode-pct').style.background = 'var(--sky)';
+          document.getElementById('dp-mode-dollar').style.color      = 'var(--text-light)';
+          document.getElementById('dp-mode-dollar').style.background = 'var(--cream)';
+          input.placeholder = 'e.g. 20';
+          input.step = '0.5';
+          // Convert current value back to percent
+          if (!isNaN(currentVal) && price > 0) {
+            input.value = parseFloat(((currentVal / price) * 100).toFixed(4));
+          } else {
+            input.value = '';
+          }
+        }
+        input.dispatchEvent(new Event('input'));
+      });
+
       // Upfront cost cards also depend on tax rate and insurance
       ['property-tax-rate', 'ho-insurance'].forEach(id => {
         document.getElementById(id).addEventListener('input', () => {
           const price   = parseFloat(document.getElementById('purchase-price').value) || 0;
-          const dpPct   = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+          const dpPct = getDpPct();          
           // const rate    = parseFloat(document.getElementById('interest-rate').value) || 0;
           const rate    = getEffectiveRate();
           const term    = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
@@ -4011,7 +4097,7 @@
 
     function initInputClamping(){
       // ── Percentage Clamps ──
-      clampOnBlur('down-payment-pct', 0, 100);
+      clampOnBlur('down-payment-pct', 0, null); // max handled dynamically based on mode
       clampOnBlur('interest-rate', 0, 10);
       clampOnBlur('property-tax-rate', 0, 3);
       clampOnBlur('inflation-rate', 0, 10);
@@ -4121,7 +4207,7 @@
 
     function calcExtraPrincipalImpact(extra) {
       const price   = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct   = parseFloat(document.getElementById('down-payment-pct').value) || 0;
+      const dpPct = getDpPct();      
       const rate    = getEffectiveRate();
       const term    = parseInt(document.querySelector('input[name="loan-term"]:checked').value);
       const years   = parseInt(document.getElementById('years-timeline').value) || 0;
@@ -4194,6 +4280,7 @@
 
     // ── Stored results for share card (populated by runCalculations) ──
     let lastResults = null;
+    
 
     // ── URL encode/decode (Base64 compressed input state) ──
     // ── URL Dictionary for ultra-lean URLs ──
@@ -4209,12 +4296,14 @@
       'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct',
       'buydown-toggle': 'bd', 'buydown-type': 'bdt', 'buydown-payer': 'bdpy', 'buydown-points': 'bdp', 'buydown-rate-per-point': 'bdr',
       'pmi-manual-toggle': 'pmt', 'pmi-manual-input': 'pmv', 'extra-principal-amount': 'ep', 'extra-principal-toggle': 'ept',
+      'dp-mode': 'dpm',
     };
     // Create a reverse map for decoding
     const reverseUrlMap = Object.fromEntries(Object.entries(urlMap).map(([k, v]) => [v, k]));
 
     function encodeStateToUrl() {
       const params = new URLSearchParams();
+      params.set('dpm', getDpMode());
 
       Object.keys(urlMap).forEach(id => {
         // Toggles
@@ -4304,6 +4393,20 @@
             el.checked = val === '1';
             document.getElementById('extra-principal-options').style.display = el.checked ? 'block' : 'none';
             return;
+          }
+          
+          // Downpayment Mode
+          const dpMode = params.get('dpm');
+          if (dpMode === 'dollar') {
+            const dpModeToggle = document.getElementById('dp-mode-toggle');
+            dpModeToggle.dataset.mode = 'dollar';
+            document.getElementById('dp-mode-pct').style.color      = 'var(--text-light)';
+            document.getElementById('dp-mode-pct').style.background = 'var(--cream)';
+            document.getElementById('dp-mode-dollar').style.color      = '#fff';
+            document.getElementById('dp-mode-dollar').style.background = 'var(--sky)';
+            document.getElementById('down-payment-pct').placeholder = 'e.g. 60,000';
+            document.getElementById('down-payment-pct').step = '1000';
+            lastDpDollarValue = parseFloat(document.getElementById('down-payment-pct').value) || null;
           }
 
           // Buydown type radio
