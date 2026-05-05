@@ -1,69 +1,94 @@
-
-© 2026 Joshua Johnson. Licensed under the MIT License.
-
 # 🏡 Can I Afford This House?
 
-A free, open-source calculator that compares the *real* cost of buying a home vs. renting and saving the difference.
+A free, open-source calculator that compares the *true* financial cost of buying 
+a home vs. renting and saving/investing the difference — built for everyday people, 
+not financial professionals.
 
-👉 **Live site:** https://caniaffordthishouse.app
-👉 **GitHub repo:** https://github.com/weaseljohnson/housing-affordability-calculator
+👉 **Live site:** [caniaffordthishouse.app](https://caniaffordthishouse.app)
+
+![Calculator preview](assets/HAC-Preview.png)
 
 ---
 
-## What This Does
+## What Makes This Different
 
-Most calculators stop at your monthly payment.
+Most rent vs. buy calculators stop at your monthly mortgage payment. This one goes further:
 
-This one goes further:
-
-* Compares **buying vs renting side-by-side**
-* Includes **all major costs** (taxes, maintenance, insurance, etc.)
-* Models **long-term outcomes over time**
-* Helps you understand what the numbers actually mean
+- **Full cost accounting** — mortgage P&I, property taxes, HOA, insurance, maintenance, 
+  PMI, and utilities on the buying side; rent, renters insurance, utilities, and savings 
+  contributions on the renting side
+- **Long-term side-by-side comparison** — cumulative spending and financial return 
+  over your chosen timeline (up to 30 years)
+- **Breakeven analysis** — when does buying's monthly cost, cumulative spending, 
+  and net financial position cross over renting?
+- **Recommended income estimates** — 30% rule and current lifestyle approaches, 
+  both using net (take-home) income as the base
+- **Advanced scenarios** — mortgage buydowns (2-1, 3-2-1, permanent), extra principal 
+  paydown, capital gains tax on sale, manual PMI override
+- **Shareable results** — encode your full input state into a URL, or download 
+  a summary image to share
+- **Exportable data** — download year-by-year buying and renting data as CSV files
+- **Educational** — every input is explained; results are contextualized, not just 
+  displayed
 
 ---
 
 ## How to Use It
 
-1. Open the live site
-2. Enter your property, cost, and rent details
-3. Click **Calculate**
-4. Review the results and comparison
+Open [caniaffordthishouse.app](https://caniaffordthishouse.app), fill in your 
+details across the four input sections, and hit Calculate. That's it.
+
+Most inputs have sensible defaults. Required fields are: purchase price, down payment, 
+interest rate, timeline, monthly rent, and rate of return.
 
 ---
 
-## How It Works
+## Tech Stack & Architecture
 
-* 100% client-side (no backend, no tracking)
-* Calculations run in-browser
-
-For details:
-
-* 📘 `CALCULATION_LOGIC.md` — full breakdown of formulas and flow
-* 🐛 `KNOWN_ISSUES_AND_LEARNINGS.md` — bugs, fixes, and edge cases
-* 🎨 `UX_AND_CONTENT_GUIDELINES.md` — tone, layout, and UX decisions
-* 📌 `PROJECT_CONTEXT.md` — goals, philosophy, and constraints
+- Vanilla HTML, CSS, and JavaScript — no frameworks, no build tools, no dependencies
+- Single-file architecture (`index.html`) with one exception: JSZip v3.10.1 
+  (`assets/jszip.min.js`), hosted locally for the CSV export feature
+- 100% client-side — no backend, no tracking, no user accounts
+- Hosted on GitHub Pages with a custom domain
 
 ---
 
-## Tech Stack
+## Project Documentation
 
-* HTML / CSS / JavaScript (no frameworks)
-* GitHub Pages hosting
-* Single-file architecture (`index.html`)
+The `docs/` files contain the full technical and design record for this project:
 
----
-
-## Contributing / Feedback
-
-* GitHub Discussions:
-  https://github.com/weaseljohnson/housing-affordability-calculator/discussions
-
-* Feedback form:
-  https://forms.gle/V9WyUTyqKpsAfzJr6
+| File | Contents |
+|---|---|
+| `CALCULATION_LOGIC.md` | All formulas, data flow, input IDs, and calculation order |
+| `KNOWN_ISSUES_AND_LEARNINGS.md` | Bug history, fixes, edge cases, and what not to change |
+| `UX_AND_CONTENT_GUIDELINES.md` | Tone, layout rules, color palette, interaction decisions |
+| `PROJECT_CONTEXT.md` | Goals, philosophy, SEO strategy, and build state |
 
 ---
 
-## Quick Disclaimer
+## Contributing & Feedback
 
-I'm no professional finance coach — just a regular person who wanted to make informed financial decisions and is also kind of a nerd. 🤓 Take this for what it is: a tool to help you think, not professional financial advice.
+This project has a few hard constraints that any contribution should respect:
+- No JavaScript frameworks
+- No backend or external API dependencies  
+- No monetization of any kind
+- Single-file architecture (keep logic in `index.html`)
+
+For bug reports, feature ideas, or general feedback:
+
+- **GitHub Discussions:** [Open a discussion](https://github.com/weaseljohnson/housing-affordability-calculator/discussions)
+- **Google Form:** [Submit feedback](https://forms.gle/V9WyUTyqKpsAfzJr6) *(for non-GitHub users)*
+
+---
+
+## Disclaimer
+
+I'm no professional finance coach — just a regular person who wanted to make informed 
+financial decisions and is also kind of a nerd. 🤓 This is a tool to help you think, 
+not professional financial advice.
+
+---
+
+## License
+
+© 2026 Joshua Johnson — [MIT License](LICENSE)
