@@ -189,6 +189,20 @@ zero-balance guard, not just the functions that track the balance directly.
 **Fix:** Moved `calcBreakevens()` to be a top-level function between `calcDefaultContribution()` and `runCalculations()`. Moved `getExtraPrincipal()` to be a top-level helper alongside `calcPMI()`, `getBuydownType()`, and similar helpers.
 **Lesson:** Any helper function called from `runCalculations()` or from other top-level calculation functions must itself be defined at the top level. Nesting during implementation is easy to do accidentally when adding a function "after" another — always check the closing braces.
 
+### Bug 20 — CSP Blocking Locally-Hosted Script Files
+**Issue:** JSZip failed to load with "Can't find variable: JSZip" despite the file
+being correctly downloaded and referenced in a script tag.
+**Cause:** The Content Security Policy header had `script-src 'unsafe-inline'` which
+only permits inline scripts. It does not permit external script files — even when
+hosted on the same domain. The absolute URL pointed to the live domain, which the
+CSP treated as an external source.
+**Fix:** Added `'self'` to the `script-src` directive:
+`script-src 'self' 'unsafe-inline'`
+Then changed the script tag back to a relative path: `assets/jszip.min.js`
+**Lesson:** `'unsafe-inline'` and `'self'` are independent CSP directives. Inline
+scripts and local script files both need to be explicitly permitted. If you ever add
+another locally-hosted script file in the future, `'self'` in `script-src` already
+covers it — no CSP change needed.
 
 ---
 
@@ -318,3 +332,12 @@ iOS Safari auto-zooms into any input field with font-size below 16px. All input 
 
 ### Dual Results Table Breakpoints
 The results table has overlapping responsive rules at both 768px and 600px. The 768px block (main mobile override) applies the tightest settings; the 600px block was added earlier and applies slightly looser values. Both are intentional — they produce slightly different behavior at tablet vs. phone widths — but if the table is ever restyled, both blocks need to be updated together.
+
+---
+
+### Note — JSZip Dependency
+JSZip v3.10.1 is hosted locally at `assets/jszip.min.js`. It was deliberately NOT
+loaded from a CDN to keep the site free of external dependencies, rate limits, and
+third-party accounts. To update in the future, download the new minified distribution
+from the JSZip GitHub releases page and replace the file in `assets/`. No other
+changes required.

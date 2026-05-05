@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none';">
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none';">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <title>Rent vs Buy Calculator: Can You Afford to Buy — Is Renting Smarter?</title>
@@ -1309,6 +1309,9 @@
 
   </style>
 
+  <!-- ZIP File Creation Script Location (JSZip 3.10.1)-->
+   <script src="assets/jszip.min.js"></script>
+
   <!-- Web Application Schema -->
   <script type="application/ld+json">
   {
@@ -2505,12 +2508,17 @@
     <h2 id="h-results">Your Results</h2>
     <p class="section-intro">Here's what the numbers say. Fill in the sections above and hit Calculate to see your results.</p>
 
-    <!-- Calculate button -->
+    <!-- Calculate / Share / Export buttons -->
     <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; margin-bottom:2rem;">
           <button class="btn-primary" id="calculate-btn">Calculate →</button>
           <button class="btn-share" id="share-btn" style="display:none;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
             Share Results
+          </button>
+
+          <button class="btn-share" id="export-btn" style="display:none;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export Data
           </button>
         </div>
     <!-- Validation message -->
@@ -3524,6 +3532,7 @@
       let buyCumCashflow = -(dp + closing + movingBuy + reserves);
       let homeValue      = price;
       let buyYearFullRateCost   = 0;
+      const buyYearRows = []; // Export array
 
       // Pre-compute mortgage balances to save performance
       const balances = [loan];
@@ -3574,6 +3583,33 @@
         } else {
           buyCumCashflow -= yearSpend;
         }
+
+        const mortBal          = balances[y];
+        const homeEquity       = homeValue - mortBal;
+        const saleCloseEst     = homeValue * saleClose;
+        const yearlyNetReturn  = homeEquity - saleCloseEst;
+        const cumSpentSoFar    = Math.abs(buyCumCashflow - yearlyNetReturn);
+        const netPosSoFar      = yearlyNetReturn - cumSpentSoFar;
+
+        buyYearRows.push({
+          year:          y,
+          homeValue:     Math.round(homeValue),
+          mortgageBal:   Math.round(mortBal),
+          homeEquity:    Math.round(homeEquity),
+          interest:      Math.round(annualInterest(y)),
+          principal:     Math.round(annualPrincipal(y)),
+          propTax:       Math.round(propTax),
+          insurance:     Math.round(insYear),
+          hoa:           Math.round(hoaYear),
+          maintenance:   Math.round(maintYear),
+          pmi:           Math.round(pmiYear),
+          utilities:     Math.round(utilYear),
+          buydownSub:    Math.round(buydownSubsidy),
+          extraPrincipal:Math.round(extraSpendYear),
+          totalYearCost: Math.round(yearSpend),
+          cumSpent:      Math.round(cumSpentSoFar),
+          netPosition:   Math.round(netPosSoFar),
+        });
       }
 
       const finalHomeValue   = price * Math.pow(1 + appreciation, years);
@@ -3606,6 +3642,7 @@
       let savingsValue    = initialDeposit + priorSavings;
       let currentRent     = rent;
       let rentYear1Cost   = 0;
+      const rentYearRows = []; //rent data export array
 
       for (let y = 1; y <= years; y++) {
         const rentYear    = currentRent * 12;
@@ -3621,7 +3658,25 @@
 
         rentCumCashflow -= (rentYear + insYear + utilYear + contribYear + movingYear);
         savingsValue     = (savingsValue + contribYear) * (1 + ror);
-        currentRent     *= (1 + rentIncrease);
+
+        const rentCumSpentSoFar = Math.abs(rentCumCashflow);
+        const rentNetPosSoFar   = savingsValue - rentCumSpentSoFar;
+        const rentPaidThisYear  = currentRent;
+
+        currentRent *= (1 + rentIncrease);
+
+        rentYearRows.push({
+          year:         y,
+          monthlyRent:  Math.round(rentPaidThisYear),
+          annualRent:   Math.round(rentYear),
+          rentersIns:   Math.round(insYear),
+          utilities:    Math.round(utilYear),
+          contribution: Math.round(contribYear),
+          totalYearCost:Math.round(rentYear + insYear + utilYear + contribYear + movingYear),
+          cumSpent:     Math.round(rentCumSpentSoFar),
+          savingsValue: Math.round(savingsValue),
+          netPosition:  Math.round(rentNetPosSoFar),
+        });
       }
 
       const rentCumSpent = Math.abs(rentCumCashflow);
@@ -3797,6 +3852,7 @@
       document.getElementById('results-placeholder').style.display = 'none';
       document.getElementById('results-content').style.display     = 'block';
       document.getElementById('share-btn').style.display           = 'inline-flex';
+      document.getElementById('export-btn').style.display          = 'inline-flex';
 
       // ── Store results for share card ──
       lastResults = {
@@ -3815,8 +3871,177 @@
         beMonthly:    breakevens.monthly    || null,
         beCumulative: breakevens.cumulative || null,
         beNet:        breakevens.net        || null,
+        buyYearRows,
+        rentYearRows,
       };
       // debugger;
+    }
+
+    // ════════════════════════════
+    // CSV / ZIP EXPORT
+    // ════════════════════════════
+
+    function pct_val(val) {
+      return (val === null || isNaN(val)) ? '' : val + '%';
+    }
+    function dollar_val(val) {
+      return (val === null || isNaN(val)) ? '' : '$' + Math.round(val).toLocaleString();
+    }
+
+    function buildInputsCSV() {
+      const v      = id => document.getElementById(id)?.value ?? '';
+      const pct    = id => { const val = parseFloat(v(id)); return isNaN(val) ? '' : val + '%'; };
+      const dollar = id => { const val = parseFloat(v(id)); return isNaN(val) ? '' : '$' + parseFloat(val).toLocaleString(); };
+      const radio  = name => document.querySelector(`input[name="${name}"]:checked`)?.value ?? '';
+      const tog    = id => document.getElementById(id)?.checked;
+
+      const price  = parseFloat(v('purchase-price')) || 0;
+      const dpPct  = parseFloat(v('down-payment-pct')) || 0;
+      const loan   = price - price * (dpPct / 100);
+      const term   = parseInt(radio('loan-term'));
+
+      const rows = [
+        ['Section', 'Input', 'Value'],
+
+        // Property & Mortgage
+        ['Property & Mortgage', 'Purchase Price',                   dollar('purchase-price')],
+        ['Property & Mortgage', 'Down Payment',                     pct('down-payment-pct')],
+        ['Property & Mortgage', 'Interest Rate (Note Rate)',        pct('interest-rate')],
+        ['Property & Mortgage', 'Effective Interest Rate',          pct_val(getEffectiveRate())],
+        ['Property & Mortgage', 'Loan Term',                        radio('loan-term') + ' years'],
+        ['Property & Mortgage', 'Timeline',                         v('years-timeline') + ' years'],
+        ['Property & Mortgage', 'Monthly Mortgage Payment (P&I)',   dollar_val(calcPMT(loan, getEffectiveRate(), term))],
+        ['Property & Mortgage', 'PMI (monthly)',                    dollar_val(calcPMI())],
+
+        // Upfront Costs
+        ['Upfront Costs', 'Purchase Closing Costs',                 (parseFloat(radio('closing-pct')) * 100) + '%'],
+        ['Upfront Costs', 'Moving & Furnishing (Buying)',           dollar('moving-costs')],
+
+        // Ongoing Costs
+        ['Ongoing Costs', 'Property Tax Rate',                      pct('property-tax-rate')],
+        ['Ongoing Costs', 'HOA Fees (monthly)',                     dollar('hoa-fees')],
+        ["Ongoing Costs", "Homeowner's Insurance (annual)",         dollar('ho-insurance')],
+        ['Ongoing Costs', 'Maintenance (annual)',                   dollar('maintenance-costs')],
+        ['Ongoing Costs', 'Electric - Buying (monthly)',            dollar('electric-buy')],
+        ['Ongoing Costs', 'Water - Buying (monthly)',               dollar('water-buy')],
+        ['Ongoing Costs', 'Other Utilities - Buying (monthly)',     dollar('other-util-buy')],
+
+        // Advanced Settings
+        ['Advanced Settings', 'Inflation Rate',                     pct('inflation-rate')],
+        ['Advanced Settings', 'Home Value Appreciation',            pct('home-appreciation')],
+        ['Advanced Settings', 'Sale Closing Costs',                 pct('sale-closing-costs')],
+        ['Advanced Settings', 'Capital Gains on Sale',              tog('capital-gains-toggle') ? 'Yes' : 'No'],
+        ['Advanced Settings', 'Capital Gains Rate',                 tog('capital-gains-toggle') ? (parseFloat(document.querySelector('input[name="cap-gains-rate"]:checked')?.value || 0) * 100) + '%' : 'N/A'],
+        ['Advanced Settings', 'Filing Status',                      tog('capital-gains-toggle') ? radio('filing-status') : 'N/A'],
+        ['Advanced Settings', 'Basis Adjustment',                   tog('capital-gains-toggle') ? dollar('basis-adjustment') : 'N/A'],
+        ['Advanced Settings', 'Mortgage Buydown',                   tog('buydown-toggle') ? radio('buydown-type') : 'No'],
+        ['Advanced Settings', 'Buydown Payer',                      tog('buydown-toggle') ? radio('buydown-payer') : 'N/A'],
+        ['Advanced Settings', 'Discount Points',                    tog('buydown-toggle') && radio('buydown-type') === 'permanent' ? v('buydown-points') : 'N/A'],
+        ['Advanced Settings', 'Rate Reduction Per Point',           tog('buydown-toggle') && radio('buydown-type') === 'permanent' ? pct('buydown-rate-per-point') : 'N/A'],
+        ['Advanced Settings', 'Extra Monthly Principal',            tog('extra-principal-toggle') ? dollar('extra-principal-amount') : 'No'],
+
+        // Renting
+        ['Renting', 'Monthly Rent',                                 dollar('monthly-rent')],
+        ['Renting', 'Security Deposit',                             dollar('security-deposit')],
+        ["Renting", "Renters Insurance (annual)",                   dollar('renters-insurance')],
+        ['Renting', 'Moving Costs (Renting)',                       dollar('moving-costs-rent')],
+        ['Renting', 'Electric - Renting (monthly)',                 dollar('electric-rent')],
+        ['Renting', 'Water - Renting (monthly)',                    dollar('water-rent')],
+        ['Renting', 'Other Utilities - Renting (monthly)',          dollar('other-util-rent')],
+
+        // Savings Parameters
+        ['Savings Parameters', 'Prior Savings',                     dollar('prior-savings')],
+        ['Savings Parameters', 'Initial Deposit',                   dollar_val(
+          tog('initial-deposit-toggle')
+            ? price * dpPct / 100
+            : parseFloat(v('initial-deposit-manual-input')) || 0
+        )],
+        ['Savings Parameters', 'Monthly Savings Contribution',      dollar_val(
+          tog('monthly-contrib-toggle')
+            ? Math.max(0, calcDefaultContribution())
+            : parseFloat(v('monthly-contrib-manual-input')) || 0
+        )],
+        ['Savings Parameters', 'Rate of Return',                    pct('rate-of-return')],
+        ['Savings Parameters', 'Rent Increase YoY',                 pct('rent-increase-yoy')],
+
+        // Financial Picture
+        ['Your Financial Picture', 'Effective Tax Rate (Buying)',   pct('tax-rate-buying')],
+        ['Your Financial Picture', 'Effective Tax Rate (Renting)',  pct('tax-rate-renting')],
+        ['Your Financial Picture', 'Annual Lifestyle Spending',     dollar('lifestyle-spending')],
+      ];
+
+      return rowsToCSV(rows);
+    }
+
+    function buildBuyCSV() {
+      if (!lastResults?.buyYearRows?.length) return '';
+
+      const headers = [
+        'Year', 'Home Value', 'Mortgage Balance', 'Home Equity',
+        'Annual Interest', 'Annual Principal', 'Property Tax',
+        "Homeowner's Insurance", 'HOA', 'Maintenance', 'PMI',
+        'Utilities', 'Buydown Subsidy', 'Extra Principal',
+        'Total Year Cost', 'Cumulative Spent', 'Net Position'
+      ];
+
+      const rows = [headers, ...lastResults.buyYearRows.map(r => [
+        r.year, r.homeValue, r.mortgageBal, r.homeEquity,
+        r.interest, r.principal, r.propTax,
+        r.insurance, r.hoa, r.maintenance, r.pmi,
+        r.utilities, r.buydownSub, r.extraPrincipal,
+        r.totalYearCost, r.cumSpent, r.netPosition
+      ])];
+
+      return rowsToCSV(rows);
+    }
+
+    function buildRentCSV() {
+      if (!lastResults?.rentYearRows?.length) return '';
+
+      const headers = [
+        'Year', 'Monthly Rent (This Year)', 'Annual Rent',
+        'Renters Insurance', 'Utilities', 'Savings Contribution',
+        'Total Year Cost', 'Cumulative Spent', 'Savings Value', 'Net Position'
+      ];
+
+      const rows = [headers, ...lastResults.rentYearRows.map(r => [
+        r.year, r.monthlyRent, r.annualRent,
+        r.rentersIns, r.utilities, r.contribution,
+        r.totalYearCost, r.cumSpent, r.savingsValue, r.netPosition
+      ])];
+
+      return rowsToCSV(rows);
+    }
+
+    function rowsToCSV(rows) {
+      return rows.map(row =>
+        row.map(cell => {
+          const str = String(cell ?? '');
+          return /[,"\n]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
+        }).join(',')
+      ).join('\n');
+    }
+
+    async function exportZip() {
+      if (!lastResults) return;
+
+      try {
+        const zip = new JSZip();
+        zip.file('inputs.csv',         buildInputsCSV());
+        zip.file('buying-results.csv', buildBuyCSV());
+        zip.file('renting-results.csv', buildRentCSV());
+
+        const blob = await zip.generateAsync({ type: 'blob' });
+        const link = document.createElement('a');
+        link.href     = URL.createObjectURL(blob);
+        link.download = 'housing-calculator-results.zip';
+        link.click();
+        URL.revokeObjectURL(link.href);
+        showToast('Export downloaded!');
+      } catch(e) {
+        console.error('Export failed:', e);
+        showToast('Export failed — please try again.');
+      }
     }
 
     // ── Wire up all event listeners ──
@@ -3947,6 +4172,9 @@
           }
         });
       });
+
+      // Export Button
+      document.getElementById('export-btn').addEventListener('click', exportZip);
 
       // Calculate button
       document.getElementById('calculate-btn').addEventListener('click', () => {

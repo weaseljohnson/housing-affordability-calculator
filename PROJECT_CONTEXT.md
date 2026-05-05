@@ -156,15 +156,21 @@ The product functions as both:
 
 ## File Structure
 
-Three files at repo root:
+Files at repo root:
 - `index.html` — all HTML, CSS, and JavaScript
 - `robots.txt` — crawler access rules and sitemap pointer
 - `sitemap.xml` — page manifest for Google indexing. Update <lastmod> date on every significant push.
 
-Everything — HTML, CSS, JavaScript — lives in index.html. This is intentional. No build step, no bundler, no separate files to manage.
+Assets folder (`/assets`):
+- `jszip.min.js` — JSZip v3.10.1, hosted locally to avoid external CDN dependencies.
+  No accounts, no rate limits, no external failure points. To update, replace this
+  file with the new minified distribution from the JSZip GitHub releases page.
+- Icon and image assets (favicons, OG preview image, etc.)
 
-
-Mobile-first design is fully implemented. The desktop nav (horizontal sticky tab bar) transforms on mobile (max-width: 768px) into a floating circular hamburger button in the top-right corner that reveals a vertical dropdown menu. The nav is completely non-blocking on mobile — the progress bar container itself becomes transparent and pointer-events: none, with only the button re-enabling pointer events.
+All HTML, CSS, and JavaScript logic lives in index.html. This is intentional. No
+build step, no bundler, no separate files to manage. The one exception is jszip.min.js
+which is a third-party library kept separate to avoid bloating index.html with ~100KB
+of minified third-party code.
 
 ---
 
