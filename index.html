@@ -3954,12 +3954,12 @@
         ['Savings Parameters', 'Initial Deposit',                   dollar_val(
           tog('initial-deposit-toggle')
             ? price * dpPct / 100
-            : parseFloat(v('initial-deposit-manual-input')) || 0
+            : parseFloat(v('initial-deposit-manual-input')) || 0,
         )],
         ['Savings Parameters', 'Monthly Savings Contribution',      dollar_val(
           tog('monthly-contrib-toggle')
             ? Math.max(0, calcDefaultContribution())
-            : parseFloat(v('monthly-contrib-manual-input')) || 0
+            : parseFloat(v('monthly-contrib-manual-input')) || 0,
         )],
         ['Savings Parameters', 'Rate of Return',                    pct('rate-of-return')],
         ['Savings Parameters', 'Rent Increase YoY',                 pct('rent-increase-yoy')],
@@ -3981,7 +3981,7 @@
         'Annual Interest', 'Annual Principal', 'Property Tax',
         "Homeowner's Insurance", 'HOA', 'Maintenance', 'PMI',
         'Utilities', 'Buydown Subsidy', 'Extra Principal',
-        'Total Year Cost', 'Cumulative Spent', 'Net Position'
+        'Total Year Cost', 'Cumulative Spent', 'Net Position',
       ];
 
       const rows = [headers, ...lastResults.buyYearRows.map(r => [
@@ -3989,7 +3989,7 @@
         r.interest, r.principal, r.propTax,
         r.insurance, r.hoa, r.maintenance, r.pmi,
         r.utilities, r.buydownSub, r.extraPrincipal,
-        r.totalYearCost, r.cumSpent, r.netPosition
+        r.totalYearCost, r.cumSpent, r.netPosition,
       ])];
 
       return rowsToCSV(rows);
@@ -4001,13 +4001,13 @@
       const headers = [
         'Year', 'Monthly Rent (This Year)', 'Annual Rent',
         'Renters Insurance', 'Utilities', 'Savings Contribution',
-        'Total Year Cost', 'Cumulative Spent', 'Savings Value', 'Net Position'
+        'Total Year Cost', 'Cumulative Spent', 'Savings Value', 'Net Position',
       ];
 
       const rows = [headers, ...lastResults.rentYearRows.map(r => [
         r.year, r.monthlyRent, r.annualRent,
         r.rentersIns, r.utilities, r.contribution,
-        r.totalYearCost, r.cumSpent, r.savingsValue, r.netPosition
+        r.totalYearCost, r.cumSpent, r.savingsValue, r.netPosition,
       ])];
 
       return rowsToCSV(rows);
@@ -4350,7 +4350,7 @@
         'security-deposit', 'renters-insurance', 'moving-costs-rent', 
         'electric-rent', 'water-rent', 'other-util-rent', 'prior-savings', 
         'initial-deposit-manual-input', 'monthly-contrib-manual-input', 'lifestyle-spending',
-        'pmi-manual-input', 'extra-principal-amount'
+        'pmi-manual-input', 'extra-principal-amount',
       ];
       dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
     }
