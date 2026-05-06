@@ -1333,9 +1333,15 @@
       "Home affordability estimate",
       "Upfront cost calculator",
       "Recommended income calculator",
-      "Price-to-rent ratio",
       "PMI calculator",
-      "Property tax estimator"
+      "Comprehensive side-by-side rent vs. buy comparison",
+      "Mortgage buydown cost calculator (2-1, 3-2-1, and permanent discount points)",
+      "Extra principal payment and early mortgage payoff modeling",
+      "Detailed opportunity cost analysis of down payments vs. market investments",
+      "Break-even analysis for buying vs. renting (monthly cost, cumulative spending, and net position)",
+      "Minimum income requirement estimates based on debt-to-income ratios",
+      "Shareable result snapshots and CSV data export for financial planning",
+      "Capital gains tax estimation on home sale"
     ]
   }
 </script>
@@ -1826,7 +1832,13 @@
         <input type="number" id="property-tax-rate" placeholder="e.g. 2.5" min="0" max="10" step="0.1" />
         <span class="input-suffix">%</span>
       </div>
-      <span class="input-note">The effective tax rate is something you should calculate for the property you're interested in. It's often different than just the base property tax for the zip code, accounting for things like school districts, townships, and counties. On sites like Zillow, you can calculate it by looking at the public tax history on the listing. Divide the latest property tax amount by the current home puchase price, then multiply by 100.</span>
+      <span class="input-note">As a starting point, you can use the base property tax percentage for the zip code you're looking at. For a more accurate picture, the effective property tax rate is something you should calculate for the property you're interested in.</span>
+      <div class="help-links">
+        <a href="#" id="property-tax-help-link" onclick="document.getElementById('property-tax-help-box').style.display = document.getElementById('property-tax-help-box').style.display === 'none' ? 'block' : 'none'; return false;">How do I calculate effective property tax?</a>
+      </div>
+      <div id="property-tax-help-box" style="display: none; margin-top: 0.5rem;" class="hint">
+        <span><span class="hint-label">💡 Note:</span> Property tax rates vary more than you might expect. The base rate for a zip code doesn't account for school districts, townships, and other local levies — and rates are typically calculated against a property's <em>assessed value</em>, not its purchase price. Using the effective rate (tax paid ÷ purchase price) captures a more accurate picture for this calculator. You can find the info you need on the property listing (Zillow, etc): look up the property's tax history, then do the quick math: <strong>latest annual tax ÷ purchase price × 100</strong>.</span> 
+      </div>
     </div>
 
     <div class="input-group">
@@ -1861,7 +1873,7 @@
     </div>
 
    <!-- Live output cards -->
-    <div class="output-cards">
+    <div class="output-cards" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
       <div class="output-card">
         <div class="output-card-label">Down Payment</div>
         <div class="output-card-value" id="out-downpayment">—</div>
@@ -1915,7 +1927,9 @@
     </div>
 
     <!-- Advanced Settings -->
-    <div class="advanced-toggle-wrap" style="margin-top: 2.5rem;">
+    <!-- Advanced Settings -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Advanced Settings</p>
+    <div class="advanced-toggle-wrap">
       <button class="advanced-toggle" aria-expanded="false" aria-controls="advanced-settings">
         Advanced Settings
         <span class="chevron">▼</span>
@@ -2214,15 +2228,15 @@
     </div>
 
     <div class="input-group">
-      <label class="input-label" for="maintenance-costs">Maintenance & Other Costs</label>
+      <label class="input-label" for="maintenance-costs">Maintenance and Upkeep Costs</label>
       <div class="input-wrap">
         <span class="input-prefix">$</span>
         <input type="number" id="maintenance-costs" placeholder="e.g. 6,000" min="0" step="100" />
         <span class="input-suffix">/yr</span>
       </div>
-      <span class="input-note">The average homeowner spends 1–2% of their home's value on maintenance each year. It's easy to underestimate this one — even a "perfect" home needs upkeep. We've pre-filled this with 2% of your purchase price as a starting estimate, but feel free to adjust.</span>
+      <span class="input-note">Repairs, Lawn Care, Pest Control, etc. The average homeowner spends 1–2% of their home's value on maintenance each year. It's easy to underestimate this one — even a "perfect" home needs upkeep. We've pre-filled this with 2% of your purchase price as a starting estimate, but feel free to adjust.</span>
       <div class="help-links">
-        <a href="https://www.lawnstarter.com/blog/home-garden/annual-home-maintenance-cost/" target="_blank" rel="noopener noreferrer">What does home maintenance actually cost?</a>
+        <a href="https://www.investopedia.com/home-maintenance-budget-8608913" target="_blank" rel="noopener noreferrer">What does home maintenance actually cost?</a>
       </div>
     </div>
 
@@ -2315,7 +2329,7 @@
     </div>
 
     <!-- Utilities -->
-    <p class="calc-group-label" style="margin-top: 2.5rem;">Utilities</p>
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Utilities and Other Fees</p>
     <span class="input-note" style="display: block; margin-bottom: 1.25rem;">Not sure what to expect? Your current utility bills are a reasonable starting point.</span>
 
     <div class="input-group">
@@ -2337,7 +2351,7 @@
     </div>
 
     <div class="input-group">
-      <label class="input-label" for="other-util-rent">Other Utilities (gas, etc.)</label>
+      <label class="input-label" for="other-util-rent">Other Utilities and Fees (gas, trash, landscaping, etc.)</label>
       <div class="input-wrap">
         <span class="input-prefix">$</span>
         <input type="number" id="other-util-rent" placeholder="e.g. 80" min="0" step="10" />
