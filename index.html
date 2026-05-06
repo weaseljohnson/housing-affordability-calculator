@@ -4589,7 +4589,9 @@
 
     function decodeStateFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      if (Array.from(params.keys()).length === 0) return false;
+      const knownKeys = new Set(Object.values(urlMap));
+      const hasKnownParam = Array.from(params.keys()).some(k => knownKeys.has(k));
+      if (!hasKnownParam) return false;
 
       try {
         params.forEach((val, shortKey) => {
