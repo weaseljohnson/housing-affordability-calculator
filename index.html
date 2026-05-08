@@ -3714,11 +3714,11 @@
 
       const buyIncome30    = taxRateBuy  > 0 ? (buyYearFullRateCost  / 0.3) / (1 - taxRateBuy)  : null;
       const rentIncome30   = taxRateRent > 0 ? (rentYear1Cost / 0.4) / (1 - taxRateRent) : null;
-      const buyIncomeLife  = taxRateBuy  > 0
-                             ? (buyYearFullRateCost + lifestyle) / (1 - taxRateBuy) : null;
-      const rentIncomeLife = taxRateRent > 0
-                             ? (rentYear1Cost - monthlyContrib * 12 + lifestyle)
-                               / (1 - taxRateRent) : null;
+      const buyIncomeLife  = taxRateBuy  > 0 && lifestyle > 0
+                       ? (buyYearFullRateCost + lifestyle) / (1 - taxRateBuy) : null;
+      const rentIncomeLife = taxRateRent > 0 && lifestyle > 0
+                            ? (rentYear1Cost - monthlyContrib * 12 + lifestyle)
+                              / (1 - taxRateRent) : null;
 
       // ════════════════════════════
       // POPULATE TABLE
@@ -3783,8 +3783,17 @@
         ['r-incomelife-buy', buyIncomeLife],
         ['r-incomelife-rent',rentIncomeLife],
       ];
-      incomeFields.forEach(([id, val]) => {
-        document.getElementById(id).textContent = val !== null ? fmt(val) : 'Enter tax rate';
+      incomeFields.forEach(([id, val], i) => {
+        const isLifestyleRow = i >= 2;
+        const taxEntered = i === 2 ? taxRateBuy > 0 : taxRateRent > 0;
+        const el = document.getElementById(id);
+        if (val !== null) {
+          el.textContent = fmt(val);
+        } else if (isLifestyleRow && taxEntered && lifestyle === 0) {
+          el.innerHTML = 'Enter lifestyle<br>spending';
+        } else {
+          el.innerHTML = 'Enter tax rate';
+        }
       });
 
       // ── Green highlighting ──
