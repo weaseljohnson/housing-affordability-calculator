@@ -206,12 +206,15 @@ covers it — no CSP change needed.
 
 ---
 
-### Known Issue — Dead Code in shareSummary
-The following line in `shareSummary` is a no-op property access that does nothing and should be removed:
-```javascript
-shareData.text;
-```
-It is harmless but misleading.
+### Known Issue — Unsafe security header: Content-Security-Policy
+
+A security scanner specifically flagged that script-src: 'unsafe-inline' allows the execution of in-page scripts. 
+
+Why it matters: An attacker could potentially use inline scripts to execute arbitrary JavaScript code. Because there is no backend or user sessions to steal, this is a very low risk. However, the scanner is pointing out that because the JavaScript is written directly inside the index.html file (inline), this site is breaking a modern security best practice.
+
+The choice to implementa all of the JS inside the index.html file was a deliberate choice to keep the codebase simple and the site extremely responsive, minimizing any backend scripting or source code. 
+
+Given the low-risk nature of this issue, no plan is currently in place to fix it. However, it is being noted here as a potential improvement in the future to bring the site into compliance with modern best practice.
 
 ---
 
@@ -224,12 +227,6 @@ If maintenance-costs is included in the dollar clamp list, the blur handler's
 synthetic input event dispatch triggers updateMortgageOutputs(), which overwrites
 the user's manually entered value with 2% of purchase price.
 Fix: maintenance-costs must not be in the clampOnBlur dollar inputs list.
-
-## Known Remaining Differences from Workbook
-
-- Renters insurance is now inflation-adjusted in the web version. The original workbook used a flat value. This is intentional — it's more realistic.
-- Mortgage payment is perfectly constant in the web version (standard fixed-rate amortization). The original workbook had slight drift due to an implementation quirk. Web version is more accurate.
-- Small floating-point differences (~$1-5) may exist due to JavaScript floating-point arithmetic vs. Numbers' internal precision. These are not logic errors.
 
 ---
 
