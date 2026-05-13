@@ -2,31 +2,31 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';">
+    content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self';">
   <meta name="referrer" content="no-referrer">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <title>Rent vs Buy Calculator: Can You Afford to Buy — Is Renting Smarter?</title>
-  <meta name="description" content="Free calculator to compare the real costs of buying vs. renting — mortgage, taxes, insurance, maintenance, investments, and more. Find out if you can afford a home and what income you actually need." />
+  <title>Home Affordability Calculator: Can you afford to buy?</title>
+  <meta name="description" content="Free calculator to assess the affordability of a home — mortgage, taxes, insurance, maintenance, opportunity cost, and more. Find out if you can afford a home and what income you actually need." />
 
   <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://caniaffordthishouse.app/">
-<meta property="og:title" content="Rent vs Buy Calculator: Can You Afford to Buy — Is Renting Smarter?">
-<meta property="og:description" content="A clean, simple tool to help you understand whether buying or renting makes more financial sense.">
-<meta property="og:image" content="/assets/HAC-Preview.png">
+<meta property="og:url" content="https://caniaffordthishouse.app/Affordability/">
+<meta property="og:title" content="Home Affordability Calculator: Can you afford to buy?">
+<meta property="og:description" content="A clean, simple tool to help you understand whether you can afford to buy a home.">
+<meta property="og:image" content="/assets/HAC-Preview-Affordability.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://caniaffordthishouse.app/">
-<meta name="twitter:title" content="Rent vs Buy Calculator: Can You Afford to Buy — Is Renting Smarter?">
+<meta name="twitter:url" content="https://caniaffordthishouse.app/Affordability/">
+<meta name="twitter:title" content="Home Affordability Calculator: Can you afford to buy?">
 <meta name="twitter:description" content="A clean, simple tool to help you understand whether buying or renting makes more financial sense.">
-<meta name="twitter:image" content="/assets/HAC-Preview.png">
+<meta name="twitter:image" content="/assets/HAC-Preview-Affordability.png">
 
 <!-- Infrastructure Tags -->
-<link rel="canonical" href="https://caniaffordthishouse.app/" />
+<link rel="canonical" href="https://caniaffordthishouse.app/Affordability/" />
 <meta name="robots" content="index, follow" />
 <meta name="author" content="Josh Johnson" />
 <meta name="theme-color" content="#1e2d40" />
@@ -856,10 +856,6 @@
       color: var(--navy);
       white-space: nowrap;
     }
-    .result-val.green {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
     .result-footnote {
       display: block;
       font-size: 0.78rem;
@@ -1318,9 +1314,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Rent vs Buy Calculator: Can You Afford to Buy — Is Renting Smarter?",
-    "url": "https://caniaffordthishouse.app/",
-    "description": "Free calculator to compare the real costs of buying vs. renting — mortgage, taxes, insurance, maintenance, investments, and more. Find out if you can afford a home and what income you actually need.",
+    "name": "Home Affordability Calculator: Can you afford to buy?",
+    "url": "https://caniaffordthishouse.app/Affordability/",
+    "description": "Free calculator to assess the affordability of a home — mortgage, taxes, insurance, maintenance, opportunity cost, and more. Find out if you can afford a home and what income you actually need.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Any",
     "offers": {
@@ -1330,17 +1326,16 @@
     },
     "featureList": [
       "Mortgage payment calculator",
-      "Rent vs buy comparison",
+      "Opportunity Cost of Buying a Home based on three metrics (downpayment investment, upfront cash investment, net financial position)",
       "Home affordability estimate",
       "Upfront cost calculator",
       "Recommended income calculator",
       "PMI calculator",
-      "Comprehensive side-by-side rent vs. buy comparison",
+      "Comprehensive home affordability calculator",
       "Mortgage buydown cost calculator (2-1, 3-2-1, and permanent discount points)",
       "Extra principal payment and early mortgage payoff modeling",
       "Detailed opportunity cost analysis of down payments vs. market investments",
-      "Break-even analysis for buying vs. renting (monthly cost, cumulative spending, and net position)",
-      "Minimum income requirement estimates based on debt-to-income ratios",
+      "Minimum income requirement estimates",
       "Shareable result snapshots and CSV data export for financial planning",
       "Capital gains tax estimation on home sale"
     ]
@@ -1355,22 +1350,6 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is buying always better than renting?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Buying a home comes with costs that often get overlooked — mortgage interest, property taxes, insurance, maintenance, HOA fees, and closing costs can add up to tens or hundreds of thousands of dollars over time. Whether buying makes financial sense depends on your local market, how long you plan to stay, what you'd do with the money you'd save by renting, and your personal financial situation. The real question isn't 'am I throwing money away by renting?' — it's 'what does each option actually cost me, and does it align with what I care about most?'"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "When is renting better than buying?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Renting is often the smarter financial choice when home prices are high relative to rents (a price-to-rent ratio above 15), when you plan to move within 3–5 years, when buying would stretch your budget uncomfortably thin, or when the money you'd put toward a down payment could earn a better return invested elsewhere. Renting also offers flexibility that homeownership doesn't — no maintenance costs, no repair surprises, and the ability to relocate without selling. If you rent and consistently invest the difference in cost compared to owning, you may come out ahead financially compared to buying."
-        }
-      },
-      {
-        "@type": "Question",
         "name": "What are the hidden costs of homeownership?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -1379,7 +1358,7 @@
       },
       {
         "@type": "Question",
-        "name": "What's included in the true cost of homeownership?",
+        "name": "What are the hidden costs of homeownership?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "The true cost of owning a home includes: mortgage principal and interest, property taxes, homeowner's insurance, HOA fees (if applicable), private mortgage insurance or PMI (if your down payment is under 20%), ongoing maintenance and repairs, utilities, and the cost of buying and eventually selling the home including closing costs. When all of these are accounted for, the monthly cost of homeownership is often significantly higher than the mortgage payment alone."
@@ -1391,22 +1370,6 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "An excellent guideline is that your total monthly housing costs — including mortgage, taxes, insurance, and HOA — should not exceed 30% of your monthly take-home pay. However, this is a starting point, not a rule. The right answer depends on your other expenses, savings goals, job stability, and local cost of living. A more personalized approach is to add your projected housing costs to your current lifestyle spending and calculate the income needed to comfortably cover both."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What income do I need to afford a home?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Using the 30% rule as a baseline: divide your total annual housing costs by 0.30 to get the net (take-home) income needed, then gross it up using your effective tax rate. For example, if owning a home costs $2,500/month ($30,000/year), you'd need roughly $100,000 in annual take-home pay, which translates to a higher gross income depending on your tax rate. Keep in mind this estimate assumes your other spending scales with your income — if your lifestyle costs are fixed and modest, you may need less."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How much should I have saved before buying a home?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Plan for four buckets of upfront costs: your down payment (typically 3–20% of the purchase price), purchase closing costs (2–5% of the loan amount), moving and furnishing expenses, and two months of mortgage payments held in cash reserve — a common lender requirement. Combined, total upfront cash needed is often 25–30% of the purchase price when buying with a conventional loan at 20% down. Buying with less down is possible but increases your monthly costs through PMI and a larger loan balance."
         }
       },
       {
@@ -1435,14 +1398,6 @@
       },
       {
         "@type": "Question",
-        "name": "Should I save the difference if renting is cheaper?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes — if your monthly rent is lower than what it would cost to own the equivalent home, consistently investing that difference can build significant wealth over time. Putting the savings into a high-yield savings account, money market account, or index fund means you're still building your financial future even without owning property. Depending on market conditions and your investment returns, you may accumulate more in savings than a homeowner builds in equity over the same period. The key word is 'consistently' — this strategy only works if the savings habit is maintained."
-        }
-      },
-      {
-        "@type": "Question",
         "name": "What are closing costs when buying a home?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -1458,11 +1413,28 @@
         }
       },
       {
+      {
         "@type": "Question",
-        "name": "What is a mortgage buydown?",
+        "name": "What is a debt-to-income ratio and why does it matter for buying a home?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A mortgage buydown is a way to reduce your interest rate — either for the first few years of the loan (a temporary buydown) or for the full loan term (a permanent buydown). In both cases, money is paid upfront to subsidize a lower rate. That money can come from you, the seller, or a builder offering an incentive. Temporary buydowns don't change the underlying loan rate — they put funds into an escrow account that covers the difference between your reduced payment and what the lender is actually owed. A permanent buydown uses discount points paid at closing to get the lender to lower your rate for good."
+          "text": "Your debt-to-income ratio (DTI) is the percentage of your gross monthly income that goes toward monthly debt payments — including your mortgage, car loans, student loans, and credit cards. Lenders use it as a primary measure of whether you can afford to take on a mortgage. Most conventional lenders prefer a total DTI of 43% or lower, and many prefer your housing costs alone to stay under 28–31% of gross income. If your current debt load is high, paying down existing balances before applying for a mortgage can meaningfully expand the loan amount you qualify for and reduce the interest rate you're offered."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does my credit score affect my mortgage rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your credit score is one of the biggest levers on your mortgage interest rate. The difference between a 680 and a 760 score can mean 0.5–1.0% or more in rate. On a $300,000 loan, the difference between a 6.5% and 7.5% rate is roughly $200/month — more than $70,000 in additional interest over 30 years. Lenders typically use the middle FICO score across all three bureaus. Most conventional loans require a minimum of 620, but scores above 740 generally access the best rates. Spending 6–12 months paying down revolving debt and avoiding new credit inquiries before applying can meaningfully improve your score and your rate."
+        }
+      }
+      {
+        "@type": "Question",
+        "name": "How do mortgage buydowns work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A mortgage buydown reduces your interest rate — either temporarily for the first few years (a 2-1 or 3-2-1 buydown) or permanently for the full loan term (a permanent buydown using discount points). In all cases, money is paid upfront to subsidize the lower rate, and that money can come from you, the seller, or a builder. A 2-1 buydown reduces your rate by 2 percentage points in Year 1 and 1 point in Year 2, then reverts to the full note rate. A 3-2-1 buydown follows the same pattern over three years. Temporary buydowns don't change the underlying loan rate — an escrow fund covers the difference. A permanent buydown uses discount points paid at closing; one point equals 1% of the loan amount and typically reduces the rate by about 0.25%. Whether it makes financial sense depends on how long you keep the loan before selling or refinancing."
         }
       },
       {
@@ -1558,7 +1530,6 @@
       <li><a href="#intro" class="active">Intro</a></li>
       <li><a href="#property-info">Property</a></li>
       <li><a href="#ongoing-costs">Costs</a></li>
-      <li><a href="#renting-saving">Renting</a></li>
       <li><a href="#your-finances">Finances</a></li>
       <li><a href="#results">Results</a></li>
     </ul>
@@ -1569,9 +1540,9 @@
   <section class="section" id="intro" aria-labelledby="h-intro">
     <div>
       <span class="hero-eyebrow">Free Housing Calculator</span>
-      <h1 id="h-intro">Can you afford to buy&nbsp;— or is renting smarter?</h1>
+      <h1 id="h-intro">Can you afford to buy?</h1>
       <p class="updated">- Updated May 2026- </p>
-      <p class="tagline">This free home affordability calculator helps you compare the true cost of buying vs. renting — including mortgage payments, property taxes, HOA fees, insurance, maintenance, and more — so you can make the biggest financial decision of your life with your eyes wide open.</p>
+      <p class="tagline">This free home affordability calculator helps you understand the true cost of buying a home — including mortgage payments, property taxes, HOA fees, insurance, maintenance, opportunity cost, and more — so you can make the biggest financial decision of your life with your eyes wide open.</p>
       <a href="#property-info" class="btn-primary">Get Started →</a>
     </div>
 
@@ -1586,14 +1557,10 @@
         </div>
         <div class="how-it-works-item">
           <div class="how-it-works-num">2</div>
-          <span class="how-it-works-text">Fill in your renting details</span>
-        </div>
-        <div class="how-it-works-item">
-          <div class="how-it-works-num">3</div>
           <span class="how-it-works-text">Hit Calculate to see a side-by-side comparison</span>
         </div>
       </div>
-      <p>Before you dive in, I'd <strong>highly</strong> recommend the dropdowns below — there's some important context that'll help you get the most out of this tool.</p>
+      <p>It's that easy! Before you dive in, I'd <strong>highly</strong> recommend the dropdowns below — there's some important context that'll help you get the most out of this tool.</p>
       <p>When you're ready, hit "<a href="#property-info" class="link-amber">Get Started</a>" and let's crunch some numbers!</p>
 
       <section aria-label="Frequently Asked Questions">
@@ -1608,18 +1575,18 @@
             <p class="note-italic">Quick disclaimer: I'm no professional finance coach — just a regular person who wanted to make informed financial decisions and is also kind of a nerd. 🤓 Take this for what it is: a tool to help you think, not professional financial advice.</p>
             <br>
             <div class="acc-item">
-              <strong>Buying vs. renting is your call to make.</strong>
+              <strong>Buying a home is your call to make.</strong>
               Everyone's situation is totally unique. Do not make a six-figure decision based on anyone's advice without running the numbers for yourself.
               <div class="hint"><span class="hint-label">💡 Hint:</span> This calculator loves a good run, especially where numbers are involved.</div>
             </div>
             <div class="acc-item">
-              <strong>Renting doesn't mean you're throwing money away.</strong>
-              Don't believe what they tell you! Homeowners also "throw away" money — tens or even hundreds of thousands of dollars to things like interest, property taxes, insurance, and maintenance. The real question isn't "am I throwing money away?" — it's "what does each option actually cost me, and what do I get for it?" You've got to crunch the numbers for your situation.
+              <strong>If buying doesn't make sense right now, that's ok!.</strong>
+              If you run the numbers and buying doesn't make sense right now, that's a completely valid outcome — and an honest one. The goal isn't to talk you into or out of buying; it's to help you understand what it would actually cost. You've got to crunch the numbers for your situation.
               <div class="hint"><span class="hint-label">💡 Hint:</span> Numbers are this calculator's favorite crunchy snack.</div>
             </div>
             <div class="acc-item">
               <strong>This analysis is purely financial.</strong>
-              There are real non-monetary reasons to prefer renting or buying — stability, flexibility, community, the ability to make a space your own. This calculator won't capture those. Keep them in mind when making your decision.
+              There are real non-monetary reasons for wanting to buy a home — stability, flexibility, community, the ability to make a space your own. This calculator won't capture those. Keep them in mind when making your decision.
             </div>
           </div>
         </div>
@@ -1631,11 +1598,11 @@
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-1">
-            How does this calculator compare buying vs. renting?
+            How does this calculator work?
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-faq-1">
-            <p>This calculator assumes that if you rent instead of buy, you put the money you save each month into savings or investments. For example, if buying would cost $2,000/month and renting costs $1,500/month, it assumes you'd invest that $500 difference. At the end of your chosen timeframe, it compares what you'd have spent and built in each scenario — home equity on the buying side, savings growth on the renting side — so you can see which option actually leaves you in a better financial position. If you wouldn't save the full difference, or already have savings you'd invest instead of a down payment, you can adjust those inputs in the Renting & Saving section.</p>
+            <p>This calculator does the math on what it would actually cost you to buy a home — not just the mortgage payment, but everything: property taxes, insurance, HOA, maintenance, utilities, and the money you'd be tying up as a down payment instead of putting to work elsewhere. Fill in your details and hit "Calculate" to see a clear picture of your total upfront costs, monthly costs, the income you'd likely need, and where you'd stand financially over your chosen timeframe.</p>
           </div>
         </div>
 
@@ -1702,31 +1669,60 @@
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-8">
-            When is renting better than buying?
-            <span class="chevron">▼</span>
-          </button>
-          <div class="accordion-body" id="acc-faq-8">
-            <p>Renting is often the smarter financial choice when home prices are high relative to rents (a price-to-rent ratio above 15), when you plan to move within 3–5 years, when buying would stretch your budget uncomfortably thin, or when the money you'd put toward a down payment could earn a better return invested elsewhere. Renting also offers flexibility that homeownership doesn't — no maintenance costs, no repair surprises, and the ability to relocate without selling. If you rent and consistently invest the difference in cost compared to owning, you may come out ahead financially compared to buying.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-9">
-            Should I save the difference if renting is cheaper?
-            <span class="chevron">▼</span>
-          </button>
-          <div class="accordion-body" id="acc-faq-9">
-            <p>Yes — if your monthly rent is lower than what it would cost to own the equivalent home, consistently investing that difference can build significant wealth over time. Putting the savings into a high-yield savings account, money market account, or index fund means you're still building your financial future even without owning property. Depending on market conditions and your investment returns, you may accumulate more in savings than a homeowner builds in equity over the same period. The key word is "consistently" — this strategy only works if the savings habit is maintained.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-10">
             Is a primary home a good investment?
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-faq-10">
             <p>Compared to other long-term investments, a primary residence is actually a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. That said, homeownership does build equity — a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: a primary home is a savings vehicle with some lifestyle benefits, not an investment. Go in with that expectation and you won't be disappointed.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-9">
+            How do mortgage buydowns work?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-11">
+            <div class="acc-item">
+              <strong>What is a mortgage buydown?</strong>
+              A buydown is a way to reduce your interest rate — either temporarily for the first few years or permanently for the full loan term. In both cases, money is paid upfront to subsidize a lower rate. That money can come from you, the seller, or a builder offering an incentive. This calculator models all three buydown types in the Advanced Settings of Step 1.
+            </div>
+            <div class="acc-item">
+              <strong>What's the difference between a 2-1 and a 3-2-1 buydown?</strong>
+              Both are temporary buydowns that reduce your payment for a fixed period before reverting to the full note rate. A 2-1 buydown reduces your rate by 2 percentage points in Year 1 and 1 point in Year 2, then reverts to the full rate in Year 3. A 3-2-1 buydown reduces your rate by 3 points in Year 1, 2 in Year 2, and 1 in Year 3, then reverts in Year 4. Neither type reduces the total interest owed over the life of the loan — the upfront subsidy simply prepays the difference. You still qualify for the loan based on the full note rate.
+            </div>
+            <div class="acc-item">
+              <strong>What are discount points and how does a permanent buydown work?</strong>
+              Discount points are prepaid interest paid at closing in exchange for a permanently lower rate. One point equals 1% of the loan amount — so one point on a $300,000 loan costs $3,000. The rate reduction per point varies by lender, but 0.25% per point is a common rule of thumb. Whether it makes financial sense depends on how long you keep the loan. If paying two points saves $100/month, you break even in about 5 years. Sell or refinance before then and you paid more than you saved.
+            </div>
+            <div class="acc-item" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+              <strong>Who pays for a buydown — the buyer or the seller?</strong>
+              Either party can pay, and it matters significantly. When a seller or builder pays, you get the payment reduction without adding to your upfront cash burden — common in new construction markets. When you pay for it yourself, the cost is due at closing alongside your down payment and closing costs. This calculator lets you specify who's paying so it's included (or excluded) from your total upfront cash needed accordingly.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-10">
+            What is a debt-to-income ratio and why does it matter?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-12">
+            <p>Your debt-to-income ratio (DTI) is the percentage of your gross monthly income that goes toward monthly debt payments — including your mortgage, car loans, student loans, credit cards, and any other recurring debt obligations. Lenders use it as one of the primary measures of whether you can actually afford to take on a mortgage.</p>
+            <p>Most conventional lenders prefer a DTI of 43% or lower, though some will go higher with compensating factors like a large down payment or strong credit. Many lenders prefer your housing costs alone (called the "front-end" DTI) to stay under 28–31% of gross income.</p>
+            <p>DTI is worth knowing before you start shopping. If your current debt load is high, paying down existing balances before applying for a mortgage can meaningfully expand the loan amount you qualify for — and reduce the rate you're offered.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-faq-11">
+            How does my credit score affect my mortgage rate?
+            <span class="chevron">▼</span>
+          </button>
+          <div class="accordion-body" id="acc-faq-13">
+            <p>Your credit score is one of the biggest levers on your mortgage interest rate. Lenders use it to assess how likely you are to repay the loan — and they price their rates accordingly. The difference between a 680 and a 760 credit score can mean 0.5–1.0% or more in rate, which compounds significantly over a 30-year loan.</p>
+            <p>To give a concrete example: on a $300,000 loan at 7.5% vs. 6.5%, the difference in monthly payment is roughly $200/month — and over 30 years, that's more than $70,000 in additional interest. A higher credit score doesn't just feel good; it has a real dollar impact on affordability.</p>
+            <p>Lenders typically look at FICO scores from all three bureaus and use the middle score. Most conventional loans require a minimum of 620, but to access the best rates, you generally want to be above 740. If your score is lower than you'd like, spending 6–12 months paying down revolving debt and avoiding new credit inquiries before applying can make a meaningful difference.</p>
           </div>
         </div>
 
@@ -1741,21 +1737,6 @@
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-resources">
-            <div class="resource-group">
-              <p>Buying vs. Renting</p>
-              <ul class="resource-links">
-                <li><a href="https://www.cnbc.com/2019/04/18/wealth-manager-buying-a-home-is-usually-a-terrible-investment.html" target="_blank" rel="noopener noreferrer">Article 1</a></li>
-                <li><a href="https://seekingalpha.com/article/4485863-why-buying-home-rarely-smart-investment" target="_blank" rel="noopener noreferrer">Article 2</a></li>
-                <li><a href="https://jlcollinsnh.com/2023/03/02/why-your-house-is-a-terrible-investment/" target="_blank" rel="noopener noreferrer">Article 3</a></li>
-                <li><a href="https://affordanything.com/is-renting-better-than-buying-should-i-rent-or-buy/" target="_blank" rel="noopener noreferrer">Article 4 — Detailed deep dive</a></li>
-              </ul>
-            </div>
-            <div class="resource-group">
-              <p>Long-term renting</p>
-              <ul class="resource-links">
-                <li><a href="https://www.gocurrycracker.com/renters-for-life/#" target="_blank" rel="noopener noreferrer">A perspective on the long-term renting lifestyle</a></li>
-              </ul>
-            </div>
             <div class="resource-group">
               <p>Total cost of home ownership</p>
               <ul class="resource-links">
@@ -2282,157 +2263,15 @@
 
   </section>
 
-  <!-- ── Step 3: Renting & Saving ── -->
-  <section class="section accent-blue" id="renting-saving" aria-labelledby="h-renting-saving">
+  <!-- ── 3: Your Financial Picture ── -->
+  <section class="section accent-blue" id="your-finances" aria-labelledby="h-your-finances">
     <p class="section-label">Step 3</p>
-    <h2 id="h-renting-saving">Renting & Saving</h2>
-    <p class="section-intro">Tell us about your rental situation and what you'd do with the money you save by renting.</p>
+    <h2 id="h-your-finances">Your Financial Picture</h2>
+    <p class="section-intro">These inputs help personalize the recommended income estimates and opportunity costs in your results. They're optional — but filling them in gives you a much more useful picture.</p>
 
-    <!-- Group 1: Renting Costs -->
-    <p class="calc-group-label">Renting Costs</p>
-
-    <div class="input-group">
-      <label class="input-label" for="monthly-rent">Monthly Rent</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="monthly-rent" placeholder="e.g. 1,500" min="0" step="50" />
-        <span class="input-suffix">/mo</span>
-      </div>
-      <div class="help-links">
-        <a href="https://www.zillow.com" target="_blank" rel="noopener noreferrer">Rental prices near you (Zillow)</a>
-        <a href="https://www.apartments.com" target="_blank" rel="noopener noreferrer">Rental prices near you (Apartments.com)</a>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" for="security-deposit">Security Deposit</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="security-deposit" placeholder="e.g. 1,500" min="0" step="50" />
-      </div>
-      <span class="input-note">Typically one month's rent. Enter $0 if you're already renting and won't be paying a new deposit.</span>
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" for="renters-insurance">Renters Insurance</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="renters-insurance" placeholder="e.g. 180" min="0" step="10" />
-        <span class="input-suffix">/yr</span>
-      </div>
-      <div class="help-links">
-        <a href="https://www.nerdwallet.com/article/insurance/how-much-is-renters-insurance" target="_blank" rel="noopener noreferrer">How much does renters insurance cost?</a>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" for="moving-costs-rent">Moving Costs</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="moving-costs-rent" placeholder="e.g. 1,500" min="0" step="100" />
-      </div>
-      <span class="input-note">Enter $0 if you're comparing buying to staying in your current rental.</span>
-      <div class="help-links">
-        <a href="https://www.bankrate.com/real-estate/how-much-does-it-cost-to-move/" target="_blank" rel="noopener noreferrer">What do moving costs typically look like?</a>
-      </div>
-    </div>
-
-    <!-- Utilities -->
-    <p class="calc-group-label" style="margin-top: 2.5rem;">Utilities and Other Fees</p>
-    <span class="input-note" style="display: block; margin-bottom: 1.25rem;">Not sure what to expect? Your current utility bills are a reasonable starting point.</span>
-
-    <div class="input-group">
-      <label class="input-label" for="electric-rent">Electric</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="electric-rent" placeholder="e.g. 120" min="0" step="10" />
-        <span class="input-suffix">/mo</span>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" for="water-rent">Water</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="water-rent" placeholder="e.g. 50" min="0" step="10" />
-        <span class="input-suffix">/mo</span>
-      </div>
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" for="other-util-rent">Other Utilities and Fees (gas, trash, landscaping, etc.)</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="other-util-rent" placeholder="e.g. 80" min="0" step="10" />
-        <span class="input-suffix">/mo</span>
-      </div>
-    </div>
-
-    <!-- Group 2: Savings Parameters -->
-    <p class="calc-group-label" style="margin-top: 2.5rem;">Savings Parameters</p>
-
-    <div class="input-group">
-      <label class="input-label" for="prior-savings">Prior Savings Value</label>
-      <div class="input-wrap">
-        <span class="input-prefix">$</span>
-        <input type="number" id="prior-savings" placeholder="e.g. 10,000" min="0" step="500" />
-      </div>
-      <span class="input-note">If you already have money in a savings or investment account, enter the current value here. This gets added to your initial deposit and grows alongside your contributions over the comparison timeline. If you don't have any prior savings, leave this as $0.</span>
-    </div>
-
-    <!-- Initial Deposit -->
-    <div class="input-group">
-      <label class="input-label">Initial Deposit</label>
-      <span class="input-note" style="margin-bottom: 0.6rem; display: block;">The amount you'd put into savings instead of a down payment.</span>
-      <div class="default-toggle-row">
-        <span class="default-toggle-label">Use calculated default</span>
-        <label class="switch">
-          <input type="checkbox" id="initial-deposit-toggle" checked aria-label="Use calculated default for initial deposit" />
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="default-display" id="initial-deposit-default-display">
-        <span class="default-value-label">Calculated default:</span>
-        <span class="default-value" id="initial-deposit-default-value">—</span>
-        <span class="default-value-note">equal to your down payment</span>
-      </div>
-      <div class="manual-input-wrap" id="initial-deposit-manual" style="display: none;">
-        <div class="input-wrap">
-          <span class="input-prefix">$</span>
-          <input type="number" id="initial-deposit-manual-input" placeholder="e.g. 45,000" min="0" step="500" />
-        </div>
-        <span class="input-note">Set to $0 to simulate starting with no initial deposit.</span>
-      </div>
-    </div>
-
-    <!-- Monthly Contribution -->
-    <div class="input-group">
-      <label class="input-label">Monthly Savings Contribution</label>
-      <span class="input-note" style="margin-bottom: 0.6rem; display: block;">How much you'd contribute to savings each month while renting.</span>
-      <div class="default-toggle-row">
-        <span class="default-toggle-label">Use calculated default</span>
-        <label class="switch">
-          <input type="checkbox" id="monthly-contrib-toggle" checked aria-label="Use calculated default for monthly savings contribution" />
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="default-display" id="monthly-contrib-default-display">
-        <span class="default-value-label">Calculated default:</span>
-        <span class="default-value" id="monthly-contrib-default-value">—</span>
-        <span class="default-value-note">difference between estimated ownership costs and your rent</span>
-      </div>
-      <!-- Negative contribution warning -->
-      <div class="warning-card" id="negative-contrib-warning" style="display: none;">
-        ⚠️ Your estimated rent is higher than the projected cost of owning this home. That means there's no money left over to save by renting — which is one point in favor of buying. You can still run the comparison, but keep this in mind when reading your results.
-      </div>
-      <div class="manual-input-wrap" id="monthly-contrib-manual" style="display: none;">
-        <div class="input-wrap">
-          <span class="input-prefix">$</span>
-          <input type="number" id="monthly-contrib-manual-input" placeholder="e.g. 400" min="0" step="50" />
-        </div>
-        <span class="input-note">Set to $0 to simulate renting without saving the difference.</span>
-      </div>
-    </div>
+    <!-- Rate of Return -->
+    <p class="calc-group-label" style="margin-top: 2.5rem;">Opportunity Cost — Rate of Return</p>
+    <span class="input-note" style="display: block; margin-bottom: 1.25rem;">What could your upfront cash (down payment, closing costs, reserves) realistically earn if invested instead of spent on a home? This is used to calculate the opportunity cost of buying in the Results section.</span>
 
     <div class="input-group">
       <label class="input-label" for="rate-of-return">Average Rate of Return (ROR)</label>
@@ -2440,7 +2279,7 @@
         <input type="number" id="rate-of-return" placeholder="e.g. 7" min="0" max="30" step="0.1" />
         <span class="input-suffix">%</span>
       </div>
-      <span class="input-note">This is your expected annual return on your savings or investments. For High Yield Savings Accounts or Money Market accounts, a typical value is 3–4% (though this fluctuates with the federal rate). For investment accounts like index funds, the historical average annual return is around 7%. Use whichever best reflects where you plan to put your money.</span>
+      <span class="input-note">For High Yield Savings Accounts or Money Market accounts, a typical value is 3–4% (though this fluctuates with the federal rate). For investment accounts like index funds, the historical average annual return is around 7%. Use whichever best reflects where you plan to put your money.</span>
       <div class="help-links">
         <a href="#" id="ror-tax-help-link" onclick="document.getElementById('ror-tax-help-box').style.display = document.getElementById('ror-tax-help-box').style.display === 'none' ? 'block' : 'none'; return false;">Should I use a pre-tax or after-tax rate?</a>
       </div>
@@ -2449,47 +2288,15 @@
       </div>
     </div>
 
-    <!-- Other Parameters -->
-    <p class="calc-group-label" style="margin-top: 2.5rem;">Other Parameters</p>
-
-    <div class="input-group">
-      <label class="input-label" for="rent-increase-yoy">Rent Increase Year Over Year</label>
-      <div class="input-wrap">
-        <input type="number" id="rent-increase-yoy" value="4" min="0" max="20" step="0.1" />
-        <span class="input-suffix">%</span>
-      </div>
-      <span class="input-note">Average rent increase has been around 4% per year from 2015–2025. Adjust if you expect something different for your area.</span>
-      <div class="help-links">
-        <a href="https://ipropertymanagement.com/research/average-rent-by-year" target="_blank" rel="noopener noreferrer">Year-by-year US rent increase data</a>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ── Step 4: Your Financial Picture ── -->
-  <section class="section accent-amber" id="your-finances" aria-labelledby="h-your-finances">
-    <p class="section-label">Step 4</p>
-    <h2 id="h-your-finances">Your Financial Picture</h2>
-    <p class="section-intro">These inputs help personalize the recommended income estimates in your results. They're optional — but filling them in gives you a much more useful picture.</p>
-
     <!-- Effective Income Tax Rate -->
     <p class="calc-group-label">Effective Income Tax Rate</p>
     <span class="input-note" style="display: block; margin-bottom: 1.25rem;">This is your effective income tax rate — the actual percentage of your income paid in taxes, not your tax bracket. If the property you're evaluating would require an income that would push you into a higher tax bracket, consider using that projected rate instead of your current one.</span>
 
-    <div class="tax-rate-row">
-      <div class="input-group" style="margin-bottom: 0;">
-        <label class="input-label" for="tax-rate-buying">If Buying</label>
-        <div class="input-wrap">
-          <input type="number" id="tax-rate-buying" placeholder="e.g. 22" min="0" max="60" step="0.1" />
-          <span class="input-suffix">%</span>
-        </div>
-      </div>
-      <div class="input-group" style="margin-bottom: 0;">
-        <label class="input-label" for="tax-rate-renting">If Renting</label>
-        <div class="input-wrap">
-          <input type="number" id="tax-rate-renting" placeholder="e.g. 22" min="0" max="60" step="0.1" />
-          <span class="input-suffix">%</span>
-        </div>
+    <div class="input-group">
+      <label class="input-label" for="tax-rate-buying">Effective Income Tax Rate</label>
+      <div class="input-wrap" style="max-width: 200px;">
+        <input type="number" id="tax-rate-buying" placeholder="e.g. 22" min="0" max="60" step="0.1" />
+        <span class="input-suffix">%</span>
       </div>
     </div>
     <div class="help-links" style="margin-top: 0.6rem;">
@@ -2519,14 +2326,13 @@
       </button>
       <div class="lifestyle-calc-body" id="lifestyle-calc-help">
         <p>The easiest way to calculate this: take your most recent pay stub and multiply your gross pay by the number of pay periods in a year (26 for bi-weekly, 24 for bi-monthly) to get your annual gross income. Multiply your total deducted taxes by the number of pay periods to get your annual tax deduction. Multiply your current monthly housing expenses by 12 to get your yearly housing costs. Then subtract your annual taxes and yearly housing costs from your annual gross pay. The result is your current annual lifestyle spending.</p>
-        <p style="margin-top: 0.75rem;">Note: If you're in the Renting & Saving scenario, you don't need to subtract your savings contributions from your lifestyle spending amount — the calculator accounts for those automatically.</p>
       </div>
     </div>
 
   </section>
 
   <!-- ── Results ── -->
-  <section class="section accent-blue" id="results" aria-labelledby="h-results">
+  <section class="section accent-amber" id="results" aria-labelledby="h-results">
     <p class="section-label">Results</p>
     <h2 id="h-results">Your Results</h2>
     <p class="section-intro">Here's what the numbers say. Fill in the sections above and hit Calculate to see your results.</p>
@@ -2560,9 +2366,8 @@
         <table class="results-table">
           <thead>
             <tr>
-              <th></th>
+              <th style="width: 60%;"></th>
               <th>Buying</th>
-              <th>Renting & Saving</th>
             </tr>
           </thead>
           <tbody>
@@ -2571,22 +2376,20 @@
                 <span class="tooltip-wrap">
                   Total Upfront Cost
                   <span class="tooltip-icon" tabindex="0">?</span>
-                  <span class="tooltip-box tooltip-down">Down payment, purchase closing costs, moving costs, and two months of mortgage payments held in reserve. For renting: security deposit, moving costs, one month's rent in reserve, and your initial savings deposit.</span>
+                  <span class="tooltip-box tooltip-down">Down payment, purchase closing costs, moving costs, and two months of mortgage payments held in reserve.</span>
                 </span>
               </td>
               <td id="r-upfront-buy" class="result-val">—</td>
-              <td id="r-upfront-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
                 <span class="tooltip-wrap">
                   Average Monthly Cost — Year 1
                   <span class="tooltip-icon" tabindex="0">?</span>
-                  <span class="tooltip-box tooltip-down">All recurring costs in the first year divided by 12. For buying, this includes mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. For renting, this includes rent, renters insurance, utilities, and your monthly savings contribution.</span>
+                  <span class="tooltip-box tooltip-down">All recurring costs in the first year divided by 12. Includes mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities.</span>
                 </span>
               </td>
               <td id="r-monthly-buy" class="result-val">—</td>
-              <td id="r-monthly-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
@@ -2597,7 +2400,6 @@
                 </span>
               </td>
               <td id="r-yearly-buy" class="result-val">—</td>
-              <td id="r-yearly-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
@@ -2607,27 +2409,24 @@
                 </a>
               </td>
               <td id="r-spent-buy" class="result-val">—</td>
-              <td id="r-spent-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
-                <span id="r-return-label">Financial Return</span>
-                <a href="#acc-savings-return" class="result-footnote-link">
+                <span id="r-return-label">Net Proceeds on Sale</span>
+                <a href="#acc-net-proceeds" class="result-footnote-link">
                   <span class="result-footnote">→ What does this mean?</span>
                 </a>
               </td>
               <td id="r-return-buy" class="result-val">—</td>
-              <td id="r-return-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
-                <span id="r-net-label">Financial Return Vs Cumulative Spending</span>
+                <span id="r-net-label">Net Proceeds vs Cumulative Spending</span>
                 <a href="#acc-net" class="result-footnote-link">
                   <span class="result-footnote">→ What does this mean?</span>
                 </a>
               </td>
               <td id="r-net-buy" class="result-val">—</td>
-              <td id="r-net-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
@@ -2637,7 +2436,6 @@
                 </a>
               </td>
               <td id="r-income30-buy" class="result-val">—</td>
-              <td id="r-income30-rent" class="result-val">—</td>
             </tr>
             <tr>
               <td class="result-label">
@@ -2647,27 +2445,27 @@
                 </a>
               </td>
               <td id="r-incomelife-buy" class="result-val">—</td>
-              <td id="r-incomelife-rent" class="result-val">—</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Breakeven Analysis -->
+      <!-- Opportunity Cost -->
       <div style="margin-top: 2.5rem;">
-        <p class="calc-group-label">Breakeven Analysis</p>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">How long until buying comes out ahead of renting on each measure. <a href="#acc-breakeven" class="result-footnote-link" style="font-size: 0.88rem; color: var(--sky);">What does this mean?</a></p>        <div class="breakeven-cards">
-          <div class="breakeven-card" id="be-card-monthly">
-            <span class="breakeven-card-label">Monthly Cost</span>
-            <span class="breakeven-card-value" id="be-monthly">—</span>
+        <p class="calc-group-label">Opportunity Cost Analysis</p>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">What your upfront cash could have grown to if invested instead of spent on this home. <a href="#acc-opportunity-cost" class="result-footnote-link" style="font-size: 0.88rem; color: var(--sky);">What does this mean?</a></p>
+        <div class="breakeven-cards">
+          <div class="breakeven-card" id="oc-card-downpayment">
+            <span class="breakeven-card-label">Down Payment Invested</span>
+            <span class="breakeven-card-value" id="oc-downpayment">—</span>
           </div>
-          <div class="breakeven-card be-amber" id="be-card-cumulative">
-            <span class="breakeven-card-label">Cumulative Spending</span>
-            <span class="breakeven-card-value" id="be-cumulative">—</span>
+          <div class="breakeven-card be-amber" id="oc-card-upfront">
+            <span class="breakeven-card-label">All Upfront Cash Invested</span>
+            <span class="breakeven-card-value" id="oc-upfront">—</span>
           </div>
-          <div class="breakeven-card be-green" id="be-card-net">
-            <span class="breakeven-card-label">Net Position</span>
-            <span class="breakeven-card-value" id="be-net">—</span>
+          <div class="breakeven-card be-green" id="oc-card-gap">
+            <span class="breakeven-card-label">Opportunity Cost of Buying</span>
+            <span class="breakeven-card-value" id="oc-gap">—</span>
           </div>
         </div>
       </div>
@@ -2683,9 +2481,6 @@
           </button>
           <div class="accordion-body" id="acc-where-next">
             <p>Your results are a starting point — not a verdict. And keep in mind that this is just the financial perspective; there may be things that matter more to you than a price tag.</p>
-            <p>Here's how to read your results:</p>
-            <p>If the buying column is mostly green buying may be the stronger financial choice. This usually means renting is expensive enough relative to ownership that the savings advantage of renting is reduced or eliminated.</p>
-            <p>If the renting column is mostly green, renting and saving the difference is probably the smarter move. Home prices in your scenario are high enough relative to rent that your savings and investments are likely to outgrow whatever you'd build in home equity — even accounting for appreciation.</p>
             <p>A few things worth keeping in mind as you interpret your numbers: home value appreciation is never guaranteed. The profit you'd make selling your home depends heavily on market conditions, local demand, and timing — factors entirely outside your control. Long-term savings and investments, by contrast, are more flexible and have historically provided more reliable growth even through economic downturns.</p>
             <p>And if renting makes more sense right now, that doesn't mean buying won't make sense later. Interest rates change, family situations evolve, and the math shifts. Saving and investing now is one of the best ways to keep your options open — including building a down payment if buying becomes the right move down the road.</p>
           </div>
@@ -2699,52 +2494,52 @@
           <div class="accordion-body" id="acc-cum-spent">
             <p>This row shows everything you paid out of pocket over your chosen timeframe — every dollar that left your hands, on both sides of the comparison.</p>
             <p>This is important because it answers the question: how much did your asset(s) actually cost you? Yes, you've built equity in your home or grown your savings — but what was the total cost to do so?</p>
-            <p>For buying, this includes your upfront costs (down payment, closing costs, moving, and reserves), plus all ongoing costs over the years: mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. The gain on sale is deliberately excluded here — it's included separately in the Financial Return row. This separation is intentional: it lets you see what you actually spent, independent of what you got back.</p>
-            <p>For renting, this includes your upfront costs (security deposit, moving, reserve, and initial deposit), plus all ongoing costs: rent, renters insurance, utilities, and your monthly savings contributions. Your savings contributions count as money spent here because they represent real dollars leaving your pocket each month — even though they're working for you in the background.</p>
+            <p>This includes your upfront costs (down payment, closing costs, moving, and reserves), plus all ongoing costs over the years: mortgage principal and interest, property taxes, insurance, HOA, maintenance, PMI, and utilities. The gain on sale is deliberately excluded here — it's included separately in the Financial Return row. This separation is intentional: it lets you see what you actually spent, independent of what you got back.</p>
           </div>
         </div>
 
         <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-savings-return">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-net-proceeds">
             Financial Return
             <span class="chevron">▼</span>
           </button>
-          <div class="accordion-body" id="acc-savings-return">
+          <div class="accordion-body" id="acc-net-proceeds">
             <p>This row shows what you'd walk away with at the end of your chosen timeframe — the financial return on each path.</p>
-            <p>For buying, this is your home's projected value minus the remaining mortgage balance and sale closing costs. In other words, what you'd actually pocket if you sold the home at the end of the period. It accounts for appreciation over time but also for the significant cost of selling.</p>
-            <p>For renting, this is the total value of your savings and investments — your initial deposit plus all monthly contributions, compounded at your chosen rate of return over the full timeframe.</p>
+            <p>This is your home's projected value minus the remaining mortgage balance and sale closing costs. In other words, what you'd actually pocket if you sold the home at the end of the period. It accounts for appreciation over time but also for the significant cost of selling.</p>
           </div>
         </div>
 
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-net">
-            Financial Return Vs Cumulative Spending
+            Net Proceeds Vs Cumulative Spending
             <span class="chevron">▼</span>
           </button>
           <div class="accordion-body" id="acc-net">
-            <p>This is the bottom line. It takes your Financial Return and subtracts everything you spent to get there. A positive number means you came out ahead financially. A negative number means the costs outweighed the return over your chosen timeframe.</p>
-            <p>Green highlighting shows which option produces the better outcome on this row. But a word of caution: a higher number isn't always the right choice for your life. This is a financial comparison — it doesn't weigh stability, flexibility, community, or any of the other reasons people choose to buy or rent. Use it as one input in your decision, not the deciding factor.</p>
+            <p>This is the bottom line. It takes your Net Proceeds on Sale and subtracts everything you spent to get there. A positive number means you came out ahead financially. A negative number means the costs outweighed the return over your chosen timeframe.</p>
+            <p>But a word of caution: a higher number isn't always the right choice for your life. This is a financial comparison — it doesn't weigh stability, flexibility, community, or any of the other reasons people choose to buy. Use it as one input in your decision, not the deciding factor.</p>
           </div>
         </div>
 
         <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-breakeven">
-            Breakeven Analysis — What Do These Mean?
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-opportunity-cost">
+            Opportunity Cost Analysis — What Do These Mean?
             <span class="chevron">▼</span>
           </button>
-          <div class="accordion-body" id="acc-breakeven">
+          <div class="accordion-body" id="acc-opportunity-cost">
             <div class="acc-item">
-              <strong>Monthly Cost</strong>
-              </p>The point when buying's monthly cost becomes cheaper than renting. Rent increases every year while your mortgage payment stays fixed — so renting often starts cheaper but eventually flips. This breakeven tells you when that flip happens.</p>
-              </p>Note that this metric includes all of your spending (including savings contributions, extra principal paydowns, etc.), not just the base PITI vs rent metric that most calculators use. That makes this metric more true to your chosen scenario than other calculators will be.</p>
+              <strong>Downpayment Invested</strong>
+              <p>This is what your down payment alone would be worth if invested over your timeline grew according to the ROR you specified in step 3.</p>
             </div>
             <div class="acc-item">
-              <strong>Cumulative Spending</strong>
-              The point when total money spent owning falls below total money spent renting. Owning has high upfront costs and often higher early monthly costs — but those can be offset over time as rent rises and equity builds. This is the most commonly cited breakeven.
+              <strong>All Upfront Cash Invested</strong>
+              This is what all the upfront cash required to purchase a home would be worth if invested over your timeline grew according to the ROR you specified in step 3.
             </div>
             <div class="acc-item">
-              <strong>Net Position</strong>
-              The most complete metric. This is when (Financial Return minus Cumulative Spending) for buying exceeds that same figure for renting. It asks: when does buying actually leave you better off, all things considered? If no breakeven is shown, renting and investing the difference comes out ahead for the entire horizon modeled.
+              <strong>Opportunity Cost of Buying</strong>
+              <p>The most complete metric. This compares the potential value of all up front cash if invested to your net financial postion (net proceeds minus cumulative spending) from the results table. It asks: how much money could you have made vs how much did you actually make?</p>
+              <p>It's worth noting that this number will almost always be quite large. The truth is that a primary home is almost never going to be a good "investment".
+                 Compared to other long-term investments, a primary residence is typically a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. And you have to spend a lot of money on non-recoverable expenses (interest, property tax, insurance, maintenance, etc) to acquire that asset.</p>
+              <p>That said, homeownership does build equity - a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And once paid off, you own a valuable asset. That helps create financial stability. But it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: owning a primary home is a lifestyle choice that also functions as a savings vehicle; it's not an investment. Go in with that expectation and you won't be disappointed.</p>
             </div>
           </div>
         </div>
@@ -2758,7 +2553,6 @@
             <p>The first recommended income row is based on the 30% rule — the common guidance from financial advisors that housing costs should represent no more than 30% of your income.</p>
             <p>One important difference from the standard approach: while the typical 30% rule uses gross income, this calculator uses your net (take-home) income — the money you actually have available to spend after taxes. Using gross income for budgeting purposes is, frankly, lying to yourself about how much money you really have. Your purchasing decisions should be based on what you actually take home, not what you make on paper. Your effective income tax rate is then used to back-calculate the gross income equivalent.</p>
             <p>It's also worth noting that this estimate assumes your lifestyle spending will scale with your new housing situation — that is, if you move into a more expensive home, your other spending will grow proportionally. This is sometimes called lifestyle inflation, and it's extremely common. If you don't expect your lifestyle spending to change much, the Current Lifestyle row gives you a more personalized estimate.</p>
-            <p>For the Renting column, this row assumes 30% for housing and 10% for savings — a total of 40% of net income — based on the savings parameters you provided.</p>
           </div>
         </div>
 
@@ -2771,7 +2565,6 @@
             <p>This row takes a different approach. Instead of assuming your lifestyle will inflate to match your new income level, it assumes your current lifestyle spending stays roughly the same even after you move. That makes this a more personalized — and often more realistic — estimate for people who are disciplined about their spending.</p>
             <p>To use this row effectively, enter your current yearly lifestyle spending in the Your Financial Picture section above.</p>
             <p>One important caveat: it is extremely common for lifestyle spending to increase when someone moves into a new home or sees an increase in income. It takes real discipline to avoid lifestyle inflation. For that reason, treat this number as the minimum annual gross income required to afford the new home or rental — not a comfortable target.</p>
-            <p>For the Renting column, this row automatically accounts for your savings contributions when calculating the recommended gross income. You don't need to subtract savings from your lifestyle spending amount.</p>
           </div>
         </div>
 
@@ -2789,18 +2582,12 @@
         <button class="share-modal-close" id="share-modal-close" aria-label="Close">✕</button>
       </div>
 
-      <div class="share-tabs" role="tablist">
-        <button class="share-tab active" data-mode="both" role="tab">Buying vs. Renting</button>
-        <button class="share-tab" data-mode="buy" role="tab">Buying Only</button>
-        <button class="share-tab" data-mode="rent" role="tab">Renting Only</button>
-      </div>
-
       <div id="share-card-preview">
         <div id="share-card-inner">
 
           <div class="share-card-header">
             <div class="share-card-eyebrow">caniaffordthishouse.app</div>
-            <div class="share-card-title" id="sc-title">My Housing Calculator Results</div>
+            <div class="share-card-title" id="sc-title">My Home Affordability Results</div>
           </div>
 
           <table class="share-card-table" id="sc-table">
@@ -2808,33 +2595,14 @@
               <tr>
                 <th id="sc-th-label"></th>
                 <th id="sc-th-buy">Buying</th>
-                <th id="sc-th-rent">Renting & Saving</th>
               </tr>
             </thead>
             <tbody id="sc-tbody"></tbody>
           </table>
 
-          <div class="share-breakeven-section" id="sc-breakeven-section">
-            <div class="share-breakeven-header">Breakeven Analysis</div>
-            <div class="share-breakeven-rows">
-              <div class="share-breakeven-row">
-                <span class="share-breakeven-label">Monthly Cost</span>
-                <span class="share-breakeven-value" id="sc-be-monthly">—</span>
-              </div>
-              <div class="share-breakeven-row">
-                <span class="share-breakeven-label">Cumulative Spending</span>
-                <span class="share-breakeven-value" id="sc-be-cumulative">—</span>
-              </div>
-              <div class="share-breakeven-row">
-                <span class="share-breakeven-label">Net Position</span>
-                <span class="share-breakeven-value" id="sc-be-net">—</span>
-              </div>
-            </div>
-          </div>
-
           <div class="share-card-footer">
-              <p>Here are my results from the rent vs. buy calculator. Check it out at caniaffordthishouse.app!</p>
-            </div>
+            <p>Here are my results from the home affordability calculator. Check it out at caniaffordthishouse.app!</p>
+          </div>
 
         </div>
       </div>
@@ -2968,28 +2736,6 @@
       document.getElementById('out-reserves').textContent      = fmt(reserves);
       document.getElementById('out-total-upfront').textContent = fmt(total);
       // debugger;
-    }
-
-    // ── Calculate default monthly contribution ──
-    function calcDefaultContribution() {
-      const mortgagePayment = parseFloat(document.getElementById('out-monthly-payment').textContent.replace(/[$,]/g, '')) || 0;
-      const price           = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const taxRate         = parseFloat(document.getElementById('property-tax-rate').value) || 0;
-      const hoa             = parseFloat(document.getElementById('hoa-fees').value) || 0;
-      const insurance       = parseFloat(document.getElementById('ho-insurance').value) || 0;
-      const maintenance     = parseFloat(document.getElementById('maintenance-costs').value) || 0;
-      const pmi             = calcPMI();
-      const rent            = parseFloat(document.getElementById('monthly-rent').value) || 0;
-
-      const monthlyOwning = mortgagePayment
-        + (price * taxRate / 100 / 12)
-        + hoa
-        + (insurance / 12)
-        + (maintenance / 12)
-        + pmi;
-
-      const contribution = monthlyOwning - rent;
-      return contribution;
     }
 
     // ── Calculate PMI ──
@@ -3130,180 +2876,6 @@
       return parseFloat(document.getElementById('extra-principal-amount').value) || 0;
     }
 
-    // ── Update savings defaults ──
-    function updateSavingsDefaults() {
-      // Initial deposit default = down payment amount
-      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const dpPct = getDpPct();      
-      const dp    = price * (dpPct / 100);
-      document.getElementById('initial-deposit-default-value').textContent = fmt(dp);
-
-      // Monthly contribution default
-      const contrib = calcDefaultContribution();
-      const contribDisplay = document.getElementById('monthly-contrib-default-value');
-      const warning        = document.getElementById('negative-contrib-warning');
-
-      if (contrib < 0) {
-        contribDisplay.textContent = fmt(0);
-        warning.style.display = 'block';
-      } else {
-        contribDisplay.textContent = fmt(contrib) + '/mo';
-        warning.style.display = 'none';
-      }
-    }
-
-        // ── Breakeven calculations ──
-    // Searches month by month (up to maxMonths) for the point when buying
-    // crosses renting on a given measure. Returns { years, months } or null.
-    function calcBreakevens(inputs) {
-      const {
-        price, dpPct, rate, noteRate, term, taxRate, hoa, insurance, maintenance,
-        electricBuy, waterBuy, otherBuy, inflation, appreciation, saleClose,
-        movingBuy, closingPct, rent, rentersIns, electricRent, waterRent, otherRent,
-        ror, rentIncrease, initialDeposit, monthlyContrib, priorSavings,
-        secDeposit, movingRent,
-      } = inputs;
-
-      const dp           = price * (dpPct / 100);
-      const loan         = price - dp;
-      const closing      = loan * closingPct;
-      const monthlyRate  = rate / 100 / 12;
-      const numPayments  = term * 12;
-      const monthlyPMT   = calcPMT(loan, rate, term);
-      const monthTax     = (price * taxRate / 12);
-      const reserves     = 2 * (monthlyPMT + insurance / 12 + monthTax);
-      const pmi          = calcPMI();
-      const extra        = getExtraPrincipal();
-
-      const buydownUpfront = (() => {
-        const bdType = getBuydownType();
-        const payer  = getBuydownPayer();
-        if (payer !== 'buyer') return 0;
-        if (bdType === 'permanent') return calcPermanentBuydownUpfront(loan);
-        if (bdType === '2-1' || bdType === '3-2-1') return calcTemporaryBuydownUpfront(loan, noteRate, term);
-        return 0;
-      })();
-
-      const rentReserves = rent;
-
-      // Running totals — buying
-      let buyCumSpent   = dp + closing + movingBuy + reserves + buydownUpfront;
-      let buyBal        = loan;
-      let buyHomeVal    = price;
-
-      // Running totals — renting
-      let rentCumSpent  = secDeposit + movingRent + rentReserves + initialDeposit;
-      let savingsVal    = initialDeposit + priorSavings;
-      let currentRent   = rent;
-
-      // Monthly buy costs that inflate
-      let insMonthly    = insurance / 12;
-      let maintMonthly  = maintenance / 12;
-      let utilBuyMo     = electricBuy + waterBuy + otherBuy;
-      let utilRentMo    = electricRent + waterRent + otherRent;
-      let rentInsMonthly = rentersIns / 12;
-
-      const maxMonths = 50 * 12;
-
-      let beMonthly    = null;
-      let beCumulative = null;
-      let beNet        = null;
-
-      for (let m = 1; m <= maxMonths; m++) {
-        const yearFrac = (m - 1) / 12; // years elapsed before this month
-        const inflMult = Math.pow(1 + inflation, yearFrac);
-
-        // ── BUY: this month's costs ──
-        const intThisMonth  = buyBal * monthlyRate;
-        const prinThisMonth = Math.min(monthlyPMT - intThisMonth + extra, buyBal);
-        buyBal = Math.max(0, buyBal - prinThisMonth);
-
-        buyHomeVal = price * Math.pow(1 + appreciation, m / 12);
-        const propTaxMo = (price * Math.pow(1 + appreciation, (m - 1) / 12)) * taxRate / 12;
-        const pmiMo     = (buyBal / buyHomeVal >= 0.8) ? pmi : 0;
-
-        // Buydown subsidy this month
-        const yearNum = Math.ceil(m / 12);
-        const annualSubsidy = getTemporaryBuydownSubsidy(yearNum, loan, noteRate, term);
-        const subsidyMo = annualSubsidy / 12;
-
-        const buyMonthCost = monthlyPMT + propTaxMo + hoa
-          + insMonthly * inflMult + maintMonthly * inflMult
-          + pmiMo + utilBuyMo * inflMult - subsidyMo
-          + (extra > 0 && buyBal > 0 ? extra : 0);
-
-        buyCumSpent += buyMonthCost;
-
-        // ── RENT: this month's costs ──
-        const rentMonthCost = currentRent + rentInsMonthly * inflMult + utilRentMo * inflMult + monthlyContrib;
-        rentCumSpent += rentMonthCost;
-
-        // Savings growth — monthly compounding equivalent of annual ror
-        const monthlyRor = Math.pow(1 + ror, 1 / 12) - 1;
-        savingsVal = (savingsVal + monthlyContrib) * (1 + monthlyRor);
-
-        // Rent increases annually
-        if (m % 12 === 0) currentRent *= (1 + rentIncrease);
-
-        // ── Monthly cost breakeven ──
-        // Full cash outflow each month — extra principal included on buy side,
-        // savings contribution included on rent side, consistent with results table.
-        if (beMonthly === null && buyMonthCost <= rentMonthCost) {
-          beMonthly = m;
-        }
-
-        // ── Cumulative spending breakeven ──
-        if (beCumulative === null && buyCumSpent <= rentCumSpent) {
-          beCumulative = m;
-        }
-
-        // ── Net position breakeven ──
-        // Buy net = home equity after sale costs - cumulative spent
-        // Rent net = savings value - cumulative spent
-        const saleCloseCost = buyHomeVal * saleClose;
-        const buyEquity     = buyHomeVal - buyBal - saleCloseCost;
-        const buyNet        = buyEquity - buyCumSpent;
-        const rentNet       = savingsVal - rentCumSpent;
-        if (beNet === null && buyNet >= rentNet) {
-          beNet = m;
-        }
-
-        // Early exit once all three are found
-        if (beMonthly !== null && beCumulative !== null && beNet !== null) break;
-      }
-
-      function toYrMo(totalMonths) {
-        if (totalMonths === null) return null;
-        const yrs = Math.floor(totalMonths / 12);
-        const mos = totalMonths % 12;
-        if (yrs === 0) return `${mos} Mo`;
-        if (mos === 0) return `${yrs} Yr`;
-        return `${yrs} Yr ${mos} Mo`;
-      }
-
-      return {
-        monthly:    toYrMo(beMonthly),
-        cumulative: toYrMo(beCumulative),
-        net:        toYrMo(beNet),
-      };
-    }
-
-    // ── Toggle switch logic ──
-    function setupToggle(toggleId, defaultDisplayId, manualWrapperId) {
-      const toggle       = document.getElementById(toggleId);
-      const defaultDisplay = document.getElementById(defaultDisplayId);
-      const manualWrap   = document.getElementById(manualWrapperId);
-      toggle.addEventListener('change', () => {
-        if (toggle.checked) {
-          defaultDisplay.style.display = 'flex';
-          manualWrap.style.display     = 'none';
-        } else {
-          defaultDisplay.style.display = 'none';
-          manualWrap.style.display     = 'block';
-        }
-      });
-    }
-
     // -- Helper function to get the necessary results summary table labels for the share modal
     function getBuydownLabels() {
       const bdType = getBuydownType();
@@ -3330,8 +2902,6 @@
         { id: 'down-payment-pct',  label: 'Down Payment' },
         { id: 'interest-rate',     label: 'Interest Rate' },
         { id: 'years-timeline',    label: 'How long do you plan to stay' },
-        { id: 'monthly-rent',      label: 'Monthly Rent' },
-        { id: 'rate-of-return',    label: 'Rate of Return' },
       ];
       const missing = required.filter(f => !document.getElementById(f.id).value);
       return missing.map(f => f.label);
@@ -3448,19 +3018,8 @@
       const closingPct   = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
       const monthBuyTax   = (price * taxRate / 12);
 
-      const rent         = parseFloat(document.getElementById('monthly-rent').value) || 0;
-      const secDeposit   = parseFloat(document.getElementById('security-deposit').value) || 0;
-      const rentersIns   = parseFloat(document.getElementById('renters-insurance').value) || 0;
-      const movingRent   = parseFloat(document.getElementById('moving-costs-rent').value) || 0;
-      const electricRent = parseFloat(document.getElementById('electric-rent').value) || 0;
-      const waterRent    = parseFloat(document.getElementById('water-rent').value) || 0;
-      const otherRent    = parseFloat(document.getElementById('other-util-rent').value) || 0;
-      const priorSavings = parseFloat(document.getElementById('prior-savings').value) || 0;
       const ror          = parseFloat(document.getElementById('rate-of-return').value) / 100 || 0;
-      const rentIncrease = parseFloat(document.getElementById('rent-increase-yoy').value) / 100 || 0.04;
-
       const taxRateBuy   = parseFloat(document.getElementById('tax-rate-buying').value) / 100 || 0;
-      const taxRateRent  = parseFloat(document.getElementById('tax-rate-renting').value) / 100 || 0;
       const lifestyle    = parseFloat(document.getElementById('lifestyle-spending').value) || 0;
 
       // ════════════════════════════
@@ -3534,20 +3093,6 @@
         }
         return Math.max(0, bal);
       }
-
-      // ════════════════════════════
-      // INITIAL DEPOSIT & CONTRIBUTION
-      // ════════════════════════════
-      const useDefaultDeposit  = document.getElementById('initial-deposit-toggle').checked;
-      const manualDepositInput = parseFloat(document.getElementById('initial-deposit-manual-input').value);
-      const initialDeposit     = useDefaultDeposit ? dp
-                                 : (isNaN(manualDepositInput) ? 0 : manualDepositInput);
-
-      const useDefaultContrib  = document.getElementById('monthly-contrib-toggle').checked;
-      const defaultContrib     = Math.max(0, calcDefaultContribution());
-      const manualContribInput = parseFloat(document.getElementById('monthly-contrib-manual-input').value);
-      const monthlyContrib     = useDefaultContrib ? defaultContrib
-                                 : (isNaN(manualContribInput) ? 0 : manualContribInput);
 
       // ════════════════════════════
       // BUY — YEAR BY YEAR
@@ -3658,53 +3203,6 @@
       const buyCumSpent = Math.abs(buyCumCashflow - buyNetReturn);
 
       // ════════════════════════════
-      // RENT — YEAR BY YEAR
-      // ════════════════════════════
-      const rentReserves  = rent;
-      let rentCumCashflow = -(secDeposit + movingRent + rentReserves + initialDeposit);
-      let savingsValue    = initialDeposit + priorSavings;
-      let currentRent     = rent;
-      let rentYear1Cost   = 0;
-      const rentYearRows = []; //rent data export array
-
-      for (let y = 1; y <= years; y++) {
-        const rentYear    = currentRent * 12;
-        const insYear     = rentersIns * Math.pow(1 + inflation, y - 1);
-        const utilYear    = (electricRent + waterRent + otherRent) * 12
-                            * Math.pow(1 + inflation, y - 1);
-        const contribYear = monthlyContrib * 12;
-        const movingYear  = (y === years) ? movingRent : 0;
-
-        if (y === 1) {
-          rentYear1Cost = rentYear + insYear + utilYear + contribYear;
-        }
-
-        rentCumCashflow -= (rentYear + insYear + utilYear + contribYear + movingYear);
-        savingsValue     = (savingsValue + contribYear) * (1 + ror);
-
-        const rentCumSpentSoFar = Math.abs(rentCumCashflow);
-        const rentNetPosSoFar   = savingsValue - rentCumSpentSoFar;
-        const rentPaidThisYear  = currentRent;
-
-        currentRent *= (1 + rentIncrease);
-
-        rentYearRows.push({
-          year:         y,
-          monthlyRent:  Math.round(rentPaidThisYear),
-          annualRent:   Math.round(rentYear),
-          rentersIns:   Math.round(insYear),
-          utilities:    Math.round(utilYear),
-          contribution: Math.round(contribYear),
-          totalYearCost:Math.round(rentYear + insYear + utilYear + contribYear + movingYear),
-          cumSpent:     Math.round(rentCumSpentSoFar),
-          savingsValue: Math.round(savingsValue),
-          netPosition:  Math.round(rentNetPosSoFar),
-        });
-      }
-
-      const rentCumSpent = Math.abs(rentCumCashflow);
-
-      // ════════════════════════════
       // SUMMARY TABLE VALUES
       // ════════════════════════════
       const buydownUpfront = (() => {
@@ -3716,18 +3214,11 @@
         return 0;
       })();
       const buyUpfront = dp + closing + movingBuy + reserves + buydownUpfront;
-      const rentUpfront = secDeposit + movingRent + rentReserves + initialDeposit;
 
-      const buyMonthly  = buyYearFullRateCost / 12;
-      const rentMonthly = rentYear1Cost / 12;
-
-      const buyIncome30    = taxRateBuy  > 0 ? (buyYearFullRateCost  / 0.3) / (1 - taxRateBuy)  : null;
-      const rentIncome30   = taxRateRent > 0 ? (rentYear1Cost / 0.4) / (1 - taxRateRent) : null;
-      const buyIncomeLife  = taxRateBuy  > 0 && lifestyle > 0
-                       ? (buyYearFullRateCost + lifestyle) / (1 - taxRateBuy) : null;
-      const rentIncomeLife = taxRateRent > 0 && lifestyle > 0
-                            ? (rentYear1Cost - monthlyContrib * 12 + lifestyle)
-                              / (1 - taxRateRent) : null;
+      const buyMonthly    = buyYearFullRateCost / 12;
+      const buyIncome30   = taxRateBuy > 0 ? (buyYearFullRateCost / 0.3) / (1 - taxRateBuy) : null;
+      const buyIncomeLife = taxRateBuy > 0 && lifestyle > 0
+                          ? (buyYearFullRateCost + lifestyle) / (1 - taxRateBuy) : null;
 
       // ════════════════════════════
       // POPULATE TABLE
@@ -3739,22 +3230,16 @@
         document.getElementById(id).textContent = str;
       };
 
-      setVal('r-upfront-buy',   buyUpfront);
-      setVal('r-upfront-rent',  rentUpfront);
-      setVal('r-monthly-buy',   buyMonthly);
-      setVal('r-monthly-rent',  rentMonthly);
-      setVal('r-yearly-buy',    buyYearFullRateCost);
-      setVal('r-yearly-rent',   rentYear1Cost);
-      setVal('r-spent-buy',     buyCumSpent);
-      setVal('r-spent-rent',    rentCumSpent);
-      setVal('r-return-buy',    buyNetReturn);
-      setVal('r-return-rent',   savingsValue);
-      setVal('r-net-buy',       buyNetReturn - buyCumSpent);
-      setVal('r-net-rent',      savingsValue - rentCumSpent);
+      setVal('r-upfront-buy',  buyUpfront);
+      setVal('r-monthly-buy',  buyMonthly);
+      setVal('r-yearly-buy',   buyYearFullRateCost);
+      setVal('r-spent-buy',    buyCumSpent);
+      setVal('r-return-buy',   buyNetReturn);
+      setVal('r-net-buy',      buyNetReturn - buyCumSpent);
 
       setStr('r-spent-label',  `Cumulative Spending — ${years} Years`);
-      setStr('r-return-label', `Financial Return — ${years} Years`);
-      setStr('r-net-label',    `Financial Return Vs Cumulative Spending — ${years} Years`);
+      setStr('r-return-label', `Net Proceeds on Sale — ${years} Years`);
+      setStr('r-net-label',    `Net Financial Position — ${years} Years`);
 
       // ── Relabel monthly/yearly rows for temporary buydowns ──
       const bdType        = getBuydownType();
@@ -3762,8 +3247,6 @@
       const bdPeriodEnd   = bdType === '3-2-1' ? 3 : 2;
       const fullRateYear  = bdPeriodEnd + 1;
 
-      // Target the tooltip-wrap span inside each label cell,
-      // then update its first child text node directly.
       const monthlyTooltipSpan = document.querySelector('#r-monthly-buy')
         ?.closest('tr')
         ?.querySelector('.tooltip-wrap');
@@ -3772,10 +3255,8 @@
         ?.querySelector('.tooltip-wrap');
 
       if (monthlyTooltipSpan && yearlyTooltipSpan) {
-        // The text node is the first child of the tooltip-wrap span
         const monthlyTextNode = monthlyTooltipSpan.childNodes[0];
         const yearlyTextNode  = yearlyTooltipSpan.childNodes[0];
-
         if (isTempBuydown) {
           monthlyTextNode.textContent = `Average Monthly Cost — After Buydown (Yr ${fullRateYear}+)`;
           yearlyTextNode.textContent  = `Total Yearly Cost — After Buydown (Yr ${fullRateYear}+)`;
@@ -3786,98 +3267,45 @@
       }
 
       // ── Income rows ──
-      const incomeFields = [
-        ['r-income30-buy',   buyIncome30],
-        ['r-income30-rent',  rentIncome30],
-        ['r-incomelife-buy', buyIncomeLife],
-        ['r-incomelife-rent',rentIncomeLife],
-      ];
-      incomeFields.forEach(([id, val], i) => {
-        const isLifestyleRow = i >= 2;
-        const taxEntered = i === 2 ? taxRateBuy > 0 : taxRateRent > 0;
-        const el = document.getElementById(id);
-        if (val !== null) {
-          el.textContent = fmt(val);
-        } else if (isLifestyleRow && taxEntered && lifestyle === 0) {
-          el.innerHTML = 'Enter lifestyle<br>spending';
-        } else {
-          el.innerHTML = 'Enter tax rate';
-        }
-      });
+      const el30   = document.getElementById('r-income30-buy');
+      const elLife = document.getElementById('r-incomelife-buy');
 
-      // ── Green highlighting ──
-      const costRows   = [
-        ['r-upfront-buy','r-upfront-rent'],
-        ['r-monthly-buy','r-monthly-rent'],
-        ['r-yearly-buy','r-yearly-rent'],
-        ['r-spent-buy','r-spent-rent'],
-        ['r-income30-buy','r-income30-rent'],
-        ['r-incomelife-buy','r-incomelife-rent'],
-      ];
-      const returnRows = [
-        ['r-return-buy','r-return-rent'],
-        ['r-net-buy','r-net-rent'],
-      ];
-
-      const applyGreen = (pairs, higherIsBetter) => {
-        pairs.forEach(([buyId, rentId]) => {
-          const buyEl  = document.getElementById(buyId);
-          const rentEl = document.getElementById(rentId);
-          buyEl.classList.remove('green');
-          rentEl.classList.remove('green');
-          const buyNum  = parseFloat(buyEl.textContent.replace(/[$,]/g, ''));
-          const rentNum = parseFloat(rentEl.textContent.replace(/[$,]/g, ''));
-          if (isNaN(buyNum) || isNaN(rentNum)) return;
-          if (higherIsBetter) {
-            if (buyNum > rentNum) buyEl.classList.add('green');
-            else rentEl.classList.add('green');
-          } else {
-            if (buyNum < rentNum) buyEl.classList.add('green');
-            else rentEl.classList.add('green');
-          }
-        });
-      };
-
-      applyGreen(costRows,   false);
-      applyGreen(returnRows, true);
-
-      // ── Breakeven Analysis ──
-      const breakevenInputs = {
-        price, dpPct, rate, noteRate, term, taxRate, hoa, insurance, maintenance,
-        electricBuy, waterBuy, otherBuy, inflation, appreciation, saleClose,
-        movingBuy, closingPct, rent, rentersIns, electricRent, waterRent, otherRent,
-        ror, rentIncrease, initialDeposit, monthlyContrib, priorSavings,
-        secDeposit, movingRent,
-      };
-      const breakevens = calcBreakevens(breakevenInputs);
-
-      const noBreakevenText = 'No breakeven found';
-
-      const beMonthlyEl = document.getElementById('be-monthly');
-      const beCumulEl   = document.getElementById('be-cumulative');
-      const beNetEl     = document.getElementById('be-net');
-
-      [beMonthlyEl, beCumulEl, beNetEl].forEach(el => el.classList.remove('be-none'));
-
-      if (breakevens.monthly) {
-        beMonthlyEl.textContent = breakevens.monthly;
+      if (buyIncome30 !== null) {
+        el30.textContent = fmt(buyIncome30);
       } else {
-        beMonthlyEl.textContent = noBreakevenText;
-        beMonthlyEl.classList.add('be-none');
+        el30.innerHTML = 'Enter tax rate';
       }
 
-      if (breakevens.cumulative) {
-        beCumulEl.textContent = breakevens.cumulative;
+      if (buyIncomeLife !== null) {
+        elLife.textContent = fmt(buyIncomeLife);
+      } else if (taxRateBuy > 0 && lifestyle === 0) {
+        elLife.innerHTML = 'Enter lifestyle<br>spending';
       } else {
-        beCumulEl.textContent = noBreakevenText;
-        beCumulEl.classList.add('be-none');
+        elLife.innerHTML = 'Enter tax rate';
       }
 
-      if (breakevens.net) {
-        beNetEl.textContent = breakevens.net;
+      // ════════════════════════════
+      // OPPORTUNITY COST
+      // ════════════════════════════
+      const netFinancialPosition = buyNetReturn - buyCumSpent;
+      const rorEntered = document.getElementById('rate-of-return').value !== '';
+      let ocDownPayment = null;
+      let ocAllUpfront  = null;
+      let ocGap         = null;
+
+      if (!rorEntered) {
+        const placeholder = 'Enter ROR above';
+        document.getElementById('oc-downpayment').textContent = placeholder;
+        document.getElementById('oc-upfront').textContent     = placeholder;
+        document.getElementById('oc-gap').textContent         = placeholder;
       } else {
-        beNetEl.textContent = noBreakevenText;
-        beNetEl.classList.add('be-none');
+        ocDownPayment = dp * Math.pow(1 + ror, years);
+        ocAllUpfront  = buyUpfront * Math.pow(1 + ror, years);
+        ocGap         = ocAllUpfront - netFinancialPosition;
+
+        document.getElementById('oc-downpayment').textContent = fmt(ocDownPayment);
+        document.getElementById('oc-upfront').textContent     = fmt(ocAllUpfront);
+        document.getElementById('oc-gap').textContent         = fmt(ocGap);
       }
 
      // ── Show results ──
@@ -3889,22 +3317,15 @@
       // ── Store results for share card ──
       lastResults = {
         buyUpfront,
-        rentUpfront,
         buyMonthly,
-        rentMonthly,
         buyNetReturn,
-        savingsValue,
         buyCumSpent,
-        rentCumSpent,
-        buyIncome30:   buyIncome30   || null,
-        rentIncome30:  rentIncome30  || null,
+        buyIncome30:   buyIncome30  || null,
         buyIncomeLife: buyIncomeLife || null,
-        rentIncomeLife:rentIncomeLife|| null,
-        beMonthly:    breakevens.monthly    || null,
-        beCumulative: breakevens.cumulative || null,
-        beNet:        breakevens.net        || null,
+        ocDownPayment,
+        ocAllUpfront,
+        ocGap,
         buyYearRows,
-        rentYearRows,
       };
       // debugger;
     }
@@ -3927,15 +3348,14 @@
       const radio  = name => document.querySelector(`input[name="${name}"]:checked`)?.value ?? '';
       const tog    = id => document.getElementById(id)?.checked;
 
-      const price  = parseFloat(v('purchase-price')) || 0;
-      const dpPct  = parseFloat(v('down-payment-pct')) || 0;
-      const loan   = price - price * (dpPct / 100);
-      const term   = parseInt(radio('loan-term'));
+      const price = parseFloat(v('purchase-price')) || 0;
+      const dpPct = parseFloat(v('down-payment-pct')) || 0;
+      const loan  = price - price * (dpPct / 100);
+      const term  = parseInt(radio('loan-term'));
 
       const rows = [
         ['Section', 'Input', 'Value'],
 
-        // Property & Mortgage
         ['Property & Mortgage', 'Purchase Price',                   dollar('purchase-price')],
         ['Property & Mortgage', 'Down Payment',                     pct('down-payment-pct')],
         ['Property & Mortgage', 'Interest Rate (Note Rate)',        pct('interest-rate')],
@@ -3945,20 +3365,17 @@
         ['Property & Mortgage', 'Monthly Mortgage Payment (P&I)',   dollar_val(calcPMT(loan, getEffectiveRate(), term))],
         ['Property & Mortgage', 'PMI (monthly)',                    dollar_val(calcPMI())],
 
-        // Upfront Costs
         ['Upfront Costs', 'Purchase Closing Costs',                 (parseFloat(radio('closing-pct')) * 100) + '%'],
-        ['Upfront Costs', 'Moving & Furnishing (Buying)',           dollar('moving-costs')],
+        ['Upfront Costs', 'Moving & Furnishing',                    dollar('moving-costs')],
 
-        // Ongoing Costs
         ['Ongoing Costs', 'Property Tax Rate',                      pct('property-tax-rate')],
         ['Ongoing Costs', 'HOA Fees (monthly)',                     dollar('hoa-fees')],
-        ["Ongoing Costs", "Homeowner's Insurance (annual)",         dollar('ho-insurance')],
+        ['Ongoing Costs', "Homeowner's Insurance (annual)",         dollar('ho-insurance')],
         ['Ongoing Costs', 'Maintenance (annual)',                   dollar('maintenance-costs')],
-        ['Ongoing Costs', 'Electric - Buying (monthly)',            dollar('electric-buy')],
-        ['Ongoing Costs', 'Water - Buying (monthly)',               dollar('water-buy')],
-        ['Ongoing Costs', 'Other Utilities - Buying (monthly)',     dollar('other-util-buy')],
+        ['Ongoing Costs', 'Electric (monthly)',                     dollar('electric-buy')],
+        ['Ongoing Costs', 'Water (monthly)',                        dollar('water-buy')],
+        ['Ongoing Costs', 'Other Utilities (monthly)',              dollar('other-util-buy')],
 
-        // Advanced Settings
         ['Advanced Settings', 'Inflation Rate',                     pct('inflation-rate')],
         ['Advanced Settings', 'Home Value Appreciation',            pct('home-appreciation')],
         ['Advanced Settings', 'Sale Closing Costs',                 pct('sale-closing-costs')],
@@ -3972,33 +3389,8 @@
         ['Advanced Settings', 'Rate Reduction Per Point',           tog('buydown-toggle') && radio('buydown-type') === 'permanent' ? pct('buydown-rate-per-point') : 'N/A'],
         ['Advanced Settings', 'Extra Monthly Principal',            tog('extra-principal-toggle') ? dollar('extra-principal-amount') : 'No'],
 
-        // Renting
-        ['Renting', 'Monthly Rent',                                 dollar('monthly-rent')],
-        ['Renting', 'Security Deposit',                             dollar('security-deposit')],
-        ["Renting", "Renters Insurance (annual)",                   dollar('renters-insurance')],
-        ['Renting', 'Moving Costs (Renting)',                       dollar('moving-costs-rent')],
-        ['Renting', 'Electric - Renting (monthly)',                 dollar('electric-rent')],
-        ['Renting', 'Water - Renting (monthly)',                    dollar('water-rent')],
-        ['Renting', 'Other Utilities - Renting (monthly)',          dollar('other-util-rent')],
-
-        // Savings Parameters
-        ['Savings Parameters', 'Prior Savings',                     dollar('prior-savings')],
-        ['Savings Parameters', 'Initial Deposit',                   dollar_val(
-          tog('initial-deposit-toggle')
-            ? price * dpPct / 100
-            : parseFloat(v('initial-deposit-manual-input')) || 0,
-        )],
-        ['Savings Parameters', 'Monthly Savings Contribution',      dollar_val(
-          tog('monthly-contrib-toggle')
-            ? Math.max(0, calcDefaultContribution())
-            : parseFloat(v('monthly-contrib-manual-input')) || 0,
-        )],
-        ['Savings Parameters', 'Rate of Return',                    pct('rate-of-return')],
-        ['Savings Parameters', 'Rent Increase YoY',                 pct('rent-increase-yoy')],
-
-        // Financial Picture
-        ['Your Financial Picture', 'Effective Tax Rate (Buying)',   pct('tax-rate-buying')],
-        ['Your Financial Picture', 'Effective Tax Rate (Renting)',  pct('tax-rate-renting')],
+        ['Your Financial Picture', 'Rate of Return',                pct('rate-of-return')],
+        ['Your Financial Picture', 'Effective Income Tax Rate',     pct('tax-rate-buying')],
         ['Your Financial Picture', 'Annual Lifestyle Spending',     dollar('lifestyle-spending')],
       ];
 
@@ -4027,24 +3419,6 @@
       return rowsToCSV(rows);
     }
 
-    function buildRentCSV() {
-      if (!lastResults?.rentYearRows?.length) return '';
-
-      const headers = [
-        'Year', 'Monthly Rent (This Year)', 'Annual Rent',
-        'Renters Insurance', 'Utilities', 'Savings Contribution',
-        'Total Year Cost', 'Cumulative Spent', 'Savings Value', 'Net Position',
-      ];
-
-      const rows = [headers, ...lastResults.rentYearRows.map(r => [
-        r.year, r.monthlyRent, r.annualRent,
-        r.rentersIns, r.utilities, r.contribution,
-        r.totalYearCost, r.cumSpent, r.savingsValue, r.netPosition,
-      ])];
-
-      return rowsToCSV(rows);
-    }
-
     function rowsToCSV(rows) {
       return rows.map(row =>
         row.map(cell => {
@@ -4061,7 +3435,6 @@
         const zip = new JSZip();
         zip.file('inputs.csv',         buildInputsCSV());
         zip.file('buying-results.csv', buildBuyCSV());
-        zip.file('renting-results.csv', buildRentCSV());
 
         const blob = await zip.generateAsync({ type: 'blob' });
         const link = document.createElement('a');
@@ -4172,20 +3545,6 @@
         });
       });
 
-      // Savings defaults live updates
-      ['purchase-price','down-payment-pct','interest-rate','property-tax-rate',
-      'hoa-fees','ho-insurance','maintenance-costs','monthly-rent'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('input', updateSavingsDefaults);
-      });
-      document.querySelectorAll('input[name="loan-term"], input[name="closing-pct"]').forEach(el => {
-        el.addEventListener('change', updateSavingsDefaults);
-      });
-
-      // Toggle switches
-      setupToggle('initial-deposit-toggle', 'initial-deposit-default-display', 'initial-deposit-manual');
-      setupToggle('monthly-contrib-toggle', 'monthly-contrib-default-display', 'monthly-contrib-manual');
-
       // Mobile nav menu
       const menuToggle = document.getElementById('mobile-menu-toggle');
       const navList = document.getElementById('nav-list');
@@ -4250,12 +3609,10 @@
         document.getElementById('pmi-manual-input-wrap').style.display  = isManual ? 'block' : 'none';
         if (isManual) document.getElementById('pmi-card-wrap').style.display = 'block';
         updateMortgageOutputs();
-        updateSavingsDefaults();
       });
 
       document.getElementById('pmi-manual-input').addEventListener('input', () => {
         updateMortgageOutputs();
-        updateSavingsDefaults();
       });
 
       // Capital gains toggle show/hide
@@ -4328,8 +3685,8 @@
             navLinks.forEach(link => {
               link.classList.remove('active', 'active-amber');
               if (link.getAttribute('href') === `#${id}`) {
-                // Highlight ongoing-costs and your-finances in Amber
-                if (id === 'ongoing-costs' || id === 'your-finances') {
+                // Highlight ongoing-costs and results in Amber
+                if (id === 'ongoing-costs' || id === 'results') {
                   link.classList.add('active-amber');
                 } else {
                   link.classList.add('active');
@@ -4364,9 +3721,7 @@
       clampOnBlur('home-appreciation', 0, 10);
       clampOnBlur('sale-closing-costs', 0, 10);
       clampOnBlur('rate-of-return', 0, 20);
-      clampOnBlur('rent-increase-yoy', 0, 20);
       clampOnBlur('tax-rate-buying', 0, 60);
-      clampOnBlur('tax-rate-renting', 0, 60);
 
       // ── Timeline Clamp ──
       clampOnBlur('years-timeline', 1, 50, ' years');
@@ -4378,10 +3733,7 @@
       // Bulk 0-minimum for everything else
       const dollarInputs = [
         'moving-costs', 'hoa-fees', 'ho-insurance', 
-        'electric-buy', 'water-buy', 'other-util-buy', 'monthly-rent', 
-        'security-deposit', 'renters-insurance', 'moving-costs-rent', 
-        'electric-rent', 'water-rent', 'other-util-rent', 'prior-savings', 
-        'initial-deposit-manual-input', 'monthly-contrib-manual-input', 'lifestyle-spending',
+        'electric-buy', 'water-buy', 'other-util-buy', 'lifestyle-spending',
         'pmi-manual-input', 'extra-principal-amount',
       ];
       dollarInputs.forEach(id => clampOnBlur(id, 0, null, ''));
@@ -4449,8 +3801,6 @@
           output.style.display = 'none';
         }
         // Upfront output card depends on reserves which depend on monthly payment — no change,
-        // but savings defaults use monthly owning cost so we refresh those
-        updateSavingsDefaults();
         const extra = parseFloat(input.value) || 0;
         if (toggle.checked && extra > 0) calcExtraPrincipalImpact(extra);
       });
@@ -4548,12 +3898,9 @@
       'purchase-price': 'p', 'down-payment-pct': 'dp', 'interest-rate': 'ir', 'property-tax-rate': 'pt',
       'ho-insurance': 'hi', 'moving-costs': 'mb', 'hoa-fees': 'ho', 'maintenance-costs': 'mc',
       'electric-buy': 'eb', 'water-buy': 'wb', 'other-util-buy': 'ob', 'inflation-rate': 'in',
-      'home-appreciation': 'ha', 'sale-closing-costs': 'sc', 'years-timeline': 'y', 'monthly-rent': 'r',
-      'security-deposit': 'sd', 'renters-insurance': 'ri', 'moving-costs-rent': 'mr',
-      'electric-rent': 'er', 'water-rent': 'wr', 'other-util-rent': 'or', 'prior-savings': 'ps',
-      'rate-of-return': 'rr', 'rent-increase-yoy': 'ry', 'tax-rate-buying': 'tb', 'tax-rate-renting': 'tr',
-      'lifestyle-spending': 'ls', 'initial-deposit-manual-input': 'idm', 'monthly-contrib-manual-input': 'mcm',
-      'loan-term': 'lt', 'closing-pct': 'cp', 'initial-deposit-toggle': 'idt', 'monthly-contrib-toggle': 'mct',
+      'home-appreciation': 'ha', 'sale-closing-costs': 'sc', 'years-timeline': 'y',
+      'rate-of-return': 'rr', 'tax-rate-buying': 'tb', 'lifestyle-spending': 'ls',
+      'loan-term': 'lt', 'closing-pct': 'cp',
       'buydown-toggle': 'bd', 'buydown-type': 'bdt', 'buydown-payer': 'bdpy', 'buydown-points': 'bdp', 'buydown-rate-per-point': 'bdr',
       'pmi-manual-toggle': 'pmt', 'pmi-manual-input': 'pmv', 'extra-principal-amount': 'ep', 'extra-principal-toggle': 'ept',
       'dp-mode': 'dpm',
@@ -4567,11 +3914,6 @@
 
       Object.keys(urlMap).forEach(id => {
         // Toggles
-        if (id === 'initial-deposit-toggle' || id === 'monthly-contrib-toggle') {
-          const isChecked = document.getElementById(id).checked;
-          params.set(urlMap[id], isChecked ? '1' : '0');
-          return;
-        }
         if (id === 'buydown-toggle') {
           params.set(urlMap[id], document.getElementById(id).checked ? '1' : '0');
           return;
@@ -4620,16 +3962,6 @@
           if (id === 'loan-term' || id === 'closing-pct') {
             const radio = document.querySelector(`input[name="${id}"][value="${val}"]`);
             if (radio) radio.checked = true;
-            return;
-          }
-          // Savings Toggle checkboxes
-          if (id === 'initial-deposit-toggle' || id === 'monthly-contrib-toggle') {
-            const el = document.getElementById(id);
-            el.checked = val === '1';
-            // Sync the visible UI
-            const isInit = id === 'initial-deposit-toggle';
-            document.getElementById(isInit ? 'initial-deposit-default-display' : 'monthly-contrib-default-display').style.display = el.checked ? 'flex' : 'none';
-            document.getElementById(isInit ? 'initial-deposit-manual' : 'monthly-contrib-manual').style.display = el.checked ? 'none' : 'block';
             return;
           }
           // Buydown toggle
@@ -4697,7 +4029,6 @@
         });
 
         updateMortgageOutputs();
-        updateSavingsDefaults();
 
         // Auto-open Advanced Settings if any toggle inside it was restored as active
         const advancedToggles = ['buydown-toggle', 'capital-gains-toggle', 'extra-principal-toggle', 'pmi-manual-toggle'];
@@ -4740,62 +4071,24 @@
     }
 
     // ── Populate the share card based on current mode tab ──
-    function populateShareCard(mode) {
+    function populateShareCard() {
       if (!lastResults) return;
-      const r = lastResults;
-      const years = parseInt(document.getElementById('years-timeline').value) || 0;
+      const r      = lastResults;
+      const years  = parseInt(document.getElementById('years-timeline').value) || 0;
       const labels = getBuydownLabels();
 
-      // Title
-      const titleMap = {
-        both: 'My Buying vs. Renting Results',
-        buy:  'My Home Buying Cost Results',
-        rent: 'My Renting & Saving Results',
-      };
-      document.getElementById('sc-title').textContent = titleMap[mode];
+      document.getElementById('sc-title').textContent = 'My Home Affordability Results';
 
-      // Column headers
-      document.getElementById('sc-th-buy').style.display  = (mode === 'rent') ? 'none' : '';
-      document.getElementById('sc-th-rent').style.display = (mode === 'buy')  ? 'none' : '';
-
-      // Build rows
       const rows = [
-        {
-          label: 'Total Upfront Cost',
-          buy:   r.buyUpfront,
-          rent:  r.rentUpfront,
-          lowerIsBetter: true,
-        },
-        {
-          label: labels.monthly,
-          buy:   r.buyMonthly,
-          rent:  r.rentMonthly,
-          lowerIsBetter: true,
-        },
-        {
-          label: `Financial Return — ${years} Yrs`,
-          buy:   r.buyNetReturn,
-          rent:  r.savingsValue,
-          lowerIsBetter: false,
-        },
-        {
-          label: `Cumulative Spending — ${years} Yrs`,
-          buy:   r.buyCumSpent,
-          rent:  r.rentCumSpent,
-          lowerIsBetter: true,
-        },
+        { label: 'Total Upfront Cost',                    val: r.buyUpfront   },
+        { label: labels.monthly,                           val: r.buyMonthly   },
+        { label: `Net Proceeds on Sale — ${years} Yrs`,   val: r.buyNetReturn  },
+        { label: `Cumulative Spending — ${years} Yrs`,    val: -r.buyCumSpent   },
       ];
 
-      // Income range row — only if tax rates were entered
-      const incomeRangeBuy  = buildIncomeRange(r.buyIncome30,  r.buyIncomeLife);
-      const incomeRangeRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
-      if (incomeRangeBuy || incomeRangeRent) {
-        rows.push({
-          label: 'Recommended Gross Income',
-          buyRaw:  incomeRangeBuy  || '—',
-          rentRaw: incomeRangeRent || '—',
-          isRangeRow: true,
-        });
+      const incomeRange = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
+      if (incomeRange) {
+        rows.push({ label: 'Recommended Gross Income', valRaw: incomeRange });
       }
 
       const tbody = document.getElementById('sc-tbody');
@@ -4804,64 +4097,16 @@
       rows.forEach(row => {
         const tr = document.createElement('tr');
 
-        // Label cell
         const tdLabel = document.createElement('td');
         tdLabel.textContent = row.label;
         tr.appendChild(tdLabel);
 
-        if (row.isRangeRow) {
-          // Green highlight based on highest upper bound in range
-          const extractUpper = str => {
-            if (!str || str === '—') return -Infinity;
-            const parts = str.split('–');
-            const last = parts[parts.length - 1].trim();
-            return parseFloat(last.replace(/[$,]/g, '')) || -Infinity;
-          };
-          const buyUpper  = extractUpper(row.buyRaw);
-          const rentUpper = extractUpper(row.rentRaw);
-          const buyWins   = buyUpper  < rentUpper;
-          const rentWins  = rentUpper < buyUpper;
-
-          if (mode !== 'rent') {
-            const td = document.createElement('td');
-            td.textContent = row.buyRaw;
-            if (mode === 'both' && buyWins) td.classList.add('sc-green');
-            tr.appendChild(td);
-          }
-          if (mode !== 'buy') {
-            const td = document.createElement('td');
-            td.textContent = row.rentRaw;
-            if (mode === 'both' && rentWins) td.classList.add('sc-green');
-            tr.appendChild(td);
-          }
-        } else {
-          const buyWins  = row.lowerIsBetter ? row.buy  < row.rent  : row.buy  > row.rent;
-          const rentWins = row.lowerIsBetter ? row.rent < row.buy   : row.rent > row.buy;
-
-          if (mode !== 'rent') {
-            const td = document.createElement('td');
-            td.textContent = fmt(row.buy);
-            if (mode === 'both' && buyWins) td.classList.add('sc-green');
-            tr.appendChild(td);
-          }
-          if (mode !== 'buy') {
-            const td = document.createElement('td');
-            td.textContent = fmt(row.rent);
-            if (mode === 'both' && rentWins) td.classList.add('sc-green');
-            tr.appendChild(td);
-          }
-        }
+        const td = document.createElement('td');
+        td.textContent = row.valRaw ? row.valRaw : fmt(row.val);
+        tr.appendChild(td);
 
         tbody.appendChild(tr);
       });
-
-      // ── Breakeven section ──
-      const beSection = document.getElementById('sc-breakeven-section');
-      if (beSection) {
-        document.getElementById('sc-be-monthly').textContent    = r.beMonthly    || '—';
-        document.getElementById('sc-be-cumulative').textContent = r.beCumulative || '—';
-        document.getElementById('sc-be-net').textContent        = r.beNet        || '—';
-      }
     }
 
     // ── Open/close modal ──
@@ -4869,25 +4114,11 @@
       const modal = document.getElementById('share-modal');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      // Default to 'both' tab
-      setShareTab('both');
     }
 
     function closeShareModal() {
       document.getElementById('share-modal').classList.remove('open');
       document.body.style.overflow = '';
-    }
-
-    function setShareTab(mode) {
-      document.querySelectorAll('.share-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.mode === mode);
-      });
-      populateShareCard(mode);
-    }
-
-    function getCurrentMode() {
-      const active = document.querySelector('.share-tab.active');
-      return active ? active.dataset.mode : 'both';
     }
 
     // ── Toast helper ──
@@ -4902,48 +4133,36 @@
     // ── Canvas image capture (manual paint — Safari compatible) ──
     async function htmlToCanvas(element) {
       const scale  = window.devicePixelRatio || 2;
-      const card   = document.getElementById('share-card-inner');
       const labels = getBuydownLabels();
-
-      // ── Collect all the data we need to paint ──
-      const mode   = getCurrentMode();
       const r      = lastResults;
       const years  = parseInt(document.getElementById('years-timeline').value) || 0;
 
-      // Colors
       const navy      = '#1e2d40';
       const cream     = '#fdf8f2';
       const warmWhite = '#fffcf8';
       const border    = '#e8e0d5';
       const muted     = '#5a6a7a';
-      const green     = '#2e7d32';
-      const greenBg   = '#e8f5e9';
       const sky       = '#2a7ab8';
       const white     = '#ffffff';
 
-      // ── Build row data (same logic as populateShareCard) ──
       const rows = [
-        { label: 'Total Upfront Cost',          buy: r.buyUpfront,   rent: r.rentUpfront,  lowerIsBetter: true  },
-        { label: labels.monthly,      buy: r.buyMonthly,   rent: r.rentMonthly,  lowerIsBetter: true  },
-        { label: `Financial Return — ${years} Yrs`, buy: r.buyNetReturn, rent: r.savingsValue, lowerIsBetter: false },
-        { label: `Cumulative Spent — ${years} Yrs`, buy: r.buyCumSpent,  rent: r.rentCumSpent, lowerIsBetter: true  },
+        { label: 'Total Upfront Cost',                  val: r.buyUpfront  },
+        { label: labels.monthly,                         val: r.buyMonthly  },
+        { label: `Net Proceeds on Sale — ${years} Yrs`,  val: r.buyNetReturn },
+        { label: `Cumulative Spending — ${years} Yrs`,   val: -r.buyCumSpent  },
       ];
-      const incomeRangeBuy  = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
-      const incomeRangeRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
-      if (incomeRangeBuy || incomeRangeRent) {
-        rows.push({ label: 'Recommended Gross Income', buyRaw: incomeRangeBuy || '—', rentRaw: incomeRangeRent || '—', isRangeRow: true });
-      }
+      const incomeRange = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
+      if (incomeRange) rows.push({ label: 'Recommended Gross Income', valRaw: incomeRange });
 
-      // ── Layout constants ──
       const W          = 540;
       const headerH    = 58;
       const tableHeadH = 32;
       const rowH       = 38;
       const footerH    = 68;
-      const beRowH    = 22;
-      const beHeaderH = 24;
-      const beSectionH = beHeaderH + (3 * beRowH) + 16; // 3 rows + padding
-      const totalH = headerH + tableHeadH + rows.length * rowH + beSectionH + footerH;
+      const ocRowH     = 22;
+      const ocHeaderH  = 24;
+      const ocSectionH = ocHeaderH + (3 * ocRowH) + 16;
+      const totalH     = headerH + tableHeadH + rows.length * rowH + ocSectionH + footerH;
 
       const canvas  = document.createElement('canvas');
       canvas.width  = W * scale;
@@ -4951,14 +4170,9 @@
       const ctx = canvas.getContext('2d');
       ctx.scale(scale, scale);
 
-      // Column widths
-      const showBuy  = mode !== 'rent';
-      const showRent = mode !== 'buy';
-      const numValCols = (showBuy ? 1 : 0) + (showRent ? 1 : 0);
-      const labelW  = numValCols === 2 ? W * 0.42 : W * 0.58;
-      const valW    = (W - labelW) / numValCols;
+      const labelW = W * 0.55;
+      const valW   = W - labelW;
 
-      // Helper: rounded rect
       function roundRect(x, y, w, h, r2) {
         ctx.beginPath();
         ctx.moveTo(x + r2, y);
@@ -4973,12 +4187,10 @@
         ctx.closePath();
       }
 
-      // Helper: wrapping text
       function wrapText(ctx, text, maxWidth) {
         const words = text.split(' ');
         const lines = [];
         let current = words[0];
-
         for (let i = 1; i < words.length; i++) {
           const test = current + ' ' + words[i];
           if (ctx.measureText(test).width < maxWidth) {
@@ -4992,138 +4204,67 @@
         return lines;
       }
 
-      // ── Draw card background ──
+      // Background
       ctx.fillStyle = warmWhite;
       roundRect(0, 0, W, totalH, 12);
       ctx.fill();
-
-      // ── Draw border ──
       ctx.strokeStyle = border;
       ctx.lineWidth   = 1;
       roundRect(0, 0, W, totalH, 12);
       ctx.stroke();
 
-      // ── Header ──
+      // Header
       ctx.fillStyle = navy;
       roundRect(0, 0, W, headerH, 12);
       ctx.fill();
-      // Square off bottom corners of header
       ctx.fillRect(0, headerH - 12, W, 12);
 
       ctx.fillStyle = 'rgba(255,255,255,0.45)';
       ctx.font      = 'bold 10px -apple-system, BlinkMacSystemFont, sans-serif';
       ctx.fillText('CANIAFFORDTHISHOUSE.APP', 20, 20);
 
-      const titleMap = { both: 'My Buying vs. Renting Results', buy: 'My Home Buying Cost Results', rent: 'My Renting & Saving Results' };
       ctx.fillStyle = white;
       ctx.font      = 'bold 15px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.fillText(titleMap[mode], 20, 42);
+      ctx.fillText('My Home Affordability Results', 20, 42);
 
-      // ── Table header row ──
+      // Table header
       let y = headerH;
       ctx.fillStyle = navy;
       ctx.fillRect(0, y, W, tableHeadH);
+      ctx.fillStyle  = 'rgba(255,255,255,0.7)';
+      ctx.font       = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign  = 'right';
+      ctx.fillText('Buying', W - 16, y + 21);
 
-      ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      ctx.font      = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('', 20, y + 21);
-
-      let colX = labelW;
-      if (showBuy) {
-        ctx.textAlign = 'right';
-        ctx.fillText('Buying', colX + valW - 16, y + 21);
-        colX += valW;
-      }
-      if (showRent) {
-        ctx.textAlign = 'right';
-        ctx.fillText('Renting & Saving', colX + valW - 16, y + 21);
-      }
-
-      // ── Table rows ──
+      // Table rows
       y += tableHeadH;
       rows.forEach((row, i) => {
-      const bg = i % 2 === 0 ? warmWhite : cream;
-      ctx.fillStyle = bg;
-      
-      const labelMaxWidth = labelW - 30;
-      const lineHeight = 15;
-      const paddingY = 12;
+        const bg = i % 2 === 0 ? warmWhite : cream;
+        ctx.fillStyle = bg;
 
-      const labelLines = wrapText(ctx, row.label, labelMaxWidth);
-      const dynamicRowH = Math.max(rowH, labelLines.length * lineHeight + paddingY);
+        const labelMaxWidth = labelW - 30;
+        const lineHeight    = 15;
+        const paddingY      = 12;
+        const labelLines    = wrapText(ctx, row.label, labelMaxWidth);
+        const dynamicRowH   = Math.max(rowH, labelLines.length * lineHeight + paddingY);
+        const textBlockH    = labelLines.length * lineHeight;
+        const startY        = y + (dynamicRowH - textBlockH) / 2 + 11;
+        const valueY        = y + dynamicRowH / 2 + 4;
 
-      const valueY = y + dynamicRowH / 2 + 4;
+        ctx.fillRect(0, y, W, dynamicRowH);
 
-      const textBlockHeight = labelLines.length * lineHeight;
-      const startY = y + (dynamicRowH - textBlockHeight) / 2 + 11;  
+        ctx.fillStyle = muted;
+        ctx.font      = '13px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'left';
+        labelLines.forEach((line, li) => {
+          ctx.fillText(line, 20, startY + li * lineHeight);
+        });
 
-      // background
-      ctx.fillRect(0, y, W, dynamicRowH);
+        ctx.fillStyle = navy;
+        ctx.font      = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(row.valRaw || fmt(row.val), W - 16, valueY);
 
-      // Label
-      ctx.fillStyle  = muted;
-      ctx.font       = '13px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign  = 'left';
-
-      // draw multi-line label
-      labelLines.forEach((line, i) => {
-        ctx.fillText(line, 20, startY + (i * lineHeight));
-      });
-
-      if (row.isRangeRow) {
-        const extractUpper = str => {
-          if (!str || str === '—') return -Infinity;
-          const parts = str.split('–');
-          const last  = parts[parts.length - 1].trim();
-          return parseFloat(last.replace(/[$,]/g, '')) || -Infinity;
-        };
-        const buyUpper  = extractUpper(row.buyRaw);
-        const rentUpper = extractUpper(row.rentRaw);
-
-        colX = labelW;
-        if (showBuy) {
-          const wins = mode === 'both' && buyUpper < rentUpper;  // buy wins
-          if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
-          ctx.fillStyle  = wins ? green : navy;
-          ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-          ctx.textAlign  = 'right';
-          ctx.fillText(row.buyRaw || '—', colX + valW - 16, valueY);
-          colX += valW;
-        }
-        if (showRent) {
-          const wins = mode === 'both' && rentUpper < buyUpper;  // rent wins
-          if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
-          ctx.fillStyle  = wins ? green : navy;
-          ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-          ctx.textAlign  = 'right';
-          ctx.fillText(row.rentRaw || '—', colX + valW - 16, valueY);
-        }
-      } else {
-          const buyWins  = row.lowerIsBetter ? row.buy  < row.rent  : row.buy  > row.rent;
-          const rentWins = row.lowerIsBetter ? row.rent < row.buy   : row.rent > row.buy;
-
-          colX = labelW;
-          if (showBuy) {
-            const wins = mode === 'both' && buyWins;
-            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
-            ctx.fillStyle  = wins ? green : navy;
-            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.textAlign  = 'right';
-            ctx.fillText(fmt(row.buy), colX + valW - 16, valueY);
-            colX += valW;
-          }
-          if (showRent) {
-            const wins = mode === 'both' && rentWins;
-            if (wins) { ctx.fillStyle = greenBg; ctx.fillRect(colX, y, valW, rowH); }
-            ctx.fillStyle  = wins ? green : navy;
-            ctx.font       = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
-            ctx.textAlign  = 'right';
-            ctx.fillText(fmt(row.rent), colX + valW - 16, valueY);
-          }
-        }
-
-        // Row bottom border
         ctx.strokeStyle = border;
         ctx.lineWidth   = 0.5;
         ctx.beginPath();
@@ -5134,9 +4275,9 @@
         y += dynamicRowH;
       });
 
-      // ── Breakeven section ──
+      // Opportunity Cost section
       ctx.fillStyle = warmWhite;
-      ctx.fillRect(0, y, W, beSectionH);
+      ctx.fillRect(0, y, W, ocSectionH);
 
       ctx.strokeStyle = border;
       ctx.lineWidth   = 0.5;
@@ -5145,35 +4286,35 @@
       ctx.lineTo(W, y);
       ctx.stroke();
 
-      ctx.fillStyle    = '#8a9aaa';
-      ctx.font         = 'bold 10px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign    = 'left';
-      ctx.fillText('BREAKEVEN ANALYSIS', 20, y + 16);
+      ctx.fillStyle = '#8a9aaa';
+      ctx.font      = 'bold 10px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('OPPORTUNITY COST ANALYSIS', 20, y + 16);
 
-      const beRows = [
-        { label: 'Monthly Cost',       value: r.beMonthly    || '–' },
-        { label: 'Cumulative Spending', value: r.beCumulative || '–' },
-        { label: 'Net Position',        value: r.beNet        || '–' },
+      const ocRows = [
+        { label: 'Down Payment Invested',  value: fmt(r.ocDownPayment) },
+        { label: 'All Upfront Cash Invested', value: fmt(r.ocAllUpfront) },
+        { label: 'Opportunity Cost of Buying', value: fmt(r.ocGap) },
       ];
 
-      let beY = y + beHeaderH;
-      beRows.forEach(row => {
-        ctx.fillStyle  = muted;
-        ctx.font       = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign  = 'left';
-        ctx.fillText(row.label, 20, beY + 15);
+      let ocY = y + ocHeaderH;
+      ocRows.forEach(row => {
+        ctx.fillStyle = muted;
+        ctx.font      = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(row.label, 20, ocY + 15);
 
-        ctx.fillStyle  = navy;
-        ctx.font       = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign  = 'right';
-        ctx.fillText(row.value, W - 20, beY + 15);
+        ctx.fillStyle = navy;
+        ctx.font      = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(row.value, W - 20, ocY + 15);
 
-        beY += beRowH;
+        ocY += ocRowH;
       });
 
-      y += beSectionH;
+      y += ocSectionH;
 
-      // ── Footer ──
+      // Footer
       ctx.fillStyle = cream;
       ctx.fillRect(0, y, W, footerH);
 
@@ -5184,37 +4325,31 @@
       ctx.lineTo(W, y);
       ctx.stroke();
 
-      ctx.fillStyle  = muted;
-      ctx.font       = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign  = 'left';
-      ctx.fillText("Here are my results from the rent vs. buy calculator", 20, y + 22);
-      ctx.fillText("— check it out at caniaffordthishouse.app!", 20, y + 38);
+      ctx.fillStyle = muted;
+      ctx.font      = '12px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText("Here are my results from the home affordability calculator", 20, y + 22);
+      ctx.fillText("— check it out at caniaffordthishouse.app/affordability/", 20, y + 38);
 
       ctx.fillStyle = sky;
       ctx.font      = 'bold 11px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.fillText('caniaffordthishouse.app', 20, y + 56);
+      ctx.fillText('caniaffordthishouse.app/affordability/', 20, y + 56);
 
       return canvas;
     }
 
     // ── Share Summary — image capture via canvas ──
     async function shareSummary() {
-      const mode = getCurrentMode();
-      const url  = encodeStateToUrl();
-      const titleMap = { both: 'Buying vs. Renting Results', buy: 'Buying Results', rent: 'Renting Results' };
-      const summaryText = buildShareText(mode);
+      const summaryText = buildShareText();
 
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-      // Generate the image first so we can attach it to the native share
       let fileToShare = null;
       try {
-        const card = document.getElementById('share-card-inner');
+        const card   = document.getElementById('share-card-inner');
         const canvas = await htmlToCanvas(card);
-        
-        // Convert canvas to a File object
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-        fileToShare = new File([blob], 'housing-results.png', { type: 'image/png' });
+        const blob   = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+        fileToShare  = new File([blob], 'affordability-results.png', { type: 'image/png' });
       } catch (e) {
         console.warn("Could not generate image file for sharing", e);
       }
@@ -5222,30 +4357,23 @@
       if (isMobile && navigator.share) {
         try {
           const shareData = {
-            title: titleMap[mode],
-            text: "Check out my results from the rent vs. buy calculator!"
+            title: 'My Home Affordability Results',
+            text:  'Check out my results from the home affordability calculator!',
           };
-
-          // If we successfully generated the image and the browser allows file sharing
           if (fileToShare && navigator.canShare && navigator.canShare({ files: [fileToShare] })) {
             shareData.files = [fileToShare];
-            // Note: Some apps ignore the URL when a file is attached, so we append the URL to the text just in case.
-            shareData.text; 
           }
-
           await navigator.share(shareData);
           return;
         } catch(e) {
           if (e.name === 'AbortError') return;
-          // Fall through to clipboard
         }
       }
 
-      // Desktop / Fallback — download PNG and copy text
       try {
         if (fileToShare) {
           const link = document.createElement('a');
-          link.download = 'my-housing-results.png';
+          link.download = 'affordability-results.png';
           link.href = URL.createObjectURL(fileToShare);
           link.click();
           URL.revokeObjectURL(link.href);
@@ -5253,7 +4381,7 @@
         }
       } catch(e) {
         try {
-          await navigator.clipboard.writeText(summaryText + '\n\n' + url);
+          await navigator.clipboard.writeText(summaryText);
           showToast('Summary copied to clipboard!');
         } catch(e2) {
           showToast('Could not generate image — try Share Full Results.');
@@ -5262,56 +4390,39 @@
     }
 
     // ── Build plain-text summary for Web Share / clipboard ──
-    function buildShareText(mode) {
+    function buildShareText() {
       if (!lastResults) return '';
       const r     = lastResults;
       const years = parseInt(document.getElementById('years-timeline').value) || 0;
       const lines = [];
       const labels = getBuydownLabels();
 
-      lines.push('📊 My Housing Calculator Results');
+      lines.push('📊 My Home Affordability Results');
       lines.push('');
-
-      if (mode !== 'rent') {
-        lines.push('🏠 BUYING');
-        lines.push(`  Upfront cost: ${fmt(r.buyUpfront)}`);
-        lines.push(`  ${labels.monthly}: ${fmt(r.buyMonthly)}`);
-        lines.push(`  Financial return (${years} yrs): ${fmt(r.buyNetReturn)}`);
-        lines.push(`  Total spent (${years} yrs): ${fmt(r.buyCumSpent)}`);
-        const incBuy = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
-        if (incBuy) lines.push(`  Recommended income: ${incBuy}`);
-        lines.push('');
-      }
-
-      if (mode !== 'buy') {
-        lines.push('💰 RENTING & SAVING');
-        lines.push(`  Upfront cost: ${fmt(r.rentUpfront)}`);
-        lines.push(`  Monthly Cost: ${fmt(r.rentMonthly)}`);
-        lines.push(`  Savings value (${years} yrs): ${fmt(r.savingsValue)}`);
-        lines.push(`  Total spent (${years} yrs): ${fmt(r.rentCumSpent)}`);
-        const incRent = buildIncomeRange(r.rentIncome30, r.rentIncomeLife);
-        if (incRent) lines.push(`  Recommended income: ${incRent}`);
-        lines.push('');
-      }
-
-      lines.push("Here are my results — check it out if you'd like to dig into the details!");
+      lines.push('🏠 BUYING');
+      lines.push(`  Upfront cost: ${fmt(r.buyUpfront)}`);
+      lines.push(`  ${labels.monthly}: ${fmt(r.buyMonthly)}`);
+      lines.push(`  Net proceeds on sale (${years} yrs): ${fmt(r.buyNetReturn)}`);
+      lines.push(`  Cumulative spending (${years} yrs): ${fmt(r.buyCumSpent)}`);
+      const inc = buildIncomeRange(r.buyIncome30, r.buyIncomeLife);
+      if (inc) lines.push(`  Recommended income: ${inc}`);
+      lines.push('');
+      lines.push("Check it out at caniaffordthishouse.app/affordability/");
 
       return lines.join('\n');
     }
 
     // ── Share Full Results — copies the encoded URL ──
     async function shareFullResults() {
-      const url  = encodeStateToUrl();
-      const mode = getCurrentMode();
-      const titleMap = { both: 'Buying vs. Renting Results', buy: 'Buying Results', rent: 'Renting Results' };
+      const url = encodeStateToUrl();
 
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
       if (isMobile && navigator.share) {
         try {
           await navigator.share({
-            title: titleMap[mode],
-            text:  "Check out my housing calculator results!",
+            title: 'My Home Affordability Results',
+            text:  'Check out my housing affordability results!',
             url:   url,
           });
           return;
@@ -5320,7 +4431,6 @@
         }
       }
 
-      // Desktop — always copy URL to clipboard
       try {
         await navigator.clipboard.writeText(url);
         showToast('Link copied to clipboard!');
@@ -5331,23 +4441,19 @@
 
     // ── Wire up share modal events ──
     function initShareModal() {
-      document.getElementById('share-btn').addEventListener('click', openShareModal);
+      document.getElementById('share-btn').addEventListener('click', () => {
+        populateShareCard();
+        openShareModal();
+      });
       document.getElementById('share-modal-close').addEventListener('click', closeShareModal);
 
-      // Close on backdrop click
       document.getElementById('share-modal').addEventListener('click', (e) => {
         if (e.target === document.getElementById('share-modal')) closeShareModal();
-      });
-
-      // Tab switching
-      document.querySelectorAll('.share-tab').forEach(tab => {
-        tab.addEventListener('click', () => setShareTab(tab.dataset.mode));
       });
 
       document.getElementById('share-summary-btn').addEventListener('click', shareSummary);
       document.getElementById('share-full-btn').addEventListener('click', shareFullResults);
 
-      // Close on Escape
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeShareModal();
       });
