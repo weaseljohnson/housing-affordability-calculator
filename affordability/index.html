@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <title>Home Affordability Calculator: Can you afford to buy?</title>
-  <meta name="description" content="Free calculator to assess the affordability of a home — mortgage, taxes, insurance, maintenance, opportunity cost, and more. Find out if you can afford a home and what income you actually need." />
+  <meta name="description" content="Free home affordability calculator — dive into the real and hidden costs of owning a home. Find out if you can afford a home and what income you actually need." />
 
   <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -1316,7 +1316,7 @@
     "@type": "WebApplication",
     "name": "Home Affordability Calculator: Can you afford to buy?",
     "url": "https://caniaffordthishouse.app/Affordability/",
-    "description": "Free calculator to assess the affordability of a home — mortgage, taxes, insurance, maintenance, opportunity cost, and more. Find out if you can afford a home and what income you actually need.",
+    "description": "Free calculator to assess the affordability of a home — mortgage, taxes, insurance, maintenance, and more. Find out if you can afford a home and what income you actually need.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Any",
     "offers": {
@@ -1326,7 +1326,6 @@
     },
     "featureList": [
       "Mortgage payment calculator",
-      "Opportunity Cost of Buying a Home based on three metrics (downpayment investment, upfront cash investment, net financial position)",
       "Home affordability estimate",
       "Upfront cost calculator",
       "Recommended income calculator",
@@ -1334,7 +1333,6 @@
       "Comprehensive home affordability calculator",
       "Mortgage buydown cost calculator (2-1, 3-2-1, and permanent discount points)",
       "Extra principal payment and early mortgage payoff modeling",
-      "Detailed opportunity cost analysis of down payments vs. market investments",
       "Minimum income requirement estimates",
       "Shareable result snapshots and CSV data export for financial planning",
       "Capital gains tax estimation on home sale"
@@ -1541,7 +1539,7 @@
       <span class="hero-eyebrow">Free Housing Calculator</span>
       <h1 id="h-intro">Can you afford to buy?</h1>
       <p class="updated">- Updated May 2026- </p>
-      <p class="tagline">This free home affordability calculator helps you understand the true cost of buying a home — including mortgage payments, property taxes, HOA fees, insurance, maintenance, opportunity cost, and more — so you can make the biggest financial decision of your life with your eyes wide open.</p>
+      <p class="tagline">This free home affordability calculator helps you understand the true cost of buying a home — including mortgage payments, property taxes, HOA fees, insurance, maintenance, and more — so you can make the biggest financial decision of your life with your eyes wide open.</p>
       <a href="#property-info" class="btn-primary">Get Started →</a>
     </div>
 
@@ -2266,26 +2264,7 @@
   <section class="section accent-blue" id="your-finances" aria-labelledby="h-your-finances">
     <p class="section-label">Step 3</p>
     <h2 id="h-your-finances">Your Financial Picture</h2>
-    <p class="section-intro">These inputs help personalize the recommended income estimates and opportunity costs in your results. They're optional — but filling them in gives you a much more useful picture.</p>
-
-    <!-- Rate of Return -->
-    <p class="calc-group-label" style="margin-top: 2.5rem;">Opportunity Cost — Rate of Return</p>
-    <span class="input-note" style="display: block; margin-bottom: 1.25rem;">What could your upfront cash (down payment, closing costs, reserves) realistically earn if invested instead of spent on a home? This is used to calculate the opportunity cost of buying in the Results section.</span>
-
-    <div class="input-group">
-      <label class="input-label" for="rate-of-return">Average Rate of Return (ROR)</label>
-      <div class="input-wrap">
-        <input type="number" id="rate-of-return" placeholder="e.g. 7" min="0" max="30" step="0.1" />
-        <span class="input-suffix">%</span>
-      </div>
-      <span class="input-note">For High Yield Savings Accounts or Money Market accounts, a typical value is 3–4% (though this fluctuates with the federal rate). For investment accounts like index funds, the historical average annual return is around 7%. Use whichever best reflects where you plan to put your money.</span>
-      <div class="help-links">
-        <a href="#" id="ror-tax-help-link" onclick="document.getElementById('ror-tax-help-box').style.display = document.getElementById('ror-tax-help-box').style.display === 'none' ? 'block' : 'none'; return false;">Should I use a pre-tax or after-tax rate?</a>
-      </div>
-      <div id="ror-tax-help-box" style="display: none; margin-top: 0.5rem;" class="hint">
-        <span><span class="hint-label">💡 Note:</span> It depends on your account type. If your account taxes growth annually (like a HYSA, where interest is taxed as ordinary income each year), enter your after-tax rate for a more accurate comparison. Quick math: <strong>after-tax rate = rate × (1 − your marginal tax rate)</strong>. For example, a 4.5% HYSA at a 22% marginal rate gives roughly 3.5% after tax. Tax-deferred accounts (401k, IRA) can use the gross rate since taxes only apply at withdrawal.</span>
-      </div>
-    </div>
+    <p class="section-intro">These inputs help personalize the recommended income estimates in your results. They're optional — but filling them in gives you a much more useful picture.</p>
 
     <!-- Effective Income Tax Rate -->
     <p class="calc-group-label">Effective Income Tax Rate</p>
@@ -2449,26 +2428,6 @@
         </table>
       </div>
 
-      <!-- Opportunity Cost -->
-      <div style="margin-top: 2.5rem;">
-        <p class="calc-group-label">Opportunity Cost Analysis</p>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">What your upfront cash could have grown to if invested instead of spent on this home. <a href="#acc-opportunity-cost" class="result-footnote-link" style="font-size: 0.88rem; color: var(--sky);">What does this mean?</a></p>
-        <div class="breakeven-cards">
-          <div class="breakeven-card" id="oc-card-downpayment">
-            <span class="breakeven-card-label">Down Payment Invested</span>
-            <span class="breakeven-card-value" id="oc-downpayment">—</span>
-          </div>
-          <div class="breakeven-card be-amber" id="oc-card-upfront">
-            <span class="breakeven-card-label">All Upfront Cash Invested</span>
-            <span class="breakeven-card-value" id="oc-upfront">—</span>
-          </div>
-          <div class="breakeven-card be-green" id="oc-card-gap">
-            <span class="breakeven-card-label">Opportunity Cost of Buying</span>
-            <span class="breakeven-card-value" id="oc-gap">—</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Results accordions -->
       <p class="section-label" style="margin-top: 2.5rem;">Understanding Your Results</p>
       <div class="accordion" id="acc-results-explainer">
@@ -2516,30 +2475,6 @@
           <div class="accordion-body" id="acc-net">
             <p>This is the bottom line. It takes your Net Proceeds on Sale and subtracts everything you spent to get there. A positive number means you came out ahead financially. A negative number means the costs outweighed the return over your chosen timeframe.</p>
             <p>But a word of caution: a higher number isn't always the right choice for your life. This is a financial comparison — it doesn't weigh stability, flexibility, community, or any of the other reasons people choose to buy. Use it as one input in your decision, not the deciding factor.</p>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-opportunity-cost">
-            Opportunity Cost Analysis — What Do These Mean?
-            <span class="chevron">▼</span>
-          </button>
-          <div class="accordion-body" id="acc-opportunity-cost">
-            <div class="acc-item">
-              <strong>Downpayment Invested</strong>
-              <p>This is what your down payment alone would be worth if invested over your timeline grew according to the ROR you specified in step 3.</p>
-            </div>
-            <div class="acc-item">
-              <strong>All Upfront Cash Invested</strong>
-              This is what all the upfront cash required to purchase a home would be worth if invested over your timeline grew according to the ROR you specified in step 3.
-            </div>
-            <div class="acc-item">
-              <strong>Opportunity Cost of Buying</strong>
-              <p>The most complete metric. This compares the potential value of all up front cash if invested to your net financial postion (net proceeds minus cumulative spending) from the results table. It asks: how much money could you have made vs how much did you actually make?</p>
-              <p>It's worth noting that this number will almost always be quite large. The truth is that a primary home is almost never going to be a good "investment".
-                 Compared to other long-term investments, a primary residence is typically a pretty poor performer. Home values historically grow at roughly the rate of inflation — meaning your home isn't really gaining purchasing power over time, it's mostly keeping pace. And you have to spend a lot of money on non-recoverable expenses (interest, property tax, insurance, maintenance, etc) to acquire that asset.</p>
-              <p>That said, homeownership does build equity - a form of forced savings that many people wouldn't otherwise maintain — and that's genuinely valuable. And once paid off, you own a valuable asset. That helps create financial stability. But it's not worth locking yourself into a mortgage you can't afford just to open what is effectively a savings account. The honest framing is: owning a primary home is a lifestyle choice that also functions as a savings vehicle; it's not an investment. Go in with that expectation and you won't be disappointed.</p>
-            </div>
           </div>
         </div>
 
@@ -3283,30 +3218,6 @@
         elLife.innerHTML = 'Enter tax rate';
       }
 
-      // ════════════════════════════
-      // OPPORTUNITY COST
-      // ════════════════════════════
-      const netFinancialPosition = buyNetReturn - buyCumSpent;
-      const rorEntered = document.getElementById('rate-of-return').value !== '';
-      let ocDownPayment = null;
-      let ocAllUpfront  = null;
-      let ocGap         = null;
-
-      if (!rorEntered) {
-        const placeholder = 'Enter ROR above';
-        document.getElementById('oc-downpayment').textContent = placeholder;
-        document.getElementById('oc-upfront').textContent     = placeholder;
-        document.getElementById('oc-gap').textContent         = placeholder;
-      } else {
-        ocDownPayment = dp * Math.pow(1 + ror, years);
-        ocAllUpfront  = buyUpfront * Math.pow(1 + ror, years);
-        ocGap         = ocAllUpfront - netFinancialPosition;
-
-        document.getElementById('oc-downpayment').textContent = fmt(ocDownPayment);
-        document.getElementById('oc-upfront').textContent     = fmt(ocAllUpfront);
-        document.getElementById('oc-gap').textContent         = fmt(ocGap);
-      }
-
      // ── Show results ──
       document.getElementById('results-placeholder').style.display = 'none';
       document.getElementById('results-content').style.display     = 'block';
@@ -3321,9 +3232,6 @@
         buyCumSpent,
         buyIncome30:   buyIncome30  || null,
         buyIncomeLife: buyIncomeLife || null,
-        ocDownPayment,
-        ocAllUpfront,
-        ocGap,
         buyYearRows,
       };
       // debugger;
@@ -4158,10 +4066,7 @@
       const tableHeadH = 32;
       const rowH       = 38;
       const footerH    = 68;
-      const ocRowH     = 22;
-      const ocHeaderH  = 24;
-      const ocSectionH = ocHeaderH + (3 * ocRowH) + 16;
-      const totalH     = headerH + tableHeadH + rows.length * rowH + ocSectionH + footerH;
+      const totalH     = headerH + tableHeadH + rows.length * rowH + footerH;
 
       const canvas  = document.createElement('canvas');
       canvas.width  = W * scale;
@@ -4273,45 +4178,6 @@
 
         y += dynamicRowH;
       });
-
-      // Opportunity Cost section
-      ctx.fillStyle = warmWhite;
-      ctx.fillRect(0, y, W, ocSectionH);
-
-      ctx.strokeStyle = border;
-      ctx.lineWidth   = 0.5;
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(W, y);
-      ctx.stroke();
-
-      ctx.fillStyle = '#8a9aaa';
-      ctx.font      = 'bold 10px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('OPPORTUNITY COST ANALYSIS', 20, y + 16);
-
-      const ocRows = [
-        { label: 'Down Payment Invested',  value: fmt(r.ocDownPayment) },
-        { label: 'All Upfront Cash Invested', value: fmt(r.ocAllUpfront) },
-        { label: 'Opportunity Cost of Buying', value: fmt(r.ocGap) },
-      ];
-
-      let ocY = y + ocHeaderH;
-      ocRows.forEach(row => {
-        ctx.fillStyle = muted;
-        ctx.font      = '12px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(row.label, 20, ocY + 15);
-
-        ctx.fillStyle = navy;
-        ctx.font      = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText(row.value, W - 20, ocY + 15);
-
-        ocY += ocRowH;
-      });
-
-      y += ocSectionH;
 
       // Footer
       ctx.fillStyle = cream;
