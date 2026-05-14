@@ -2952,7 +2952,6 @@
       const closingPct   = parseFloat(document.querySelector('input[name="closing-pct"]:checked').value) || 0.02;
       const monthBuyTax   = (price * taxRate / 12);
 
-      const ror          = parseFloat(document.getElementById('rate-of-return').value) / 100 || 0;
       const taxRateBuy   = parseFloat(document.getElementById('tax-rate-buying').value) / 100 || 0;
       const lifestyle    = parseFloat(document.getElementById('lifestyle-spending').value) || 0;
 
@@ -3296,7 +3295,6 @@
         ['Advanced Settings', 'Rate Reduction Per Point',           tog('buydown-toggle') && radio('buydown-type') === 'permanent' ? pct('buydown-rate-per-point') : 'N/A'],
         ['Advanced Settings', 'Extra Monthly Principal',            tog('extra-principal-toggle') ? dollar('extra-principal-amount') : 'No'],
 
-        ['Your Financial Picture', 'Rate of Return',                pct('rate-of-return')],
         ['Your Financial Picture', 'Effective Income Tax Rate',     pct('tax-rate-buying')],
         ['Your Financial Picture', 'Annual Lifestyle Spending',     dollar('lifestyle-spending')],
       ];
@@ -3805,8 +3803,8 @@
       'purchase-price': 'p', 'down-payment-pct': 'dp', 'interest-rate': 'ir', 'property-tax-rate': 'pt',
       'ho-insurance': 'hi', 'moving-costs': 'mb', 'hoa-fees': 'ho', 'maintenance-costs': 'mc',
       'electric-buy': 'eb', 'water-buy': 'wb', 'other-util-buy': 'ob', 'inflation-rate': 'in',
-      'home-appreciation': 'ha', 'sale-closing-costs': 'sc', 'years-timeline': 'y',
-      'rate-of-return': 'rr', 'tax-rate-buying': 'tb', 'lifestyle-spending': 'ls',
+      'home-appreciation': 'ha', 'sale-closing-costs': 'sc', 'years-timeline': 'y', 
+      'tax-rate-buying': 'tb', 'lifestyle-spending': 'ls',
       'loan-term': 'lt', 'closing-pct': 'cp',
       'buydown-toggle': 'bd', 'buydown-type': 'bdt', 'buydown-payer': 'bdpy', 'buydown-points': 'bdp', 'buydown-rate-per-point': 'bdr',
       'pmi-manual-toggle': 'pmt', 'pmi-manual-input': 'pmv', 'extra-principal-amount': 'ep', 'extra-principal-toggle': 'ept',
