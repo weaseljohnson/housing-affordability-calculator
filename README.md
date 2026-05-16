@@ -1,8 +1,6 @@
 # 🏡 Can I Afford This House?
 
-A free, open-source calculator that compares the *true* financial cost of buying 
-a home vs. renting and saving/investing the difference — built for everyday people, 
-not financial professionals.
+A free, open-source suite of housing calculators built for everyday people, not financial professionals.
 
 👉 **Live site:** [caniaffordthishouse.app](https://caniaffordthishouse.app)
 
@@ -10,44 +8,47 @@ not financial professionals.
 
 ---
 
-## What Makes This Different
+## Tools
 
-Most rent vs. buy calculators stop at your monthly mortgage payment. This one goes further:
+### 🏠 Home Affordability Calculator
+**[caniaffordthishouse.app/Affordability/](https://caniaffordthishouse.app/Affordability/)**
 
-- **Full cost accounting** — mortgage P&I, property taxes, HOA, insurance, maintenance, 
-  PMI, and utilities on the buying side; rent, renters insurance, utilities, and savings 
-  contributions on the renting side
-- **Long-term side-by-side comparison** — cumulative spending and financial return 
-  over your chosen timeline (up to 30 years)
-- **Breakeven analysis** — when does buying's monthly cost, cumulative spending, 
-  and net financial position cross over renting?
-- **Recommended income estimates** — 30% rule and current lifestyle approaches, 
-  both using net (take-home) income as the base
-- **Advanced scenarios** — mortgage buydowns (2-1, 3-2-1, permanent), extra principal 
-  paydown, capital gains tax on sale, manual PMI override
-- **Shareable results** — encode your full input state into a URL, or download 
-  a summary image to share
-- **Exportable data** — download year-by-year buying and renting data as CSV files
-- **Educational** — every input is explained; results are contextualized, not just 
-  displayed
+Answers the first question most buyers ask: *Can I actually afford this home?* Enter a property and your financial details to get a clear picture of your total upfront costs, true monthly costs, and the income you'd realistically need.
+
+### ⚖️ Rent vs. Buy Calculator
+**[caniaffordthishouse.app](https://caniaffordthishouse.app)**
+
+Goes further — puts buying and renting side by side over your chosen timeline, including breakeven analysis, investment return modeling on rent savings, and a full net financial position comparison.
 
 ---
 
-## How to Use It
+## What Makes These Different
 
-Open [caniaffordthishouse.app](https://caniaffordthishouse.app), fill in your 
-details across the four input sections, and hit Calculate. That's it.
+Most housing calculators stop at your monthly mortgage payment. These go further:
 
-Most inputs have sensible defaults. Required fields are: purchase price, down payment, 
-interest rate, timeline, monthly rent, and rate of return.
+- **Full cost accounting** — mortgage P&I, property taxes, HOA, insurance, maintenance, PMI, and utilities on the buying side; rent, renters insurance, utilities, and savings contributions on the renting side
+- **Long-term comparison** — cumulative spending and financial return over your chosen timeline (up to 30 years)
+- **Breakeven analysis** *(Rent vs. Buy only)* — when does buying's monthly cost, cumulative spending, and net financial position cross over renting?
+- **Recommended income estimates** — 30% rule and current lifestyle approaches, both using net (take-home) income as the base
+- **Advanced scenarios** — mortgage buydowns (2-1, 3-2-1, permanent), extra principal paydown, capital gains tax on sale, manual PMI override
+- **Shareable results** — encode your full input state into a URL, or download a summary image to share
+- **Exportable data** — download year-by-year data as CSV files
+- **Educational** — every input is explained; results are contextualized, not just displayed
+
+---
+
+## How to Use
+
+Open the calculator of your choice, fill in your details across the input sections, and hit Calculate. That's it.
+
+Most inputs have sensible defaults. The Affordability Calculator requires: purchase price, down payment, interest rate, and timeline. The Rent vs. Buy Calculator additionally requires monthly rent and expected rate of return.
 
 ---
 
 ## Tech Stack & Architecture
 
 - Vanilla HTML, CSS, and JavaScript — no frameworks, no build tools, no dependencies
-- Single-file architecture (`index.html`) with one exception: JSZip v3.10.1 
-  (`assets/jszip.min.js`), hosted locally for the CSV export feature
+- Single-file architecture per tool (`index.html`) with one shared exception: JSZip v3.10.1 (`assets/jszip.min.js`), hosted locally for the CSV export feature
 - 100% client-side — no backend, no tracking, no user accounts
 - Hosted on GitHub Pages with a custom domain
 
@@ -55,24 +56,35 @@ interest rate, timeline, monthly rent, and rate of return.
 
 ## Project Documentation
 
-The `docs/` files contain the full technical and design record for this project:
+The `docs/` folder contains the full technical and design record for each tool.
+
+**Affordability Calculator (`AFB_*`)**
 
 | File | Contents |
 |---|---|
-| `CALCULATION_LOGIC.md` | All formulas, data flow, input IDs, and calculation order |
-| `KNOWN_ISSUES_AND_LEARNINGS.md` | Bug history, fixes, edge cases, and what not to change |
-| `UX_AND_CONTENT_GUIDELINES.md` | Tone, layout rules, color palette, interaction decisions |
-| `PROJECT_CONTEXT.md` | Goals, philosophy, SEO strategy, and build state |
+| `AFB_CALCULATION_LOGIC.md` | All formulas, data flow, input IDs, and calculation order |
+| `AFB_KNOWN_ISSUES_AND_LEARNINGS.md` | Bug history, fixes, edge cases, and what not to change |
+| `AFB_UX_AND_CONTENT_GUIDELINES.md` | Tone, layout rules, color palette, interaction decisions |
+| `AFB_PROJECT_CONTEXT.md` | Goals, philosophy, SEO strategy, and build state |
+
+**Rent vs. Buy Calculator (`RB_*`)**
+
+| File | Contents |
+|---|---|
+| `RvB_CALCULATION_LOGIC.md` | All formulas, data flow, input IDs, and calculation order |
+| `RvB_KNOWN_ISSUES_AND_LEARNINGS.md` | Bug history, fixes, edge cases, and what not to change |
+| `RvB_UX_AND_CONTENT_GUIDELINES.md` | Tone, layout rules, color palette, interaction decisions |
+| `RvB_PROJECT_CONTEXT.md` | Goals, philosophy, SEO strategy, and build state |
 
 ---
 
 ## Contributing & Feedback
 
-This project has a few hard constraints that any contribution should respect:
+A few hard constraints any contribution should respect:
 - No JavaScript frameworks
-- No backend or external API dependencies  
+- No backend or external API dependencies
 - No monetization of any kind
-- Single-file architecture (keep logic in `index.html`)
+- Single-file architecture per tool (keep logic in `index.html`)
 
 For bug reports, feature ideas, or general feedback:
 
@@ -83,9 +95,7 @@ For bug reports, feature ideas, or general feedback:
 
 ## Disclaimer
 
-I'm no professional finance coach — just a regular person who wanted to make informed 
-financial decisions and is also kind of a nerd. 🤓 This is a tool to help you think, 
-not professional financial advice.
+I'm no professional finance coach — just a regular person who wanted to make informed financial decisions and is also kind of a nerd. 🤓 These are tools to help you think, not professional financial advice.
 
 ---
 
